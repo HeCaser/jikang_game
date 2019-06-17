@@ -1,0 +1,18 @@
+<resources>
+    <dimen name="edge_margin">16dp</dimen>
+    <dimen name="number_height">60dp</dimen>
+    <dimen name="number_25_item_height">110dp</dimen>
+    <dimen name="activity_margin">16dp</dimen>
+    <dimen name="toolbar_height">40dp</dimen>
+    <dimen name="bottom_size">10sp</dimen>
+    <dimen name="bottom_bar_height">46dp</dimen>
+    <dimen name="button_height">42dp</dimen>
+    <dimen name="about_item_height">42dp</dimen>
+    <dimen name="button_margin">54dp</dimen>
+    <dimen name="title_size">17sp</dimen>
+    <dimen name="my_top_height">250dp</dimen>
+    <dimen name="connect_server_height">180dp</dimen>
+    <dimen name="input_phone_height">48dp</dimen>
+    <dimen name="main_good_padding">7dp</dimen>
+    <dimen name="big_divider_height">18dp</dimen>
+</resources>

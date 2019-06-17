@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#098dfa</color>
+    <color name="colorPrimary_60">#99098dfa</color>
+    <color name="colorPrimaryDark">#098dfa</color>
+    <color name="colorAccent">#098dfa</color>
+    <color name="black">#000000</color>
+    <color name="black_30">#4c000000</color>
+    <color name="white">#ffffff</color>
+    <color name="white_30">#4cffffff</color>
+    <color name="white_60">#99ffffff</color>
+    <color name="white_90">#e5ffffff</color>
+
+
+    <color name="color_bfbfbf">#bfbfbf</color>
+    <color name="line_dark">@color/color_f5f5f5</color>
+    <color name="button_red">@color/colorPrimary</color>
+    <color name="color_333333">#333333</color>
+    <color name="color_666666">#666666</color>
+    <color name="color_999999">#999999</color>
+    <color name="color_dddddd">#dddddd</color>
+    <color name="color_e60012">#e60012</color>
+    <color name="color_e60012_60">#99e60012</color>
+    <color name="color_1c76ff">#1c76ff</color>
+    <color name="color_31c2ff">#31c2ff</color>
+    <color name="black_cc">#cc000000</color>
+    <color name="black_77">#77000000</color>
+    <color name="color_f9f9f9">#f9f9f9</color>
+    <color name="color_f8f8f8">#f8f8f8</color>
+    <color name="color_4eafff">#4eafff</color>
+    <color name="color_f5f5f5">#f5f5f5</color>
+    <color name="color_ff8e00">#ff8e00</color>
+    <color name="color_f33703">#f33703</color>
+    <color name="color_f4f4f4">#f4f4f4</color>
+    <color name="color_cccccc">#cccccc</color>
+    <color name="color_158DF1">#158DF1</color>
+    <color name="color_098DFA">#098DFA</color>
+    <color name="color_eff7fd">#eff7fd</color>
+    <color name="color_16c1fd">#16c1fd</color>
+    <color name="color_FEC958">#FEC958</color>
+    <color name="color_FC992C">#FC992C</color>
+
+
+
+    <!-- 上面是色值,下面是引用名 -->
+    <color name="tab_normal_color">@color/black</color>
+    <color name="tab_selected_color">@color/color_4eafff</color>
+    <color name="text_normal">@color/color_333333</color>
+    <color name="bg_gray">@color/color_bfbfbf</color>
+</resources>
