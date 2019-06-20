@@ -14,6 +14,7 @@ import com.example.game.bean.NumberBean
 import com.example.game.constant.NUMBER_25
 import com.example.game.utils.DateUtil
 import com.example.game.utils.ToastUtils
+import com.example.game.widget.Number25Decoration
 import com.example.game.widget.NumberItemDecoration
 import kotlinx.android.synthetic.main.activity_num_25.*
 import me.drakeet.multitype.MultiTypeAdapter
@@ -80,7 +81,7 @@ class Num25Activity : BaseActivity() {
             setHasFixedSize(true)
             adapter = mAdapter
             layoutManager = GridLayoutManager(this@Num25Activity, SPAN_COUNT)
-            addItemDecoration(NumberItemDecoration())
+            addItemDecoration(Number25Decoration())
         }
 
         resetData()
