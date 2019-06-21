@@ -27,6 +27,9 @@
                 android:name=".activity.SchulteGridActivity"
                 android:screenOrientation="portrait"/>
         <activity
+                android:name=".activity.SearchWordActivity"
+                android:screenOrientation="portrait"/>
+        <activity
                 android:name=".activity.ScoreRecordActivity"
                 android:screenOrientation="portrait"></activity>
         <activity android:name=".activity.MainActivity">
