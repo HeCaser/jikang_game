@@ -14,7 +14,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_width="@dimen/number_25_item_height"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/number_25_item_height"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
