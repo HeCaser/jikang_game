@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,17 +16,33 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:max="90"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:progress="45"
+        android:progressDrawable="@drawable/progress_bar" />
+
     <View
-        android:background="@color/color_333333"
+        android:layout_marginTop="10dp"
         android:id="@+id/viewLine"
         android:layout_width="match_parent"
-        android:layout_height="1dp" />
+        android:layout_height="1dp"
+        android:background="@color/color_333333" />
+
     <com.google.android.flexbox.FlexboxLayout
         android:id="@+id/flexBox"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:flexWrap="wrap" />
+        app:flexWrap="wrap"
+        app:justifyContent="center" />
 
 
 </LinearLayout>
