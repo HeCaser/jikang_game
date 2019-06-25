@@ -7,32 +7,44 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="50dp"
         android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/tvContent1"
             style="@style/search_word_style1"
-            android:text="水" />
+            tools:text="水" />
 
         <TextView
             android:id="@+id/tvContent2"
             style="@style/search_word_style1"
-            android:text="水" />
+            tools:text="水" />
 
         <TextView
             android:id="@+id/tvContent3"
             style="@style/search_word_style1"
-            android:text="水" />
+            />
 
         <TextView
             android:id="@+id/tvContent4"
             style="@style/search_word_style1"
-            android:text="水" />
+            tools:text="水" />
 
     </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:gravity="right"
+        tools:text="0"
+        android:textSize="26sp"
+        android:paddingRight="26dp"
+        android:textStyle="italic"
+        android:textColor="@color/colorPrimaryDark"
+        android:paddingBottom="10dp"
+        android:layout_height="wrap_content" />
+
 
     <ProgressBar
         android:id="@+id/progressBar"
