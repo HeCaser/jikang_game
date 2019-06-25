@@ -4,20 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp">
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tvContent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center" />
+            android:id="@+id/tvContent1"
+            style="@style/search_word_style1"
+            android:text="水" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tvContent2"
+            style="@style/search_word_style1"
+            android:text="水" />
+
+        <TextView
+            android:id="@+id/tvContent3"
+            style="@style/search_word_style1"
+            android:text="水" />
+
+        <TextView
+            android:id="@+id/tvContent4"
+            style="@style/search_word_style1"
+            android:text="水" />
+
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -31,10 +46,10 @@
         android:progressDrawable="@drawable/progress_bar" />
 
     <View
-        android:layout_marginTop="10dp"
         android:id="@+id/viewLine"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginTop="10dp"
         android:background="@color/color_333333" />
 
     <com.google.android.flexbox.FlexboxLayout
