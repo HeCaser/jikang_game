@@ -14,6 +14,7 @@ import com.example.game.util.screenWidth
 import com.example.game.utils.StatusBarUtils
 import com.google.android.flexbox.FlexboxLayout
 import kotlinx.android.synthetic.main.activity_search_word.*
+import kotlin.random.Random
 
 
 /**
@@ -22,6 +23,7 @@ import kotlinx.android.synthetic.main.activity_search_word.*
 class SearchWordActivity : BaseActivity() {
 
     companion object {
+        const val TOTAL_WORD_NUMBER = 300
         const val MSG_MOVE_LINE = 1
         const val MSG_START_MOVE = 2
         const val ERROR_WORD = "閬棩楹槬棰鑽夐鍟婁鎸璁棰勯槻鎶" +
@@ -33,6 +35,7 @@ class SearchWordActivity : BaseActivity() {
                 "閺堝搫浼撻鍗炲瀻閸樼粯氬櫣娴滃搫鎼搁鍥煂鐟曞懐鍩畱鐞絾婀囬崯閸欐" +
                 "閻楁閸濓掗崜锤閸庡閺堢喍曟閸"
 
+        const val RIGHT_WORD = "人月肉多王内火于阿拉基家都达爱华度发说前明词月动光意东思巨率头网起民月低头就思怕的故不是"
         const val ERROR_WORD_SIZE = ERROR_WORD.length - 1
         fun start(ctx: Context, key: String, record: Long) {
             Intent(ctx, SearchWordActivity::class.java).apply {
@@ -52,7 +55,9 @@ class SearchWordActivity : BaseActivity() {
                     val anim = ObjectAnimator.ofFloat(viewLine, "y", mStart + (mTvHeight * mRemoveCount))
                     anim.start()
                     mRemoveCount++
-                    this.sendEmptyMessageDelayed(MSG_MOVE_LINE, mDelayTime)
+                    if(mRemoveCount<20){
+                        this.sendEmptyMessageDelayed(MSG_MOVE_LINE, mDelayTime)
+                    }
                 }
                 MSG_START_MOVE -> {
                     startGame()
@@ -65,7 +70,6 @@ class SearchWordActivity : BaseActivity() {
      * 设置view 开始游戏
      */
     private fun startGame() {
-
         mHandler.removeCallbacksAndMessages(null)
         mHandler.sendEmptyMessage(MSG_MOVE_LINE)
     }
@@ -78,7 +82,8 @@ class SearchWordActivity : BaseActivity() {
     private var mStart = 0F
     private var mTvHeight = 0F
     private var mDelayTime = 1000L
-
+    private var mSelectWords = arrayListOf<String>()
+    private var mShowView = arrayListOf<TextView>()
     val padding = screenWidth / 100
     val margin = screenWidth / 100
     val textSize = screenWidth / 50.0F
@@ -106,9 +111,27 @@ class SearchWordActivity : BaseActivity() {
         mWidth = screenWidth
         mHeight = screenHeight
         setCenterTitle("济康-搜索词")
+        mShowView.add(tvContent1)
+        mShowView.add(tvContent2)
+        mShowView.add(tvContent3)
+        mShowView.add(tvContent4)
+        initGameView()
+    }
 
+    /**
+     * 游戏开始前的初始化,可能需要多次重置
+     */
+    private fun initGameView() {
+        //设置需要找出的词 四个
+        var start = Random.nextInt(RIGHT_WORD.length - 5)
+        for (num in 0..3) {
+            mSelectWords.add(num, RIGHT_WORD[start + num].toString())
+            mShowView[num].text = RIGHT_WORD[start + num].toString()
+        }
 
-        for (num in 0..500) {
+        //添加view给flexbox
+        flexBox.removeAllViews()
+        for (num in 0..TOTAL_WORD_NUMBER) {
             val tv = TextView(this)
             tv.textSize = textSize
 
@@ -118,9 +141,6 @@ class SearchWordActivity : BaseActivity() {
             val para = tv.layoutParams
             if (para is FlexboxLayout.LayoutParams) {
                 para.topMargin = margin
-            }
-            if (num % 4 == 0) {
-                tv.setBackgroundColor(resources.getColor(com.example.game.R.color.colorPrimary))
             }
         }
     }
