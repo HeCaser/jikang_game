@@ -142,6 +142,7 @@ class SearchWordActivity : BaseActivity() {
     private fun initGameView() {
         //设置需要找出的词 四个
         var start = Random.nextInt(RIGHT_WORD.length - 5)
+        println("其实$start")
         for (num in 0..3) {
             mSelectWords.add(num, RIGHT_WORD[start + num].toString())
             with(mShowView[num]) {

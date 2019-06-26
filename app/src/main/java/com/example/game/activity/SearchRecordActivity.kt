@@ -63,7 +63,7 @@ class SearchRecordActivity : BaseActivity() {
             text = "真厉害,您创造了新的记录!\n分数为${mThisScore}"
         } else {
             text = "最好成绩:$history\n" +
-                    "您的成绩$mThisScore"
+                    "您的成绩:$mThisScore"
         }
         tvRecord.text = text
     }

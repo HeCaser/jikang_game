@@ -36,6 +36,9 @@
         <activity
                 android:name=".activity.ScoreRecordActivity"
                 android:screenOrientation="portrait"/>
+        <activity
+                android:name=".activity.SearchRecordActivity"
+                android:screenOrientation="portrait"/>
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

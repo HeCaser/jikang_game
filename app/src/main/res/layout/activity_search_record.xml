@@ -8,6 +8,7 @@
     tools:context=".activity.OneToHundredResultActivity">
 
     <com.example.game.widget.StarLevelView
+        android:visibility="gone"
         android:id="@+id/starView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +22,7 @@
         android:padding="@dimen/edge_margin"
         android:text="恭喜您完成训练"
         android:textColor="@color/color_e60012"
-        android:textSize="20dp"
+        android:textSize="26dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
