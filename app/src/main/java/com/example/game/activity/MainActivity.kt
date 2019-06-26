@@ -2,11 +2,11 @@ package com.example.game.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.game.R
 import com.example.game.adapter.MainStringViewBinder
+import com.example.game.constant.SEARCH_TYPE_WORD
 import kotlinx.android.synthetic.main.activity_main.*
 import me.drakeet.multitype.MultiTypeAdapter
 
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
                 Num25Activity.start(this)
             }
             mGames[5] -> {
-                SearchWordActivity.start(this,"",0L)
+                BeforeSearchActivity.start(this,SEARCH_TYPE_WORD)
             }
         }
 

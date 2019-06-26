@@ -9,6 +9,8 @@ import android.os.Handler
 import android.os.Message
 import android.view.ViewTreeObserver
 import android.widget.TextView
+import androidx.core.view.get
+import com.example.game.R
 import com.example.game.util.screenHeight
 import com.example.game.util.screenWidth
 import com.example.game.utils.StatusBarUtils
@@ -23,7 +25,7 @@ import kotlin.random.Random
 class SearchWordActivity : BaseActivity() {
 
     companion object {
-        const val TOTAL_WORD_NUMBER = 300
+        const val TOTAL_WORD_NUMBER = 80
         const val MSG_MOVE_LINE = 1
         const val MSG_START_MOVE = 2
         const val ERROR_WORD = "閬棩楹槬棰鑽夐鍟婁鎸璁棰勯槻鎶" +
@@ -37,10 +39,9 @@ class SearchWordActivity : BaseActivity() {
 
         const val RIGHT_WORD = "人月肉多王内火于阿拉基家都达爱华度发说前明词月动光意东思巨率头网起民月低头就思怕的故不是"
         const val ERROR_WORD_SIZE = ERROR_WORD.length - 1
-        fun start(ctx: Context, key: String, record: Long) {
+        fun start(ctx: Context, speed: Int) {
             Intent(ctx, SearchWordActivity::class.java).apply {
-                putExtra("key", key)
-                putExtra("record", record)
+                putExtra("speed", speed)
                 ctx.startActivity(this)
             }
         }
@@ -55,7 +56,7 @@ class SearchWordActivity : BaseActivity() {
                     val anim = ObjectAnimator.ofFloat(viewLine, "y", mStart + (mTvHeight * mRemoveCount))
                     anim.start()
                     mRemoveCount++
-                    if(mRemoveCount<20){
+                    if (mRemoveCount < 20) {
                         this.sendEmptyMessageDelayed(MSG_MOVE_LINE, mDelayTime)
                     }
                 }
@@ -76,7 +77,7 @@ class SearchWordActivity : BaseActivity() {
 
     private var mRemoveCount = 0
     private var mRecord = 0L
-    private var mKey = ""
+    private var mSpeed =0
     private var mWidth = 0
     private var mHeight = 0
     private var mStart = 0F
@@ -84,6 +85,7 @@ class SearchWordActivity : BaseActivity() {
     private var mDelayTime = 1000L
     private var mSelectWords = arrayListOf<String>()
     private var mShowView = arrayListOf<TextView>()
+    private var mSocre = 0
     val padding = screenWidth / 100
     val margin = screenWidth / 100
     val textSize = screenWidth / 50.0F
@@ -106,8 +108,7 @@ class SearchWordActivity : BaseActivity() {
     }
 
     private fun initViewAndData() {
-        mKey = intent.getStringExtra("key")
-        mRecord = intent.getLongExtra("record", 0)
+        mSpeed = intent.getIntExtra("speed",1)
         mWidth = screenWidth
         mHeight = screenHeight
         setCenterTitle("济康-搜索词")
@@ -142,6 +143,33 @@ class SearchWordActivity : BaseActivity() {
             if (para is FlexboxLayout.LayoutParams) {
                 para.topMargin = margin
             }
+        }
+
+        //随机放入待选择的词
+        val q = TOTAL_WORD_NUMBER / 4
+        for (num in 0..3) {
+            var random = Random.nextInt(q * num, q * (num + 1))
+            while (random >= TOTAL_WORD_NUMBER || random == 0) {
+                random = Random.nextInt(q * (num + 1))
+            }
+            val tv = flexBox[random] as TextView
+            tv.setOnClickListener {
+                handleWordClick(num)
+            }
+            tv.text = mSelectWords[num]
+        }
+    }
+
+    /**
+     * 待选择的词被正确点击
+     * @param num 被点击词是第几个 从0开始
+     */
+    private fun handleWordClick(num: Int) {
+        mShowView[num].setBackgroundColor(resources.getColor(R.color.colorPrimary))
+        mSocre += 10
+        tvScore.text = "$mSocre"
+        if (mSocre % 40 == 0) {
+            initGameView()
         }
     }
 
