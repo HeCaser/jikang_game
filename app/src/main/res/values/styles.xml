@@ -49,6 +49,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">30sp</item>
+        <item name="android:background">@drawable/word_selector</item>
+        <item name="android:textColor">@color/word_select_corlor</item>
     </style>
     <style name="before_search_1">
         <item name="android:layout_width">60dp</item>
