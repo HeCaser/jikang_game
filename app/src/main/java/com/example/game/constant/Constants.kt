@@ -39,8 +39,8 @@ const val CHINESE_MONEY = "¥"
 const val TITLE_MAX = 10
 
 //速度游戏类型
-const val SUDU_TYPE_WORD = 1 //搜索词
-const val SUDU_TYPE_JIOU = 2 //奇偶数
+const val SEARCH_TYPE_WORD = 1 //搜索词
+const val SEARCH_TYPE_JIOU = 2 //奇偶数
 
 fun isOnMainThread() = Looper.myLooper() == Looper.getMainLooper()
 fun isJellyBean1Plus() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1
