@@ -36,4 +36,11 @@ class SaveSpData(val context: Context) {
     fun saveCommonLongData(key: String, value: Long) {
         prefs.edit().putLong(key, value).apply()
     }
+    fun getCommomIntData(key: String): Int {
+        return prefs.getInt(key, 0)
+    }
+
+    fun saveCommonIntData(key: String, value: Int) {
+        prefs.edit().putInt(key, value).apply()
+    }
 }
