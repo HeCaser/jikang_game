@@ -9,8 +9,10 @@ import android.os.Handler
 import android.os.Message
 import android.view.ViewTreeObserver
 import android.widget.TextView
+import androidx.core.text.isDigitsOnly
 import androidx.core.view.get
 import com.example.game.R
+import com.example.game.constant.SEARCH_WORD_ACTIVITY
 import com.example.game.util.screenHeight
 import com.example.game.util.screenWidth
 import com.example.game.utils.StatusBarUtils
@@ -25,9 +27,10 @@ import kotlin.random.Random
 class SearchWordActivity : BaseActivity() {
 
     companion object {
-        const val TOTAL_WORD_NUMBER = 80
+        const val TOTAL_WORD_NUMBER = 223
         const val MSG_MOVE_LINE = 1
         const val MSG_START_MOVE = 2
+        const val MSG_TIME_COUT_DOWN = 3
         const val ERROR_WORD = "閬棩楹槬棰鑽夐鍟婁鎸璁棰勯槻鎶" +
                 "鏂戞鍙戦樋鍛嗗戝姩鏈鐖鍘棩鍘噹" +
                 "搸閬埢鐖辩湇鍟墦鍙戝彂澶樋鐗鍝鍝鍓嶆鍎" +
@@ -37,7 +40,7 @@ class SearchWordActivity : BaseActivity() {
                 "閺堝搫浼撻鍗炲瀻閸樼粯氬櫣娴滃搫鎼搁鍥煂鐟曞懐鍩畱鐞絾婀囬崯閸欐" +
                 "閻楁閸濓掗崜锤閸庡閺堢喍曟閸"
 
-        const val RIGHT_WORD = "人月肉多王内火于阿拉基家都达爱华度发说前明词月动光意东思巨率头网起民月低头就思怕的故不是"
+        const val RIGHT_WORD = "人月肉多王内火于阿拉基家达都爱华发度说前明词动光东意思巨率头网起民低头就思怕的故不是"
         const val ERROR_WORD_SIZE = ERROR_WORD.length - 1
         fun start(ctx: Context, speed: Int) {
             Intent(ctx, SearchWordActivity::class.java).apply {
@@ -56,16 +59,20 @@ class SearchWordActivity : BaseActivity() {
                     val anim = ObjectAnimator.ofFloat(viewLine, "y", mStart + (mTvHeight * mRemoveCount))
                     anim.start()
                     mRemoveCount++
-                    if (mRemoveCount < 20) {
-                        this.sendEmptyMessageDelayed(MSG_MOVE_LINE, mDelayTime)
+                    if (mRemoveCount < 25) {
+                        this.sendEmptyMessageDelayed(MSG_MOVE_LINE, mLineMoveDelayTime)
                     }
                 }
                 MSG_START_MOVE -> {
                     startGame()
                 }
+                MSG_TIME_COUT_DOWN -> {
+                    handTimeCount()
+                }
             }
         }
     }
+
 
     /**
      * 设置view 开始游戏
@@ -73,22 +80,25 @@ class SearchWordActivity : BaseActivity() {
     private fun startGame() {
         mHandler.removeCallbacksAndMessages(null)
         mHandler.sendEmptyMessage(MSG_MOVE_LINE)
+        mHandler.sendEmptyMessageDelayed(MSG_TIME_COUT_DOWN, mCountDownTimeDelay)
     }
 
     private var mRemoveCount = 0
     private var mRecord = 0L
-    private var mSpeed =0
+    private var mSpeed = 0
     private var mWidth = 0
     private var mHeight = 0
     private var mStart = 0F
     private var mTvHeight = 0F
-    private var mDelayTime = 1000L
+    private var mLineMoveDelayTime = 1000L
+    private var mCountDownTimeDelay = 100L
     private var mSelectWords = arrayListOf<String>()
     private var mShowView = arrayListOf<TextView>()
     private var mSocre = 0
-    val padding = screenWidth / 100
-    val margin = screenWidth / 100
-    val textSize = screenWidth / 50.0F
+    private var mTotalTime = 90
+    val padding = screenWidth / 160
+    val margin = screenWidth / 140
+    val textSize = screenWidth / 28.0F
 
     override fun onCreate(savedInstanceState: Bundle?) {
         StatusBarUtils.setStatusBarTransparent(this)
@@ -108,7 +118,14 @@ class SearchWordActivity : BaseActivity() {
     }
 
     private fun initViewAndData() {
-        mSpeed = intent.getIntExtra("speed",1)
+        mSpeed = intent.getIntExtra("speed", 1)
+        //根据速度等级 1-10 设置移动线段的间隔 等级越高,间隔越短
+        mLineMoveDelayTime = 1500 - (mSpeed * 100).toLong()
+
+        //计算pb的最大值, 倒计时共90s
+        mTotalTime = 900 * mCountDownTimeDelay.toInt()
+        progressBar.max = mTotalTime
+
         mWidth = screenWidth
         mHeight = screenHeight
         setCenterTitle("济康-搜索词")
@@ -127,7 +144,10 @@ class SearchWordActivity : BaseActivity() {
         var start = Random.nextInt(RIGHT_WORD.length - 5)
         for (num in 0..3) {
             mSelectWords.add(num, RIGHT_WORD[start + num].toString())
-            mShowView[num].text = RIGHT_WORD[start + num].toString()
+            with(mShowView[num]) {
+                text = RIGHT_WORD[start + num].toString()
+                isSelected = false
+            }
         }
 
         //添加view给flexbox
@@ -137,12 +157,15 @@ class SearchWordActivity : BaseActivity() {
             tv.textSize = textSize
 
             tv.text = "${getErrorWord(num)}"
-            tv.setPadding(padding + 10, padding, padding + 10, padding)
+            tv.setPadding(padding + 6, padding, padding + 6, padding)
             flexBox.addView(tv)
             val para = tv.layoutParams
             if (para is FlexboxLayout.LayoutParams) {
                 para.topMargin = margin
             }
+//            if(num%9==0){
+//                tv.setBackgroundColor(resources.getColor(R.color.colorPrimary))
+//            }
         }
 
         //随机放入待选择的词
@@ -165,14 +188,45 @@ class SearchWordActivity : BaseActivity() {
      * @param num 被点击词是第几个 从0开始
      */
     private fun handleWordClick(num: Int) {
-        mShowView[num].setBackgroundColor(resources.getColor(R.color.colorPrimary))
+        if (mShowView[num].isSelected) return
+        mShowView[num].isSelected = true
         mSocre += 10
         tvScore.text = "$mSocre"
         if (mSocre % 40 == 0) {
+            mRemoveCount = 0
             initGameView()
+            mHandler.removeMessages(MSG_MOVE_LINE)
+            mHandler.sendEmptyMessageDelayed(MSG_MOVE_LINE, 50L)
         }
     }
 
+    /**
+     * 90s倒计时
+     */
+    private fun handTimeCount() {
+        mTotalTime -= 100
+        if (mTotalTime == 0) {
+            finisGame()
+        }
+        progressBar.progress = mTotalTime
+        mHandler.sendEmptyMessageDelayed(MSG_TIME_COUT_DOWN, mCountDownTimeDelay)
+    }
+
+    /**
+     * 结束游戏
+     */
+    private fun finisGame() {
+        val spKey = SEARCH_WORD_ACTIVITY + mSpeed
+        SearchRecordActivity.start(this, spKey, getScore(), mSpeed)
+        finish()
+    }
+
+
+    private fun getScore(): Int {
+        val text = tvScore.text.toString()
+        return if (text.isDigitsOnly()) text.toInt() else 0
+
+    }
 
     override fun onResume() {
         super.onResume()
@@ -182,5 +236,10 @@ class SearchWordActivity : BaseActivity() {
     private fun getErrorWord(index: Int): Char {
         val position = index % ERROR_WORD_SIZE
         return ERROR_WORD[position]
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mHandler.removeCallbacksAndMessages(null)
     }
 }
