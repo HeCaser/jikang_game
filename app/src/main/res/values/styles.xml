@@ -42,12 +42,29 @@
 
     <style name="search_word_style1">
         <item name="android:layout_width">80dp</item>
-        <item name="android:paddingLeft">10dp</item>
-
-        <item name="android:paddingRight">10dp</item>
+        <item name="android:layout_marginLeft">6dp</item>
+        <item name="android:layout_marginRight">6dp</item>
+        <item name="android:paddingLeft">6dp</item>
+        <item name="android:paddingRight">6dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">30sp</item>
+    </style>
+    <style name="before_search_1">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:background">@drawable/star_gray</item>
+    </style>
+
+    <style name="before_search_style2">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:drawableLeft">@drawable/blue_right</item>
+        <item name="android:drawablePadding">18dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/bg_gray</item>
+        <item name="android:textSize">26dp</item>
     </style>
 
 </resources>

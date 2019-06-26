@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+>
+    <item
+            android:drawable="@drawable/star_yellow"
+            android:minLevel="0"
+            android:maxLevel="1"/>
+    <item
+            android:drawable="@drawable/star_left"
+            android:minLevel="1"
+            android:maxLevel="2"/>
+    <item
+            android:drawable="@drawable/star_gray"
+            android:minLevel="2"
+            android:maxLevel="3"/>
+
+</layer-list>
