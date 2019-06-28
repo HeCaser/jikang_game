@@ -8,7 +8,6 @@
     tools:context=".activity.OneToHundredResultActivity">
 
     <com.example.game.widget.StarLevelView
-        android:visibility="gone"
         android:id="@+id/starView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
