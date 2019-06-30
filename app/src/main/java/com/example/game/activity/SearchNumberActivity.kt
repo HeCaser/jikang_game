@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -23,28 +22,21 @@ import kotlin.random.Random
 
 
 /**
- *搜索词
+ *搜索数字
  */
-class SearchWordActivity : BaseActivity() {
+class SearchNumberActivity : BaseActivity() {
 
     companion object {
         const val TOTAL_WORD_NUMBER = 223
         const val MSG_MOVE_LINE = 1
         const val MSG_START_MOVE = 2
         const val MSG_TIME_COUT_DOWN = 3
-        const val ERROR_WORD = "閬棩楹槬棰鑽夐鍟婁鎸璁棰勯槻鎶" +
-                "鏂戞鍙戦樋鍛嗗戝姩鏈鐖鍘棩鍘噹" +
-                "搸閬埢鐖辩湇鍟墦鍙戝彂澶樋鐗鍝鍝鍓嶆鍎" +
-                "鏈熶杈悆鍛樼儹嬭勬棩鍒鍝闂殑鍗庡洖澶嶅鍘摝鍋劧傚" +
-                "畨寰鍝獟鍘悆鍝啽鍘獟濡墠鏃鍩熼剛鐟鏃濮喎" +
-                "劏濮懡澶愰崯閹鍨庣幎弬鍦煃閻劍澧崣鎴閸欐嬮崨鍡椼姵崣鎴濆" +
-                "閺堝搫浼撻鍗炲瀻閸樼粯氬櫣娴滃搫鎼搁鍥煂鐟曞懐鍩畱鐞絾婀囬崯閸欐" +
-                "閻楁閸濓掗崜锤閸庡閺堢喍曟閸"
+        const val ERROR_WORD = ""
 
-        const val RIGHT_WORD = "人月肉多王内火于阿拉基家达都爱华发度说前明词动光东意思巨率头网起民低头就思怕的故不是"
+        const val RIGHT_WORD = ""
         const val ERROR_WORD_SIZE = ERROR_WORD.length - 1
         fun start(ctx: Context, speed: Int) {
-            Intent(ctx, SearchWordActivity::class.java).apply {
+            Intent(ctx, SearchNumberActivity::class.java).apply {
                 putExtra("speed", speed)
                 ctx.startActivity(this)
             }
@@ -159,7 +151,6 @@ class SearchWordActivity : BaseActivity() {
             tv.textSize = textSize
 
             tv.text = "${getErrorWord(num)}"
-            tv.setTextColor(getTextColor(num))
             tv.setPadding(padding + 6, padding, padding + 6, padding)
             flexBox.addView(tv)
             val para = tv.layoutParams
@@ -229,34 +220,6 @@ class SearchWordActivity : BaseActivity() {
         val text = tvScore.text.toString()
         return if (text.isDigitsOnly()) text.toInt() else 0
 
-    }
-
-    /**
-     * 根据起始颜色确定tv色值
-     */
-    var star = 0xff098dfa
-    var end = Color.RED
-
-    var a1 = star shr 24 and 0xff
-    var r1 = star shr 16 and 0xff
-    var g1 = star shr 8 and 0xff
-    var b1 = star and 0xff
-
-    var a2 = end shr 24 and 0xff
-    var r2 = end shr 16 and 0xff
-    var g2 = end shr 8 and 0xff
-    var b2 = end and 0xff
-    private fun getTextColor(pos: Int): Int {
-        //关键是求得中间过度值 0-1
-        var value = pos / 40.0
-
-        val a3 = (a1 + (a2 - a1) * value).toInt()
-        val r3 = (r1 + (r2 - r1) * value).toInt()
-        val g3 = (g1 + (g2 - g1) * value).toInt()
-        val b3 = (b1 + (b2 - b1) * value).toInt()
-
-        val color = a3 and 0xff shl 24 or (r3 and 0xff shl 16) or (g3 and 0xff shl 8) or (b3 and 0xff)
-        return color
     }
 
     override fun onResume() {

@@ -62,5 +62,7 @@ class BeforeSearchActivity : AppCompatActivity() {
                 SearchWordActivity.start(this, speed)
             }
         }
+
+        finish()
     }
 }
