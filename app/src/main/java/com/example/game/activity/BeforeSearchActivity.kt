@@ -5,6 +5,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.game.R
+import com.example.game.constant.SEARCH_TYPE_JIOU
+import com.example.game.constant.SEARCH_TYPE_NUMBER
 import com.example.game.constant.SEARCH_TYPE_WORD
 import kotlinx.android.synthetic.main.activity_before_search.*
 
@@ -35,6 +37,12 @@ class BeforeSearchActivity : AppCompatActivity() {
             SEARCH_TYPE_WORD -> {
                 tvSearchName.text = "搜索/词"
             }
+            SEARCH_TYPE_NUMBER -> {
+                tvSearchName.text = "搜索/数"
+            }
+            SEARCH_TYPE_JIOU -> {
+                tvSearchName.text = "搜索/奇偶数"
+            }
         }
     }
 
@@ -61,8 +69,13 @@ class BeforeSearchActivity : AppCompatActivity() {
             SEARCH_TYPE_WORD -> {
                 SearchWordActivity.start(this, speed)
             }
+            SEARCH_TYPE_NUMBER -> {
+                SearchNumberActivity.start(this, speed)
+            }
+            SEARCH_TYPE_JIOU -> {
+                SearchOddEvenActivity.start(this, speed)
+            }
         }
-
         finish()
     }
 }
