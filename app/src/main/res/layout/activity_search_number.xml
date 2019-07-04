@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+        <TextView
+                android:id="@+id/tvContent1"
+                style="@style/search_word_style1"
+                tools:text="水"/>
+
+        <TextView
+                android:id="@+id/tvContent2"
+                style="@style/search_word_style1"
+                tools:text="水"/>
+
+        <TextView
+                android:id="@+id/tvContent3"
+                tools:text="水"
+                style="@style/search_word_style1"/>
+
+        <TextView
+                android:id="@+id/tvContent4"
+                style="@style/search_word_style1"
+                tools:text="水"/>
+
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/tvScore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="8dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="36sp"
+            android:textStyle="italic"
+            android:text="score"/>
+
+
+    <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:max="90"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:progress="90"
+            android:progressDrawable="@drawable/progress_bar"/>
+
+    <View
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:id="@+id/viewLine"
+            android:layout_width="match_parent"
+            android:backgroundTint="@color/color_666666"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/color_333333"/>
+
+    <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/flexBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:flexWrap="wrap"
+            app:justifyContent="center"/>
+
+
+</LinearLayout>
+
