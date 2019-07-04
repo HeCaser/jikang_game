@@ -11,6 +11,7 @@ const val SCHULTE_GRID_ACTIVITY = "schulte_grid_activity"
 const val SCHULTE_GRID_ACTIVITY2 = "schulte_grid_activity2"
 const val NUMBER_25 = "number_25"
 const val SEARCH_WORD_ACTIVITY = "search_word_activity"
+const val SEARCH_NUMBER_ACTIVITY = "search_number_activity"
 
 
 
@@ -18,5 +19,6 @@ const val TITLE_MAX = 10
 
 //速度游戏类型
 const val SEARCH_TYPE_WORD = 1 //搜索词
-const val SEARCH_TYPE_JIOU = 2 //奇偶数
+const val SEARCH_TYPE_NUMBER = 2 //奇偶数
+const val SEARCH_TYPE_JIOU = 3 //奇偶数
 
