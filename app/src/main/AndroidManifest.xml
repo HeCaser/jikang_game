@@ -37,6 +37,9 @@
                 android:name=".activity.ScoreRecordActivity"
                 android:screenOrientation="portrait"/>
         <activity
+                android:name=".activity.SearchNumberActivity"
+                android:screenOrientation="portrait"/>
+        <activity
                 android:name=".activity.SearchRecordActivity"
                 android:screenOrientation="portrait"/>
         <activity android:name=".activity.MainActivity">
