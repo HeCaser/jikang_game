@@ -2,6 +2,7 @@ package com.example.game.utils
 
 import android.view.View
 import android.widget.TextView
+import java.lang.StringBuilder
 
 /**
  * Author pan.he
@@ -42,3 +43,18 @@ val TextView.content: String
     get() {
         return this.text.toString().trim()
     }
+
+/**
+ * 给tv的文本直接加上空格
+ */
+fun TextView.setLetterSpacingText(text: String) {
+    val size = text.length
+    val builder = StringBuilder()
+    for (i in 0 until size) {
+        builder.append(text[i])
+        if (i!=size){
+            builder.append(" ")
+        }
+    }
+    this.text = builder.toString()
+}
