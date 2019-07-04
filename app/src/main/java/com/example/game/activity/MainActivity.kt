@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mAdapter: MultiTypeAdapter
     private lateinit var mItems: MutableList<Any>
     private val mGames = arrayListOf(
-        "济康1-100", "1SharpEye", "舒尔特注意力", "舒尔特方格", "Num25", "搜索词", "搜索数"
+        "济康1-100", "1SharpEye", "舒尔特注意力", "舒尔特方格", "Num25", "搜索词", "搜索数","奇偶数"
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,8 +64,10 @@ class MainActivity : AppCompatActivity() {
                 BeforeSearchActivity.start(this, SEARCH_TYPE_WORD)
             }
             mGames[6] -> {
-//                BeforeSearchActivity.start(this, SEARCH_TYPE_NUMBER)
-                SearchNumberActivity.start(this,1)
+                BeforeSearchActivity.start(this, SEARCH_TYPE_NUMBER)
+            }
+            mGames[7] -> {
+                BeforeSearchActivity.start(this, SEARCH_TYPE_JIOU)
             }
         }
 
