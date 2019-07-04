@@ -12,10 +12,10 @@ import android.widget.TextView
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.get
 import com.example.game.R
-import com.example.game.constant.SEARCH_WORD_ACTIVITY
-import com.example.game.util.screenHeight
+import com.example.game.constant.SEARCH_NUMBER_ACTIVITY
 import com.example.game.util.screenWidth
 import com.example.game.utils.StatusBarUtils
+import com.example.game.utils.setLetterSpacingText
 import com.google.android.flexbox.FlexboxLayout
 import kotlinx.android.synthetic.main.activity_search_word.*
 import kotlin.random.Random
@@ -27,14 +27,11 @@ import kotlin.random.Random
 class SearchNumberActivity : BaseActivity() {
 
     companion object {
-        const val TOTAL_WORD_NUMBER = 223
+        const val TOTAL_WORD_NUMBER = 22
         const val MSG_MOVE_LINE = 1
         const val MSG_START_MOVE = 2
         const val MSG_TIME_COUT_DOWN = 3
-        const val ERROR_WORD = ""
 
-        const val RIGHT_WORD = ""
-        const val ERROR_WORD_SIZE = ERROR_WORD.length - 1
         fun start(ctx: Context, speed: Int) {
             Intent(ctx, SearchNumberActivity::class.java).apply {
                 putExtra("speed", speed)
@@ -77,18 +74,15 @@ class SearchNumberActivity : BaseActivity() {
     }
 
     private var mRemoveCount = 0
-    private var mRecord = 0L
     private var mSpeed = 0
-    private var mWidth = 0
-    private var mHeight = 0
     private var mStart = 0F
     private var mTvHeight = 0F
     private var mLineMoveDelayTime = 1000L
     private var mCountDownTimeDelay = 100L
-    private var mSelectWords = arrayListOf<String>()
     private var mShowView = arrayListOf<TextView>()
     private var mSocre = 0
     private var mTotalTime = 90
+    private var randomSeed = 1
     val padding = screenWidth / 160
     val margin = screenWidth / 140
     val textSize = screenWidth / 28.0F
@@ -96,7 +90,7 @@ class SearchNumberActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         StatusBarUtils.setStatusBarTransparent(this)
         super.onCreate(savedInstanceState)
-        setContentView(com.example.game.R.layout.activity_search_word)
+        setContentView(R.layout.activity_search_number)
         initViewAndData()
         initListener()
     }
@@ -119,9 +113,7 @@ class SearchNumberActivity : BaseActivity() {
         mTotalTime = 900 * mCountDownTimeDelay.toInt()
         progressBar.max = mTotalTime
 
-        mWidth = screenWidth
-        mHeight = screenHeight
-        setCenterTitle("济康-搜索词")
+        setCenterTitle("济康-搜索数")
         mShowView.add(tvContent1)
         mShowView.add(tvContent2)
         mShowView.add(tvContent3)
@@ -133,13 +125,12 @@ class SearchNumberActivity : BaseActivity() {
      * 游戏开始前的初始化,可能需要多次重置
      */
     private fun initGameView() {
-        //设置需要找出的词 四个
-        var start = Random.nextInt(RIGHT_WORD.length - 5)
-        println("其实$start")
+        //设置需要找出数字
+        randomSeed = Random.nextInt(1, 9)
+        var rText = "$randomSeed$randomSeed$randomSeed$randomSeed"
         for (num in 0..3) {
-            mSelectWords.add(num, RIGHT_WORD[start + num].toString())
             with(mShowView[num]) {
-                text = RIGHT_WORD[start + num].toString()
+                text = rText
                 isSelected = false
             }
         }
@@ -149,20 +140,17 @@ class SearchNumberActivity : BaseActivity() {
         for (num in 0..TOTAL_WORD_NUMBER) {
             val tv = TextView(this)
             tv.textSize = textSize
+            tv.setLetterSpacingText(getErrorWord(num))
+            tv.setPadding(padding + 4, padding, padding + 4, padding)
 
-            tv.text = "${getErrorWord(num)}"
-            tv.setPadding(padding + 6, padding, padding + 6, padding)
             flexBox.addView(tv)
             val para = tv.layoutParams
             if (para is FlexboxLayout.LayoutParams) {
                 para.topMargin = margin
             }
-//            if(num%9==0){
-//                tv.setBackgroundColor(resources.getColor(R.color.colorPrimary))
-//            }
         }
 
-        //随机放入待选择的词
+        //随机放入待选择的数字
         val q = TOTAL_WORD_NUMBER / 4
         for (num in 0..3) {
             var random = Random.nextInt(q * num, q * (num + 1))
@@ -173,13 +161,13 @@ class SearchNumberActivity : BaseActivity() {
             tv.setOnClickListener {
                 handleWordClick(num)
             }
-            tv.text = mSelectWords[num]
+            tv.setLetterSpacingText(rText)
         }
     }
 
     /**
-     * 待选择的词被正确点击
-     * @param num 被点击词是第几个 从0开始
+     * 待选择的数字被正确点击
+     * @param num 被点击数字是第几个 从0开始
      */
     private fun handleWordClick(num: Int) {
         if (mShowView[num].isSelected) return
@@ -210,7 +198,7 @@ class SearchNumberActivity : BaseActivity() {
      * 结束游戏
      */
     private fun finisGame() {
-        val spKey = SEARCH_WORD_ACTIVITY + mSpeed
+        val spKey = SEARCH_NUMBER_ACTIVITY + mSpeed
         SearchRecordActivity.start(this, spKey, getScore(), mSpeed)
         finish()
     }
@@ -219,7 +207,6 @@ class SearchNumberActivity : BaseActivity() {
     private fun getScore(): Int {
         val text = tvScore.text.toString()
         return if (text.isDigitsOnly()) text.toInt() else 0
-
     }
 
     override fun onResume() {
@@ -227,13 +214,18 @@ class SearchNumberActivity : BaseActivity() {
         mHandler.sendEmptyMessageDelayed(MSG_START_MOVE, 500)
     }
 
-    private fun getErrorWord(index: Int): Char {
-        val position = index % ERROR_WORD_SIZE
-        return ERROR_WORD[position]
+    private fun getErrorWord(index: Int): String {
+        var res = (Random.nextInt(1, 999) + randomSeed * 1000).toString()
+        //如果出现相同的四位数就-1 防止和目标数相同
+        if (res.matches(Regex("([0-9])\\1{3}"))) {
+            res = (res.toInt() - 1).toString()
+        }
+        return res
     }
 
     override fun onDestroy() {
         super.onDestroy()
         mHandler.removeCallbacksAndMessages(null)
     }
+
 }
