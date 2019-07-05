@@ -12,6 +12,7 @@ const val SCHULTE_GRID_ACTIVITY2 = "schulte_grid_activity2"
 const val NUMBER_25 = "number_25"
 const val SEARCH_WORD_ACTIVITY = "search_word_activity"
 const val SEARCH_NUMBER_ACTIVITY = "search_number_activity"
+const val SEARCH_ODD_EVEN_ACTIVITY = "search_odd_even_activity"
 
 
 
