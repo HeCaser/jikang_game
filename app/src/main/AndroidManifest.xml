@@ -31,6 +31,9 @@
                 android:name=".activity.SchulteGridActivity"
                 android:screenOrientation="portrait"/>
         <activity
+                android:name=".activity.SpeedReadNumberActivity"
+                android:screenOrientation="portrait"/>
+        <activity
                 android:name=".activity.SearchWordActivity"
                 android:screenOrientation="portrait"/>
         <activity
@@ -38,6 +41,9 @@
                 android:screenOrientation="portrait"/>
         <activity
                 android:name=".activity.SearchNumberActivity"
+                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".activity.SearchOddEvenActivity"
                 android:screenOrientation="portrait"/>
         <activity
                 android:name=".activity.SearchRecordActivity"
