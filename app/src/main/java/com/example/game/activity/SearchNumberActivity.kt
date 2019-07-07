@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -27,7 +28,7 @@ import kotlin.random.Random
 class SearchNumberActivity : BaseActivity() {
 
     companion object {
-        const val TOTAL_WORD_NUMBER = 22
+        const val TOTAL_WORD_NUMBER = 133
         const val MSG_MOVE_LINE = 1
         const val MSG_START_MOVE = 2
         const val MSG_TIME_COUT_DOWN = 3
@@ -84,7 +85,8 @@ class SearchNumberActivity : BaseActivity() {
     private var mSocre = 0
     private var mTotalTime = 90
     private var randomSeed = 1
-    val padding = screenWidth / 160
+//    val padding = screenWidth / 260
+    val padding = 2
     val margin = screenWidth / 140
     val textSize = screenWidth / 28.0F
 
@@ -142,8 +144,9 @@ class SearchNumberActivity : BaseActivity() {
             val tv = TextView(this)
             tv.textSize = textSize
             tv.setLetterSpacingText(getErrorWord(num))
-            tv.setPadding(padding + 4, padding, padding + 4, padding)
+            tv.setPadding(padding , padding, padding , padding)
 
+            tv.setTextColor(getTextColor(num))
             flexBox.addView(tv)
             val para = tv.layoutParams
             if (para is FlexboxLayout.LayoutParams) {
@@ -205,6 +208,34 @@ class SearchNumberActivity : BaseActivity() {
     }
 
 
+
+    /**
+     * 根据起始颜色确定tv色值
+     */
+    var star = 0xff098dfa
+    var end = Color.RED
+
+    var a1 = star shr 24 and 0xff
+    var r1 = star shr 16 and 0xff
+    var g1 = star shr 8 and 0xff
+    var b1 = star and 0xff
+
+    var a2 = end shr 24 and 0xff
+    var r2 = end shr 16 and 0xff
+    var g2 = end shr 8 and 0xff
+    var b2 = end and 0xff
+    private fun getTextColor(pos: Int): Int {
+        //关键是求得中间过度值 0-1
+        var value = pos / 40.0
+
+        val a3 = (a1 + (a2 - a1) * value).toInt()
+        val r3 = (r1 + (r2 - r1) * value).toInt()
+        val g3 = (g1 + (g2 - g1) * value).toInt()
+        val b3 = (b1 + (b2 - b1) * value).toInt()
+
+        val color = a3 and 0xff shl 24 or (r3 and 0xff shl 16) or (g3 and 0xff shl 8) or (b3 and 0xff)
+        return color
+    }
     private fun getScore(): Int {
         val text = tvScore.text.toString()
         return if (text.isDigitsOnly()) text.toInt() else 0
