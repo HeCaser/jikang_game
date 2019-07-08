@@ -15,23 +15,23 @@
 
         <TextView
                 android:id="@+id/tvContent1"
-                style="@style/search_word_style1"
-                tools:text="水"/>
+                style="@style/search_number_style1"
+                tools:text="8888"/>
 
         <TextView
                 android:id="@+id/tvContent2"
-                style="@style/search_word_style1"
-                tools:text="水"/>
+                style="@style/search_number_style1"
+                tools:text="1111"/>
 
         <TextView
                 android:id="@+id/tvContent3"
-                tools:text="水"
-                style="@style/search_word_style1"/>
+                tools:text="1111"
+                style="@style/search_number_style1"/>
 
         <TextView
                 android:id="@+id/tvContent4"
-                style="@style/search_word_style1"
-                tools:text="水"/>
+                style="@style/search_number_style1"
+                tools:text="1111"/>
 
     </LinearLayout>
 
@@ -69,6 +69,8 @@
             android:background="@color/color_333333"/>
 
     <com.google.android.flexbox.FlexboxLayout
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="2dp"
             android:id="@+id/flexBox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
