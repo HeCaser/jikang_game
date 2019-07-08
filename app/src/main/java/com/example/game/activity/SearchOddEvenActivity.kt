@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -16,7 +17,7 @@ import com.example.game.constant.SEARCH_ODD_EVEN_ACTIVITY
 import com.example.game.util.screenWidth
 import com.example.game.utils.StatusBarUtils
 import com.google.android.flexbox.FlexboxLayout
-import kotlinx.android.synthetic.main.activity_search_word.*
+import kotlinx.android.synthetic.main.activity_search_odd_even.*
 import kotlin.random.Random
 
 
@@ -26,7 +27,7 @@ import kotlin.random.Random
 class SearchOddEvenActivity : BaseActivity() {
 
     companion object {
-        const val TOTAL_WORD_NUMBER = 22
+        const val TOTAL_WORD_NUMBER = 133
         const val MSG_MOVE_LINE = 1
         const val MSG_START_MOVE = 2
         const val MSG_TIME_COUT_DOWN = 3
@@ -74,23 +75,26 @@ class SearchOddEvenActivity : BaseActivity() {
 
     private var mRemoveCount = 0
     private var mSpeed = 0
+    //横线初始位置
     private var mStart = 0F
     private var mTvHeight = 0F
     private var mLineMoveDelayTime = 1000L
     private var mCountDownTimeDelay = 100L
-    private var mSelectWords = arrayListOf<String>()
     private var mShowView = arrayListOf<TextView>()
     private var mSocre = 0
     private var mTotalTime = 90
     private var randomSeed = 1
-    val padding = screenWidth / 160
+    //是否搜索奇数
+    private val isOdd = false
+    //    val padding = screenWidth / 260
+    val padding = 2
     val margin = screenWidth / 140
     val textSize = screenWidth / 28.0F
 
     override fun onCreate(savedInstanceState: Bundle?) {
         StatusBarUtils.setStatusBarTransparent(this)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search_number)
+        setContentView(R.layout.activity_search_odd_even)
         initViewAndData()
         initListener()
     }
@@ -113,7 +117,7 @@ class SearchOddEvenActivity : BaseActivity() {
         mTotalTime = 900 * mCountDownTimeDelay.toInt()
         progressBar.max = mTotalTime
 
-        setCenterTitle("济康-搜索奇偶数")
+        setCenterTitle("济康-奇偶数")
         mShowView.add(tvContent1)
         mShowView.add(tvContent2)
         mShowView.add(tvContent3)
@@ -126,10 +130,9 @@ class SearchOddEvenActivity : BaseActivity() {
      */
     private fun initGameView() {
         //设置需要找出数字
-        randomSeed = Random.nextInt(1, 9)
-        var rText = "$randomSeed$randomSeed$randomSeed$randomSeed"
+        randomSeed = 0
+        var rText = getSelectedNumber(isOdd).toString()
         for (num in 0..3) {
-//            mSelectWords.add(num, )
             with(mShowView[num]) {
                 text = rText
                 isSelected = false
@@ -142,8 +145,9 @@ class SearchOddEvenActivity : BaseActivity() {
             val tv = TextView(this)
             tv.textSize = textSize
             tv.text = getErrorWord(num)
-            tv.setPadding(padding + 4, padding, padding + 4, padding)
+            tv.setPadding(padding, padding, padding, padding)
 
+            tv.setTextColor(getTextColor(num))
             flexBox.addView(tv)
             val para = tv.layoutParams
             if (para is FlexboxLayout.LayoutParams) {
@@ -205,6 +209,34 @@ class SearchOddEvenActivity : BaseActivity() {
     }
 
 
+    /**
+     * 根据起始颜色确定tv色值
+     */
+    var star = 0xff098dfa
+    var end = Color.RED
+
+    var a1 = star shr 24 and 0xff
+    var r1 = star shr 16 and 0xff
+    var g1 = star shr 8 and 0xff
+    var b1 = star and 0xff
+
+    var a2 = end shr 24 and 0xff
+    var r2 = end shr 16 and 0xff
+    var g2 = end shr 8 and 0xff
+    var b2 = end and 0xff
+    private fun getTextColor(pos: Int): Int {
+        //关键是求得中间过度值 0-1
+        var value = pos / 40.0
+
+        val a3 = (a1 + (a2 - a1) * value).toInt()
+        val r3 = (r1 + (r2 - r1) * value).toInt()
+        val g3 = (g1 + (g2 - g1) * value).toInt()
+        val b3 = (b1 + (b2 - b1) * value).toInt()
+
+        val color = a3 and 0xff shl 24 or (r3 and 0xff shl 16) or (g3 and 0xff shl 8) or (b3 and 0xff)
+        return color
+    }
+
     private fun getScore(): Int {
         val text = tvScore.text.toString()
         return if (text.isDigitsOnly()) text.toInt() else 0
@@ -217,9 +249,26 @@ class SearchOddEvenActivity : BaseActivity() {
 
     private fun getErrorWord(index: Int): String {
         var res = (Random.nextInt(1, 999) + randomSeed * 1000).toString()
-        if (res.matches(Regex("([0-9])\\1{4}"))) {
+        //如果出现相同的四位数就-1 防止和目标数相同
+        if (res.matches(Regex("([0-9])\\1{3}"))) {
             res = (res.toInt() - 1).toString()
         }
+        return res
+    }
+
+    /**
+     * 后去待选择的数字
+     * @param isOdd 是否产生奇数
+     */
+    private fun getSelectedNumber(isOdd: Boolean): Int {
+        var res = Random.nextInt(1001, 9999)
+        if (isOdd && res % 2 == 0) {
+            res -= 1
+        }
+        if (!isOdd && res % 2 != 0) {
+            res -= 1
+        }
+
         return res
     }
 
