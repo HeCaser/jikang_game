@@ -227,6 +227,8 @@ class SearchOddEvenActivity : BaseActivity() {
     private fun getTextColor(pos: Int): Int {
         //关键是求得中间过度值 0-1
         var value = pos / 40.0
+//        var zs = value.toInt()
+//        value -= zs
 
         val a3 = (a1 + (a2 - a1) * value).toInt()
         val r3 = (r1 + (r2 - r1) * value).toInt()
