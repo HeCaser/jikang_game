@@ -84,7 +84,7 @@ class SearchOddEvenActivity : BaseActivity() {
     private var mSocre = 0
     private var mTotalTime = 90
     //是否搜索奇数
-    private val isSearchOdd = true
+    private var isSearchOdd = true
     val padding = 4
     private val margin = screenWidth / 140
     val textSize = screenWidth / 58.0F
@@ -119,20 +119,23 @@ class SearchOddEvenActivity : BaseActivity() {
         progressBar.max = mTotalTime
 
         setCenterTitle("济康-奇偶数")
+        circleStepView.setStep(SEARCH_WORD_NUMBER * 3)
 
         initGameView()
+
+
     }
 
     /**
      * 游戏开始前的初始化,可能需要多次重置
      */
     private fun initGameView() {
+        isSearchOdd = !isSearchOdd
         if (isSearchOdd) {
             tvSearchWhat.text = "找到奇数"
         } else {
             tvSearchWhat.text = "找到偶数"
         }
-        circleStepView.setStep(SEARCH_WORD_NUMBER * 3, 0)
         //添加view给flexbox
         flexBox.removeAllViews()
         for (num in 0..TOTAL_WORD_NUMBER) {
@@ -152,7 +155,7 @@ class SearchOddEvenActivity : BaseActivity() {
         //随机放入待选择的数字
         mSearPositions.clear()
         for (num in 0..SEARCH_WORD_NUMBER) {
-            var random = generateNumber(isSearchOdd)
+            val random = generateNumber(isSearchOdd)
             var position = Random.nextInt(0, TOTAL_WORD_NUMBER)
             while (mSearPositions.contains(position)) {
                 position = Random.nextInt(0, SEARCH_WORD_NUMBER)
@@ -214,31 +217,28 @@ class SearchOddEvenActivity : BaseActivity() {
     /**
      * 根据起始颜色确定tv色值
      */
-    var star = 0xff098dfa
-    var end = Color.RED
+    private var star = 0xff098dfa
+    private var end = Color.RED
 
-    var a1 = star shr 24 and 0xff
-    var r1 = star shr 16 and 0xff
-    var g1 = star shr 8 and 0xff
-    var b1 = star and 0xff
+    private var a1 = star shr 24 and 0xff
+    private  var r1 = star shr 16 and 0xff
+    private var g1 = star shr 8 and 0xff
+    private var b1 = star and 0xff
 
-    var a2 = end shr 24 and 0xff
-    var r2 = end shr 16 and 0xff
-    var g2 = end shr 8 and 0xff
-    var b2 = end and 0xff
+    private var a2 = end shr 24 and 0xff
+    private var r2 = end shr 16 and 0xff
+    private var g2 = end shr 8 and 0xff
+    private var b2 = end and 0xff
     private fun getTextColor(pos: Int): Int {
         //关键是求得中间过度值 0-1
-        var value = pos / 40.0
-//        var zs = value.toInt()
-//        value -= zs
+        val value = pos / 40.0
 
         val a3 = (a1 + (a2 - a1) * value).toInt()
         val r3 = (r1 + (r2 - r1) * value).toInt()
         val g3 = (g1 + (g2 - g1) * value).toInt()
         val b3 = (b1 + (b2 - b1) * value).toInt()
 
-        val color = a3 and 0xff shl 24 or (r3 and 0xff shl 16) or (g3 and 0xff shl 8) or (b3 and 0xff)
-        return color
+        return a3 and 0xff shl 24 or (r3 and 0xff shl 16) or (g3 and 0xff shl 8) or (b3 and 0xff)
     }
 
     private fun getScore(): Int {
