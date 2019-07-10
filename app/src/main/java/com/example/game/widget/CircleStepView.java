@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
+
 import com.example.game.R;
 
 
@@ -46,7 +47,7 @@ public class CircleStepView extends View {
 
     private void init() {
         mBgColor = getContext().getResources().getColor(R.color.colorPrimary);
-        mFgColor = getContext().getResources().getColor(R.color.colorAccent);
+        mFgColor = getContext().getResources().getColor(R.color.color_ff8e00);
 
         mCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mCirclePaint.setColor(mBgColor);
@@ -80,7 +81,9 @@ public class CircleStepView extends View {
 
         //线,关键是计算顶层线的结束位置
         float topLineEnd;
-        if (mStep == 1) {
+        if (mStep == 0) {
+            topLineEnd = mCircleRadius;
+        } else if (mStep == 1) {
             topLineEnd = mInterval / 2 + mCircleRadius;
         } else if (mStep == mTotalStep) {
             topLineEnd = mWidth - mCircleRadius;
@@ -110,6 +113,12 @@ public class CircleStepView extends View {
 
     public void setTotalStep(int num) {
         mTotalStep = num;
+    }
+
+    public void setStep(int num, int step) {
+        mTotalStep = num;
+        mStep = step;
+        postInvalidate();
     }
 
     public void setStep(int step) {
