@@ -81,18 +81,17 @@ public class CircleStepView extends View {
         //线,关键是计算顶层线的结束位置
         float topLineEnd;
         if (mStep == 1) {
-            topLineEnd = mInterval/2+mCircleRadius;
+            topLineEnd = mInterval / 2 + mCircleRadius;
         } else if (mStep == mTotalStep) {
             topLineEnd = mWidth - mCircleRadius;
-        }else{
-            topLineEnd= mInterval*(mStep-0.5f)+mCircleRadius;
+        } else {
+            topLineEnd = mInterval * (mStep - 0.5f) + mCircleRadius;
         }
 
         mLinePaint.setColor(mBgColor);
         canvas.drawLine(mCircleRadius, cY, mWidth - mCircleRadius, cY, mLinePaint);
         mLinePaint.setColor(mFgColor);
         canvas.drawLine(mCircleRadius, cY, topLineEnd, cY, mLinePaint);
-
 
 
         //画圆点
