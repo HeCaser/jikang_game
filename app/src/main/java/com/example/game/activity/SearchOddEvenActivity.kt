@@ -89,7 +89,8 @@ class SearchOddEvenActivity : BaseActivity() {
     private val margin = screenWidth / 140
     val textSize = screenWidth / 58.0F
     //等待选择的数据
-    private var mSearPositios = arrayListOf<Int>()
+    private var mSearPositions = arrayListOf<Int>()
+    private var mStep = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         StatusBarUtils.setStatusBarTransparent(this)
@@ -131,6 +132,7 @@ class SearchOddEvenActivity : BaseActivity() {
         } else {
             tvSearchWhat.text = "找到偶数"
         }
+        circleStepView.setStep(SEARCH_WORD_NUMBER * 3, 0)
         //添加view给flexbox
         flexBox.removeAllViews()
         for (num in 0..TOTAL_WORD_NUMBER) {
@@ -148,14 +150,14 @@ class SearchOddEvenActivity : BaseActivity() {
         }
 
         //随机放入待选择的数字
-        mSearPositios.clear()
+        mSearPositions.clear()
         for (num in 0..SEARCH_WORD_NUMBER) {
             var random = generateNumber(isSearchOdd)
             var position = Random.nextInt(0, TOTAL_WORD_NUMBER)
-            while (mSearPositios.contains(position)) {
+            while (mSearPositions.contains(position)) {
                 position = Random.nextInt(0, SEARCH_WORD_NUMBER)
             }
-            mSearPositios.add(position)
+            mSearPositions.add(position)
 
             val tv = flexBox[position] as TextView
             tv.text = random.toString()
@@ -170,14 +172,15 @@ class SearchOddEvenActivity : BaseActivity() {
      * @param pos 被点击数字是第几个
      */
     private fun handleWordClick(pos: Int) {
-        if (!mSearPositios.contains(pos)) return
+        if (!mSearPositions.contains(pos)) return
         mSocre += 10
         tvScore.text = "$mSocre"
         val tv = flexBox[pos] as TextView
         tv.setBackgroundColor(Color.RED)
         tv.setTextColor(Color.WHITE)
-        mSearPositios.remove(pos)
-        if (mSearPositios.isEmpty()) {
+        circleStepView.setStep(++mStep)
+        mSearPositions.remove(pos)
+        if (mSearPositions.isEmpty()) {
             //全部找完
             mRemoveCount = 0
             initGameView()
