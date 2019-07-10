@@ -27,7 +27,8 @@ import kotlin.random.Random
 class SearchOddEvenActivity : BaseActivity() {
 
     companion object {
-        const val TOTAL_WORD_NUMBER = 133
+        const val TOTAL_WORD_NUMBER = 80
+        const val SEARCH_WORD_NUMBER = 8
         const val MSG_MOVE_LINE = 1
         const val MSG_START_MOVE = 2
         const val MSG_TIME_COUT_DOWN = 3
@@ -80,16 +81,15 @@ class SearchOddEvenActivity : BaseActivity() {
     private var mTvHeight = 0F
     private var mLineMoveDelayTime = 1000L
     private var mCountDownTimeDelay = 100L
-    private var mShowView = arrayListOf<TextView>()
     private var mSocre = 0
     private var mTotalTime = 90
-    private var randomSeed = 1
     //是否搜索奇数
-    private val isOdd = false
-    //    val padding = screenWidth / 260
-    val padding = 2
-    val margin = screenWidth / 140
-    val textSize = screenWidth / 28.0F
+    private val isSearchOdd = true
+    val padding = 4
+    private val margin = screenWidth / 140
+    val textSize = screenWidth / 58.0F
+    //等待选择的数据
+    private var mSearPositios = arrayListOf<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         StatusBarUtils.setStatusBarTransparent(this)
@@ -118,10 +118,7 @@ class SearchOddEvenActivity : BaseActivity() {
         progressBar.max = mTotalTime
 
         setCenterTitle("济康-奇偶数")
-        mShowView.add(tvContent1)
-        mShowView.add(tvContent2)
-        mShowView.add(tvContent3)
-        mShowView.add(tvContent4)
+
         initGameView()
     }
 
@@ -129,23 +126,18 @@ class SearchOddEvenActivity : BaseActivity() {
      * 游戏开始前的初始化,可能需要多次重置
      */
     private fun initGameView() {
-        //设置需要找出数字
-        randomSeed = 0
-        var rText = getSelectedNumber(isOdd).toString()
-        for (num in 0..3) {
-            with(mShowView[num]) {
-                text = rText
-                isSelected = false
-            }
+        if (isSearchOdd) {
+            tvSearchWhat.text = "找到奇数"
+        } else {
+            tvSearchWhat.text = "找到偶数"
         }
-
         //添加view给flexbox
         flexBox.removeAllViews()
         for (num in 0..TOTAL_WORD_NUMBER) {
             val tv = TextView(this)
             tv.textSize = textSize
-            tv.text = getErrorWord(num)
-            tv.setPadding(padding, padding, padding, padding)
+            tv.text = generateNumber(!isSearchOdd).toString()
+            tv.setPadding(padding + 10, padding, padding + 10, padding)
 
             tv.setTextColor(getTextColor(num))
             flexBox.addView(tv)
@@ -156,30 +148,37 @@ class SearchOddEvenActivity : BaseActivity() {
         }
 
         //随机放入待选择的数字
-        val q = TOTAL_WORD_NUMBER / 4
-        for (num in 0..3) {
-            var random = Random.nextInt(q * num, q * (num + 1))
-            while (random >= TOTAL_WORD_NUMBER || random == 0) {
-                random = Random.nextInt(q * (num + 1))
+        mSearPositios.clear()
+        for (num in 0..SEARCH_WORD_NUMBER) {
+            var random = generateNumber(isSearchOdd)
+            var position = Random.nextInt(0, TOTAL_WORD_NUMBER)
+            while (mSearPositios.contains(position)) {
+                position = Random.nextInt(0, SEARCH_WORD_NUMBER)
             }
-            val tv = flexBox[random] as TextView
+            mSearPositios.add(position)
+
+            val tv = flexBox[position] as TextView
+            tv.text = random.toString()
             tv.setOnClickListener {
-                handleWordClick(num)
+                handleWordClick(position)
             }
-            tv.text = rText
         }
     }
 
     /**
      * 待选择的数字被正确点击
-     * @param num 被点击数字是第几个 从0开始
+     * @param pos 被点击数字是第几个
      */
-    private fun handleWordClick(num: Int) {
-        if (mShowView[num].isSelected) return
-        mShowView[num].isSelected = true
+    private fun handleWordClick(pos: Int) {
+        if (!mSearPositios.contains(pos)) return
         mSocre += 10
         tvScore.text = "$mSocre"
-        if (mSocre % 40 == 0) {
+        val tv = flexBox[pos] as TextView
+        tv.setBackgroundColor(Color.RED)
+        tv.setTextColor(Color.WHITE)
+        mSearPositios.remove(pos)
+        if (mSearPositios.isEmpty()) {
+            //全部找完
             mRemoveCount = 0
             initGameView()
             mHandler.removeMessages(MSG_MOVE_LINE)
@@ -249,25 +248,16 @@ class SearchOddEvenActivity : BaseActivity() {
         mHandler.sendEmptyMessageDelayed(MSG_START_MOVE, 500)
     }
 
-    private fun getErrorWord(index: Int): String {
-        var res = (Random.nextInt(1, 999) + randomSeed * 1000).toString()
-        //如果出现相同的四位数就-1 防止和目标数相同
-        if (res.matches(Regex("([0-9])\\1{3}"))) {
-            res = (res.toInt() - 1).toString()
-        }
-        return res
-    }
-
     /**
      * 后去待选择的数字
-     * @param isOdd 是否产生奇数
+     * @param generateOdd 是否需要奇数
      */
-    private fun getSelectedNumber(isOdd: Boolean): Int {
-        var res = Random.nextInt(1001, 9999)
-        if (isOdd && res % 2 == 0) {
+    private fun generateNumber(generateOdd: Boolean): Int {
+        var res = Random.nextInt(1000000, 9999999)
+        if (generateOdd && res % 2 == 0) {
             res -= 1
         }
-        if (!isOdd && res % 2 != 0) {
+        if (!generateOdd && res % 2 != 0) {
             res -= 1
         }
 
