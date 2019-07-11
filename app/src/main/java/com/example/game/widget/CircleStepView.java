@@ -27,7 +27,7 @@ public class CircleStepView extends View {
     private float mCircleRadius;
 
     private int mTotalStep = 10; //最高步进
-    private int mStep = 1; //当前步进
+    private int mStep = 0; //当前步进
 
     public CircleStepView(Context context) {
         super(context);
