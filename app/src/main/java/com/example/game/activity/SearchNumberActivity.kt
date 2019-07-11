@@ -115,6 +115,7 @@ class SearchNumberActivity : BaseActivity() {
         //计算pb的最大值, 倒计时共90s
         mTotalTime = 900 * mCountDownTimeDelay.toInt()
         progressBar.max = mTotalTime
+        progressBar.progress=mTotalTime
 
         setCenterTitle("济康-搜索数")
         mShowView.add(tvContent1)

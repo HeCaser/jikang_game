@@ -1,6 +1,5 @@
 package com.example.game.activity
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -8,6 +7,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.TextView
 import androidx.core.text.isDigitsOnly
@@ -29,7 +29,7 @@ class SearchOddEvenActivity : BaseActivity() {
     companion object {
         const val TOTAL_WORD_NUMBER = 80
         const val SEARCH_WORD_NUMBER = 8
-        const val MSG_MOVE_LINE = 1
+        const val MSG_MOVE_HINT_ITEM = 1
         const val MSG_START_MOVE = 2
         const val MSG_TIME_COUT_DOWN = 3
 
@@ -46,13 +46,8 @@ class SearchOddEvenActivity : BaseActivity() {
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
             when (msg!!.what) {
-                MSG_MOVE_LINE -> {
-                    val anim = ObjectAnimator.ofFloat(viewLine, "y", mStart + (mTvHeight * mRemoveCount))
-                    anim.start()
-                    mRemoveCount++
-                    if (mRemoveCount < 25) {
-                        this.sendEmptyMessageDelayed(MSG_MOVE_LINE, mLineMoveDelayTime)
-                    }
+                MSG_MOVE_HINT_ITEM -> {
+
                 }
                 MSG_START_MOVE -> {
                     startGame()
@@ -70,7 +65,7 @@ class SearchOddEvenActivity : BaseActivity() {
      */
     private fun startGame() {
         mHandler.removeCallbacksAndMessages(null)
-        mHandler.sendEmptyMessage(MSG_MOVE_LINE)
+        mHandler.sendEmptyMessage(MSG_MOVE_HINT_ITEM)
         mHandler.sendEmptyMessageDelayed(MSG_TIME_COUT_DOWN, mCountDownTimeDelay)
     }
 
@@ -117,12 +112,12 @@ class SearchOddEvenActivity : BaseActivity() {
         //计算pb的最大值, 倒计时共90s
         mTotalTime = 900 * mCountDownTimeDelay.toInt()
         progressBar.max = mTotalTime
+        progressBar.progress=mTotalTime
 
         setCenterTitle("济康-奇偶数")
         circleStepView.setStep(SEARCH_WORD_NUMBER * 3)
 
         initGameView()
-
 
     }
 
@@ -144,7 +139,7 @@ class SearchOddEvenActivity : BaseActivity() {
             tv.text = generateNumber(!isSearchOdd).toString()
             tv.setPadding(padding + 10, padding, padding + 10, padding)
 
-            tv.setTextColor(getTextColor(num))
+            tv.setTextColor(resources.getColor(R.color.color_333333))
             flexBox.addView(tv)
             val para = tv.layoutParams
             if (para is FlexboxLayout.LayoutParams) {
@@ -187,8 +182,8 @@ class SearchOddEvenActivity : BaseActivity() {
             //全部找完
             mRemoveCount = 0
             initGameView()
-            mHandler.removeMessages(MSG_MOVE_LINE)
-            mHandler.sendEmptyMessageDelayed(MSG_MOVE_LINE, 50L)
+            mHandler.removeMessages(MSG_MOVE_HINT_ITEM)
+            mHandler.sendEmptyMessageDelayed(MSG_MOVE_HINT_ITEM, 50L)
         }
     }
 
@@ -213,33 +208,6 @@ class SearchOddEvenActivity : BaseActivity() {
         finish()
     }
 
-
-    /**
-     * 根据起始颜色确定tv色值
-     */
-    private var star = 0xff098dfa
-    private var end = Color.RED
-
-    private var a1 = star shr 24 and 0xff
-    private  var r1 = star shr 16 and 0xff
-    private var g1 = star shr 8 and 0xff
-    private var b1 = star and 0xff
-
-    private var a2 = end shr 24 and 0xff
-    private var r2 = end shr 16 and 0xff
-    private var g2 = end shr 8 and 0xff
-    private var b2 = end and 0xff
-    private fun getTextColor(pos: Int): Int {
-        //关键是求得中间过度值 0-1
-        val value = pos / 40.0
-
-        val a3 = (a1 + (a2 - a1) * value).toInt()
-        val r3 = (r1 + (r2 - r1) * value).toInt()
-        val g3 = (g1 + (g2 - g1) * value).toInt()
-        val b3 = (b1 + (b2 - b1) * value).toInt()
-
-        return a3 and 0xff shl 24 or (r3 and 0xff shl 16) or (g3 and 0xff shl 8) or (b3 and 0xff)
-    }
 
     private fun getScore(): Int {
         val text = tvScore.text.toString()
