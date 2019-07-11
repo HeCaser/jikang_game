@@ -63,21 +63,10 @@
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:max="90"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:progress="90"
         android:progressDrawable="@drawable/progress_bar" />
 
-    <View
-        android:id="@+id/viewLine"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
-        android:background="@color/color_333333"
-        android:backgroundTint="@color/color_666666" />
 
     <com.google.android.flexbox.FlexboxLayout
         android:id="@+id/flexBox"
