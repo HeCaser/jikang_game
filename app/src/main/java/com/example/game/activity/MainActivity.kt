@@ -70,7 +70,6 @@ class MainActivity : AppCompatActivity() {
             }
             mGames[7] -> {
                 BeforeSearchActivity.start(this, SEARCH_TYPE_JIOU)
-//                SearchOddEvenActivity.start(this, 1)
             }
             mGames[8] -> {
                 SpeedReadNumberActivity.start(this, 1)
