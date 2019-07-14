@@ -26,8 +26,8 @@ import kotlin.random.Random
 class SearchOddEvenActivity : BaseActivity() {
 
     companion object {
-        const val TOTAL_WORD_NUMBER = 230
-        const val SEARCH_WORD_NUMBER = 8
+        const val TOTAL_WORD_NUMBER = 90
+        const val SEARCH_WORD_NUMBER = 6
 
         const val MSG_MOVE_HINT = 1//移动指示背景(样式改变)
         const val MSG_START_GAME = 2//开始游戏
@@ -99,7 +99,7 @@ class SearchOddEvenActivity : BaseActivity() {
     private var isSearchOdd = true
     val padding = 4
     private val margin = screenWidth / 140
-    val textSize = screenWidth / 58.0F
+    val textSize = screenWidth / 28.0F
     //等待选择的数据
     private var mSearPositions = arrayListOf<Int>()
     private var mStep = 0
@@ -155,7 +155,7 @@ class SearchOddEvenActivity : BaseActivity() {
 
         //添加view给flexbox
         flexBox.removeAllViews()
-        for (num in 0..TOTAL_WORD_NUMBER) {
+        for (num in 0 until TOTAL_WORD_NUMBER) {
             val tv = TextView(this)
             tv.textSize = textSize
             tv.text = generateNumber(!isSearchOdd).toString()
