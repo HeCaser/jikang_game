@@ -1,5 +1,6 @@
 package com.example.game.activity
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -8,7 +9,7 @@ import android.os.Handler
 import android.os.Message
 import com.example.game.R
 import com.example.game.utils.StatusBarUtils
-import kotlinx.android.synthetic.main.activity_search_word.*
+import kotlinx.android.synthetic.main.activity_speed_read_number.*
 import androidx.core.text.isDigitsOnly as isDigitsOnly1
 
 
@@ -63,7 +64,12 @@ class SpeedReadNumberActivity : BaseActivity() {
     }
 
     private fun initListener() {
-
+        tvSpeedNumber.setOnClickListener {
+            hideCover()
+        }
+        etInputRes.setOnClickListener {
+            showCover()
+        }
     }
 
     private fun initViewAndData() {
@@ -77,22 +83,34 @@ class SpeedReadNumberActivity : BaseActivity() {
     private fun initGameView() {
         //设置需要找出的词 四个
 
-
     }
+
+    private fun hideCover() {
+        val anim = ObjectAnimator.ofFloat(tvNumberCover, "alpha", 1.0f, .0f)
+        anim.duration = 800
+        tvNumberCover.alpha
+        anim.start()
+    }
+
+    private fun showCover() {
+        tvNumberCover.alpha = 1.0f
+    }
+
 
     /**
      * 结束游戏
      */
     private fun finisGame() {
+
+
     }
 
 
-    private fun getScore(): Int {
-        val text = tvScore.text.toString()
-        return if (text.isDigitsOnly1()) text.toInt() else 0
-
-    }
-
+//    private fun getScore(): Int {
+//        val text = tvScore.text.toString()
+//        return if (text.isDigitsOnly1()) text.toInt() else 0
+//
+//    }
 
 
     override fun onDestroy() {

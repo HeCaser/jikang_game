@@ -26,7 +26,7 @@ import kotlin.random.Random
 class SearchOddEvenActivity : BaseActivity() {
 
     companion object {
-        const val TOTAL_WORD_NUMBER = 80
+        const val TOTAL_WORD_NUMBER = 230
         const val SEARCH_WORD_NUMBER = 8
 
         const val MSG_MOVE_HINT = 1//移动指示背景(样式改变)
@@ -135,7 +135,7 @@ class SearchOddEvenActivity : BaseActivity() {
         setCenterTitle("济康-奇偶数")
 
         //设置步进总数,根据速度设置
-        circleStepView.setStep(mSpeed * 8 + 20,0)
+        circleStepView.setStep(mSpeed * 3 + 10,0)
 
         initGameView()
 
