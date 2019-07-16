@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mItems: MutableList<Any>
     private val mGames = arrayListOf(
         "济康1-100", "1SharpEye", "舒尔特注意力", "舒尔特方格",
-        "Num25", "搜索词", "搜索数","奇偶数"
+        "Num25", "搜索词", "搜索数","奇偶数","速读数"
     )
     //, , "速读数"
 
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                 BeforeSearchActivity.start(this, SEARCH_TYPE_JIOU)
             }
             mGames[8] -> {
-                SpeedReadNumberActivity.start(this, 1)
+                EBookTreeActivity.start(this, 1)
             }
         }
 
