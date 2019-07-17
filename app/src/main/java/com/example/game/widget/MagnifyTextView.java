@@ -3,10 +3,9 @@ package com.example.game.widget;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
-import android.text.Layout;
 import android.util.AttributeSet;
 import android.widget.TextView;
+
 import com.example.game.utils.ScreenUtils;
 
 
@@ -52,7 +51,7 @@ public class MagnifyTextView extends TextView {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         mCircleCenterX = getMeasuredWidth() / 2;
         mCircleCenterY = getMeasuredHeight() / 2;
-        mRadius = ScreenUtils.dip2px(getContext(), 15);
+        mRadius = ScreenUtils.dip2px(getContext(), getMeasuredHeight()/2.1f);
 
     }
 
