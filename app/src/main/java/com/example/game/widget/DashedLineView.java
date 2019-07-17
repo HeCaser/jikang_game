@@ -19,7 +19,6 @@ public class DashedLineView extends View {
     private int mHeight;
     public DashedLineView(Context context, AttributeSet attrs) {
         super(context, attrs);                
-        init();
 
     }
 
