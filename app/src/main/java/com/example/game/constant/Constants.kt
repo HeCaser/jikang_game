@@ -25,7 +25,7 @@ const val SEARCH_TYPE_JIOU = 3 //奇偶数
 
 const val LINE_BREAK = "&&" //换行符
 
-const val ARTICAL_JLFR ="居里夫人" +LINE_BREAK+
+const val ARTICLE_JLFR ="居里夫人" +LINE_BREAK+
         "在别人看来，我的日子未免过于艰苦，" +LINE_BREAK+
         "但是我却能够自得其乐，" +LINE_BREAK+
         "每天都心情愉悦地埋头于学习之中。" +LINE_BREAK+
