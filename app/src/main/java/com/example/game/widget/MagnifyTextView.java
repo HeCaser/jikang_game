@@ -51,7 +51,8 @@ public class MagnifyTextView extends TextView {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         mCircleCenterX = getMeasuredWidth() / 2;
         mCircleCenterY = getMeasuredHeight() / 2;
-        mRadius = ScreenUtils.dip2px(getContext(), getMeasuredHeight()/2.1f);
+//        mRadius = ScreenUtils.dip2px(getContext(), getMeasuredHeight()/2.1f);
+        mRadius = ScreenUtils.dip2px(getContext(), 6);
 
     }
 
@@ -73,6 +74,10 @@ public class MagnifyTextView extends TextView {
         isDrawCircle = isOpen;
         postInvalidate();
 
+    }
+
+    public void setCircleRadius(float value) {
+        mRadius = value;
     }
 
 }
