@@ -64,7 +64,7 @@ class BeforeEBookActivity : AppCompatActivity() {
         val speed = starLevel.getLevel()
         when (mGameType) {
             EBOOK_TREE -> {
-                EBookTreeActivity.start(this, speed)
+                EBookTreeActivity.start(this)
             }
             SEARCH_TYPE_NUMBER -> {
                 SearchNumberActivity.start(this, speed)

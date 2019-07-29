@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.game.R
 import com.example.game.adapter.MainStringViewBinder
+import com.example.game.constant.EBOOK_TREE
 import com.example.game.constant.SEARCH_TYPE_JIOU
 import com.example.game.constant.SEARCH_TYPE_NUMBER
 import com.example.game.constant.SEARCH_TYPE_WORD
@@ -18,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mItems: MutableList<Any>
     private val mGames = arrayListOf(
         "济康1-100", "1SharpEye", "舒尔特注意力", "舒尔特方格",
-        "Num25", "搜索词", "搜索数","奇偶数","速读数"
+        "Num25", "搜索词", "搜索数","奇偶数","EBook树形"
     )
     //, , "速读数"
 
@@ -72,7 +73,8 @@ class MainActivity : AppCompatActivity() {
                 BeforeSearchActivity.start(this, SEARCH_TYPE_JIOU)
             }
             mGames[8] -> {
-                EBookTreeActivity.start(this, 1)
+//                BeforeEBookActivity.start(this, EBOOK_TREE)
+                EBookTreeActivity.start(this)
             }
         }
 

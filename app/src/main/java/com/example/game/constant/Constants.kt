@@ -20,6 +20,11 @@ const val SEARCH_TYPE_WORD = 1 //搜索词
 const val SEARCH_TYPE_NUMBER = 2 //奇偶数
 const val SEARCH_TYPE_JIOU = 3 //奇偶数
 
+//EBook的类型
+const val EBOOK_TREE = 4 //树形
+
+
+
 const val LINE_BREAK = "&&" //换行符
 
 const val ARTICLE_JLFR = "居里夫人" + LINE_BREAK +
