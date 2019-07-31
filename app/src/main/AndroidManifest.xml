@@ -53,6 +53,9 @@
         <activity
             android:name=".activity.EBookTreeActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.EBookLoopActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
