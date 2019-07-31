@@ -13,7 +13,7 @@ interface ArticleLineDao {
     @Query("SELECT * FROM article_line WHERE book_name=:name ORDER BY id DESC LIMIT 1")
     fun getLastLineFromBook(name: String): List<ArticleLine>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg line: ArticleLine)
 
     @Delete
