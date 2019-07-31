@@ -22,7 +22,7 @@ import com.example.game.database.ArticleLineDao
 
 
 /**
- *
+ *ArticleLineViewModel 的生成工厂
  */
 class ArticleLineViewModelFactory(
     private val dao: ArticleLineDao
