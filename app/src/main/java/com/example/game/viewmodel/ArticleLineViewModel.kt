@@ -49,12 +49,6 @@ class ArticleLineViewModel(private val dao: ArticleLineDao) : ViewModel() {
      */
     fun saveBook(ctx: Context, name: String) {
         viewModelScope.launch {
-            //保存过则返回
-            val book = dao.getLastLineFromBook(name)
-            if (book.isNotEmpty()) {
-                return@launch
-            }
-
             try {
                 var mline = 0
                 val inputReader = when (name) {
@@ -71,7 +65,6 @@ class ArticleLineViewModel(private val dao: ArticleLineDao) : ViewModel() {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-
         }
     }
 
