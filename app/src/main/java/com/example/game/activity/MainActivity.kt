@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
             }
             mGames[8] -> {
 //                BeforeEBookActivity.start(this, EBOOK_TREE)
-                EBookTreeActivity.start(this)
+                EBookLoopActivity.start(this)
             }
         }
 
