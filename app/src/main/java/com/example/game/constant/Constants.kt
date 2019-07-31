@@ -25,6 +25,7 @@ const val EBOOK_TREE = 4 //树形
 
 const val DATABASE_NAME = "jikang-db"
 const val BOOK_ZHONGQIUJIE = "zhongqiujie"
+const val BOOK_DAOCAOREN = "daocaoren"
 
 const val LINE_BREAK = "&&" //换行符
 
