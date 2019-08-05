@@ -25,6 +25,7 @@ import com.example.game.R
 import com.example.game.constant.BOOK_ZHONGQIUJIE
 import com.example.game.database.ArticleLine
 import com.example.game.database.ArticleLineDao
+import com.example.game.utils.SaveSpData
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import java.io.BufferedReader
@@ -62,8 +63,10 @@ class ArticleLineViewModel(private val dao: ArticleLineDao) : ViewModel() {
                     dao.insertAll(ArticleLine(mline++, line, line.length, name))
                     line = bufReader.readLine()
                 }
+                SaveSpData.newInstance(ctx).saveCommonStringData(name,"saved")
             } catch (e: Exception) {
                 e.printStackTrace()
+                SaveSpData.newInstance(ctx).saveCommonStringData(name,"")
             }
         }
     }
