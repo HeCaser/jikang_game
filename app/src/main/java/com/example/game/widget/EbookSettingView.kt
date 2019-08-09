@@ -35,15 +35,15 @@ class EbookSettingView : ConstraintLayout {
         tvSpeed.text = mSpeed.toString()
         tvAddSpeed.setOnClickListener {
             if (mSpeed < mMax) {
-//                mSpeed += 25
-                mSpeed=1600
+                mSpeed += 25
+//                mSpeed=1600
                 tvSpeed.text = mSpeed.toString()
             }
         }
         tvSubSpeed.setOnClickListener {
             if (mSpeed > mMin) {
-//                mSpeed -= 25
-                mSpeed=50
+                mSpeed -= 25
+//                mSpeed=50
                 tvSpeed.text = mSpeed.toString()
 
             }
