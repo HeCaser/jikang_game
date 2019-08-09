@@ -54,6 +54,9 @@
             android:name=".activity.EBookTreeActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.EBookSubFieldActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.EBookLoopActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.MainActivity">
