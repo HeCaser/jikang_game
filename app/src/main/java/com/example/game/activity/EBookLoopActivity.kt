@@ -151,6 +151,7 @@ class EBookLoopActivity : BaseActivity() {
             }
         }
 
+
         mCircleWidth += 4
         if (mCircleWidth >= mMaxWidth) {
             mCircleWidth = mMindWidth
