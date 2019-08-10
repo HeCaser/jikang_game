@@ -22,6 +22,8 @@ const val SEARCH_TYPE_JIOU = 3 //奇偶数
 
 //EBook的类型
 const val EBOOK_TREE = 4 //树形
+const val EBOOK_LOOP = 5 //循环
+const val EBOOK_SUBFIELD = 6 //分栏
 
 const val DATABASE_NAME = "jikang-db"
 const val BOOK_ZHONGQIUJIE = "zhongqiujie"
