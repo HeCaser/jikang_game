@@ -16,9 +16,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mItems: MutableList<Any>
     private val mGames = arrayListOf(
         "济康1-100", "1SharpEye", "舒尔特注意力", "舒尔特方格",
-        "Num25", "搜索词", "搜索数", "奇偶数", "EBook树形", "EBook循环", "EBook分栏"
+        "Num25", "搜索词", "搜索数", "奇偶数", "EBook树形"
     )
-
+//, "EBook循环", "EBook分栏"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

@@ -42,14 +42,15 @@ class EBookTreeActivity : BaseActivity() {
     }
 
     private var mContentDp = 1
-    private var mItemHeight = 60
+    //横条高度
+    private var mItemHeight = 90
     private var mContentWidth = 0
     //条目总数
     private var mTotalItemCount = 0
     //显示的文章内容所在行数,不停自增,直到文章显示完毕
     private var mShowArticlePos = 0
-    private var mNormalTextSize = 10f
-    private var mForegroundTextSize = 10f
+    private var mNormalTextSize = 20f
+    private var mForegroundTextSize = 22f
     private var mNoralTextColor = 0
     private var mForegroundTextColor = 0
     private var mMoveDelayTime = 1000L
@@ -75,11 +76,16 @@ class EBookTreeActivity : BaseActivity() {
                         sendEmptyMessageDelayed(MSG_MOVE_LINE, mMoveDelayTime)
                         return
                     }
+                    //文章结束
+                    if (mShowArticlePos >= mArticleLineNumber) {
+                        finisGame()
+                        return
+                    }
                     var foregroundPos = mShowArticlePos % mTotalItemCount
                     //改变当前显示行的文案状态,回复先前显示行的文案状态
                     if (foregroundPos == 0 && mShowArticlePos > 0) {
                         //当前屏文案显示结束,进入下一屏内容
-                        setNormal(mTotalItemCount - 1)
+                        setNormal(mTotalItemCount)
                         showNextScreenArticle()
                     }
                     setForeGround(foregroundPos)
@@ -87,11 +93,6 @@ class EBookTreeActivity : BaseActivity() {
                         setNormal(foregroundPos)
                     }
 
-                    //文章结束
-                    if (mShowArticlePos == mArticleLineNumber) {
-                        finisGame()
-                        return
-                    }
 
                     mMoveDelayTime = calculateDelayTime()
                     mShowArticlePos++
@@ -267,7 +268,8 @@ class EBookTreeActivity : BaseActivity() {
      */
     private fun finisGame() {
         mHandler.removeCallbacksAndMessages(null)
-        mHandler.sendEmptyMessage(MSG_MOVE_LINE)
+        EbookRecordActivity.start(this, "", 10)
+        finish()
     }
 
     override fun onDestroy() {

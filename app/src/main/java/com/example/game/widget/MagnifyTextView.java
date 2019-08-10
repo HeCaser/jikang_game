@@ -3,6 +3,8 @@ package com.example.game.widget;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -42,7 +44,8 @@ public class MagnifyTextView extends TextView {
 
     private void init() {
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaint.setColor(0xddffffff);
+//        mPaint.setColor(0xddff5555);
+        mPaint.setColor(0x33ff0000);
     }
 
 
@@ -52,7 +55,7 @@ public class MagnifyTextView extends TextView {
         mCircleCenterX = getMeasuredWidth() / 2;
         mCircleCenterY = getMeasuredHeight() / 2;
 //        mRadius = ScreenUtils.dip2px(getContext(), getMeasuredHeight()/2.1f);
-        mRadius = ScreenUtils.dip2px(getContext(), 6);
+        mRadius = ScreenUtils.dip2px(getContext(), 18);
 
     }
 
@@ -64,7 +67,7 @@ public class MagnifyTextView extends TextView {
 //                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 //        setText(spannableString);
         if (isDrawCircle) {
-
+            mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DARKEN));
             canvas.drawCircle(mCircleCenterX, mCircleCenterY, mRadius, mPaint);
         }
     }
