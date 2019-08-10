@@ -16,40 +16,37 @@ import com.example.game.database.ArticleLine
 import com.example.game.utils.SaveSpData
 import com.example.game.utils.ScreenUtils
 import com.example.game.utils.StatusBarUtils
-import com.example.game.utils.ToastUtils
 import com.example.game.viewmodel.ArticleLineViewModel
 import com.example.game.viewmodel.ArticleLineViewModelFactory
 import kotlinx.android.synthetic.main.activity_ebook_loop.*
-import java.util.*
 import androidx.core.text.isDigitsOnly as isDigitsOnly1
 
 
 /**
  *EBook 循环
  */
-class EBookLoopActivity : BaseActivity() {
+class EBookSubFieldActivity : BaseActivity() {
 
     companion object {
         const val MSG_START_GAME = 1
         const val MSG_MOVE_CIRCLE = 2
         fun start(ctx: Context) {
-            Intent(ctx, EBookLoopActivity::class.java).apply {
+            Intent(ctx, EBookSubFieldActivity::class.java).apply {
                 ctx.startActivity(this)
             }
         }
     }
 
     private var mCircleWidth = 0
-    private var mMindWidth = 0
-    private var mMaxWidth = 0
+    private var mMindWidth=0
+    private var mMaxWidth=0
     private var mStartLine = 0
-    private var mStep = 80
+    private var mStep = 10
     private var mMoveCircleDelay = 100L
-    val TAG = EBookLoopActivity::class.java.simpleName
+    val TAG = EBookSubFieldActivity::class.java.simpleName
     //文章的行集合
-    private var mContents = listOf<ArticleLine>()//文本
-    private var mTempContents = listOf<ArticleLine>()
-    private var mShowIndex = 0
+    private var mLines = listOf<ArticleLine>()
+    private var mContents = "" //文本
 
     private var mHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
@@ -60,7 +57,12 @@ class EBookLoopActivity : BaseActivity() {
                     startGame()
                 }
                 MSG_MOVE_CIRCLE -> {
-                    changeRadius()
+                    mCircleWidth+=4
+                    if (mCircleWidth>=mMaxWidth){
+                        mCircleWidth= mMindWidth
+                    }
+                    circleView.updateWidth(mCircleWidth)
+                    this.sendEmptyMessageDelayed(MSG_MOVE_CIRCLE,mMoveCircleDelay)
                 }
             }
         }
@@ -84,15 +86,23 @@ class EBookLoopActivity : BaseActivity() {
     private fun initViewAndData() {
         mCircleWidth = circleView.getmWidth()
         mMindWidth = circleView.getmWidth()
-        mMaxWidth = (ScreenUtils.getScreenSize(this).x * 0.45).toInt()
+        mMaxWidth = (ScreenUtils.getScreenSize(this).x*0.8).toInt()
+
+        if (TextUtils.isEmpty(SaveSpData.newInstance(this).getCommomStringData(BOOK_ZHONGQIUJIE))) {
+            articleLineViewModel.saveBook(this, BOOK_ZHONGQIUJIE)
+        }
         mHandler.sendEmptyMessageDelayed(MSG_START_GAME, 500)
-        setCenterTitle("济康-EBook循环")
+        setCenterTitle("济康-EBook分栏")
     }
 
     private fun initListener() {
         circleView.setOnClickListener {
             mCircleWidth += 20
             circleView.updateWidth(mCircleWidth)
+            getData()
+        }
+        tvLeft.setOnClickListener {
+            articleLineViewModel.saveBook(this, BOOK_ZHONGQIUJIE)
         }
 
         articleLineViewModel.lines.observe(this, Observer {
@@ -119,62 +129,32 @@ class EBookLoopActivity : BaseActivity() {
         }
 
         if (lines.isEmpty()) {
-            //没有数据了,现有数据显示完毕就结束游戏
-            mTempContents = lines
+            finisGame()
             return
-        } else {
-            mTempContents = lines
-            println("获取数据=" + lines[0].id)
         }
-        if (mStartLine == 0) {
+        mLines = lines
+        if (mStartLine==mStep){
             //首次获取数据,开始动画,显示文字
-            mHandler.sendEmptyMessageDelayed(MSG_MOVE_CIRCLE, mMoveCircleDelay)
-            mContents = mTempContents
-            //缓存下一页数据
-            getData()
+            mHandler.sendEmptyMessageDelayed(MSG_MOVE_CIRCLE,mMoveCircleDelay)
         }
+        getData()
     }
 
-    /**
-     * 改变半径,文字,判断游戏是否结束,是否需要加载下一页内容
-     */
-    private fun changeRadius() {
-        if (mShowIndex >= mContents.size) {
-            if (mTempContents.isEmpty()) {
-                //没有数据了,游戏结束
-                finisGame()
-                return
-            } else {
-                mContents = mTempContents
-                getData()
-                mShowIndex = 0
-            }
-        }
 
-        mCircleWidth += 4
-        if (mCircleWidth >= mMaxWidth) {
-            mCircleWidth = mMindWidth
+    private fun changeLinesToString(){
+        val builder = StringBuilder()
+        mLines.forEach {
+            builder.append(it.content)
         }
-        var end = mShowIndex + 2
-        if (end > mContents.size) {
-            tvLeft.text = mContents[mContents.size - 1].content
-            tvRight.text = ""
-        } else {
-            tvLeft.text = mContents[mShowIndex].content
-            tvRight.text = mContents[mShowIndex + 1].content
-        }
-        mShowIndex+=2
-        circleView.updateWidth(mCircleWidth)
-        mHandler.sendEmptyMessageDelayed(MSG_MOVE_CIRCLE, mMoveCircleDelay)
+        mContents = builder.toString()
     }
-
 
     /**
      * 结束游戏
      */
     private fun finisGame() {
         mHandler.removeCallbacksAndMessages(null)
-        ToastUtils.show(this, "结束")
+        mHandler.sendEmptyMessage(MSG_MOVE_CIRCLE)
     }
 
     override fun onDestroy() {
@@ -183,7 +163,7 @@ class EBookLoopActivity : BaseActivity() {
     }
 
     fun getData() {
-        mStartLine += mStep
         articleLineViewModel.getLineFromIndex(mStartLine, mStep, BOOK_ZHONGQIUJIE)
+        mStartLine += mStep
     }
 }

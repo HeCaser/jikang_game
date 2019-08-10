@@ -6,10 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.game.R
 import com.example.game.adapter.MainStringViewBinder
-import com.example.game.constant.EBOOK_TREE
-import com.example.game.constant.SEARCH_TYPE_JIOU
-import com.example.game.constant.SEARCH_TYPE_NUMBER
-import com.example.game.constant.SEARCH_TYPE_WORD
+import com.example.game.constant.*
 import kotlinx.android.synthetic.main.activity_main.*
 import me.drakeet.multitype.MultiTypeAdapter
 
@@ -19,9 +16,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mItems: MutableList<Any>
     private val mGames = arrayListOf(
         "济康1-100", "1SharpEye", "舒尔特注意力", "舒尔特方格",
-        "Num25", "搜索词", "搜索数","奇偶数","EBook树形"
+        "Num25", "搜索词", "搜索数", "奇偶数", "EBook树形", "EBook循环", "EBook分栏"
     )
-    //, , "速读数"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,8 +69,13 @@ class MainActivity : AppCompatActivity() {
                 BeforeSearchActivity.start(this, SEARCH_TYPE_JIOU)
             }
             mGames[8] -> {
-//                BeforeEBookActivity.start(this, EBOOK_TREE)
-                EBookLoopActivity.start(this)
+                BeforeEBookActivity.start(this, EBOOK_TREE)
+            }
+            mGames[9] -> {
+                BeforeEBookActivity.start(this, EBOOK_LOOP)
+            }
+            mGames[10] -> {
+                BeforeEBookActivity.start(this, EBOOK_SUBFIELD)
             }
         }
 

@@ -118,6 +118,7 @@ class EBookTreeActivity : BaseActivity() {
         mArticleLines = ARTICLE_JLFR.split(LINE_BREAK) as ArrayList<String>
         mArticleLineNumber = mArticleLines.size
 
+        setCenterTitle("济康-EBook树形")
     }
 
     private fun initListener() {

@@ -4,11 +4,19 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
+import androidx.lifecycle.ViewModelProviders
 import com.example.game.R
+import com.example.game.constant.BOOK_ZHONGQIUJIE
+import com.example.game.constant.EBOOK_LOOP
+import com.example.game.constant.EBOOK_SUBFIELD
 import com.example.game.constant.EBOOK_TREE
-import com.example.game.constant.SEARCH_TYPE_JIOU
-import com.example.game.constant.SEARCH_TYPE_NUMBER
+import com.example.game.database.AppDatabase
+import com.example.game.utils.SaveSpData
+import com.example.game.utils.ToastUtils
+import com.example.game.viewmodel.ArticleLineViewModel
+import com.example.game.viewmodel.ArticleLineViewModelFactory
 import kotlinx.android.synthetic.main.activity_before_ebook.*
 
 class BeforeEBookActivity : AppCompatActivity() {
@@ -24,6 +32,14 @@ class BeforeEBookActivity : AppCompatActivity() {
         }
     }
 
+
+    private val articleLineViewModel: ArticleLineViewModel by lazy {
+        ViewModelProviders.of(
+            this,
+            ArticleLineViewModelFactory(AppDatabase.getInstance(this).articleDao())
+        ).get(ArticleLineViewModel::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_before_ebook)
@@ -37,16 +53,27 @@ class BeforeEBookActivity : AppCompatActivity() {
         starLevel.setLevel(10)
         when (mGameType) {
             EBOOK_TREE -> {
-                tvSearchName.text = "书籍/树形"
+                tvSearchName.text = "EBook/树形"
                 tvHowUse.text = "目视行线阅读文本"
                 tvFunction2.visibility = View.INVISIBLE
                 tvFunction3.visibility = View.INVISIBLE
             }
-            SEARCH_TYPE_NUMBER -> {
-                tvSearchName.text = "搜索/数"
+            EBOOK_LOOP -> {
+                tvSearchName.text = "EBook/循环"
+                tvHowUse.text = "目视红点阅读文本"
+                tvFunction1.text = "减少注视间隔"
+                tvFunction2.text = "增加视角跨度"
+                tvFunction3.visibility = View.INVISIBLE
+                //保存书籍
+                if (TextUtils.isEmpty(SaveSpData.newInstance(this).getCommomStringData(BOOK_ZHONGQIUJIE))) {
+                    articleLineViewModel.saveBook(this, BOOK_ZHONGQIUJIE)
+                }
             }
-            SEARCH_TYPE_JIOU -> {
-                tvSearchName.text = "搜索/奇偶数"
+            EBOOK_SUBFIELD -> {
+                tvSearchName.text = "EBook/分栏"
+                tvHowUse.text = "目视行线阅读文本"
+                tvFunction2.visibility = View.INVISIBLE
+                tvFunction3.visibility = View.INVISIBLE
             }
         }
     }
@@ -61,16 +88,19 @@ class BeforeEBookActivity : AppCompatActivity() {
      * 跳转到具体的搜索游戏
      */
     private fun goSearchGame() {
-        val speed = starLevel.getLevel()
         when (mGameType) {
             EBOOK_TREE -> {
                 EBookTreeActivity.start(this)
             }
-            SEARCH_TYPE_NUMBER -> {
-                SearchNumberActivity.start(this, speed)
+            EBOOK_LOOP -> {
+                if (TextUtils.isEmpty(SaveSpData.newInstance(this).getCommomStringData(BOOK_ZHONGQIUJIE))) {
+                    ToastUtils.show(this, "初始化书籍,请稍等...")
+                } else {
+                    EBookLoopActivity.start(this)
+                }
             }
-            SEARCH_TYPE_JIOU -> {
-                SearchOddEvenActivity.start(this, speed)
+            EBOOK_SUBFIELD -> {
+                EBookSubFieldActivity.start(this)
             }
         }
         finish()
