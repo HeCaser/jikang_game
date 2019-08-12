@@ -16,6 +16,7 @@ import com.example.game.utils.ScreenUtils
 import com.example.game.utils.StatusBarUtils
 import com.example.game.viewmodel.ArticleLineViewModel
 import com.example.game.viewmodel.ArticleLineViewModelFactory
+import kotlinx.android.synthetic.main.activity_ebook_subfield.*
 
 
 /**
@@ -79,6 +80,9 @@ class EBookSubFieldActivity : BaseActivity() {
         mMaxWidth = (ScreenUtils.getScreenSize(this).x * 0.45).toInt()
         mHandler.sendEmptyMessageDelayed(MSG_START_GAME, 500)
         setCenterTitle("济康-EBook循环")
+        viewText.setContent("11",0)
+        viewText.setContent("112",1)
+        viewText.setContent("113",2)
     }
 
     private fun initListener() {
