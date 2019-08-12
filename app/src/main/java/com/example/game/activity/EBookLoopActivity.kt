@@ -175,7 +175,6 @@ class EBookLoopActivity : BaseActivity() {
      */
     private fun finisGame() {
         mHandler.removeCallbacksAndMessages(null)
-        ToastUtils.show(this, "结束")
     }
 
     override fun onDestroy() {

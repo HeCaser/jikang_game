@@ -19,13 +19,13 @@ public class DashedLineView extends View {
     private int mHeight;
     public DashedLineView(Context context, AttributeSet attrs) {
         super(context, attrs);                
-
+        init();
     }
 
     private void init() {
         mPaint = new Paint();
         mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setColor(Color.DKGRAY);
+        mPaint.setColor(0xff999999);
     }
 
     @Override

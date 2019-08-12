@@ -8,10 +8,7 @@ import android.text.TextUtils
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import com.example.game.R
-import com.example.game.constant.BOOK_ZHONGQIUJIE
-import com.example.game.constant.EBOOK_LOOP
-import com.example.game.constant.EBOOK_SUBFIELD
-import com.example.game.constant.EBOOK_TREE
+import com.example.game.constant.*
 import com.example.game.database.AppDatabase
 import com.example.game.utils.SaveSpData
 import com.example.game.utils.ToastUtils
@@ -74,6 +71,10 @@ class BeforeEBookActivity : AppCompatActivity() {
                 tvHowUse.text = "目视行线阅读文本"
                 tvFunction2.visibility = View.INVISIBLE
                 tvFunction3.visibility = View.INVISIBLE
+                //保存书籍
+                if (TextUtils.isEmpty(SaveSpData.newInstance(this).getCommomStringData(BOOK_DAOCAOREN))) {
+                    articleLineViewModel.saveBook(this, BOOK_DAOCAOREN)
+                }
             }
         }
     }
@@ -91,18 +92,26 @@ class BeforeEBookActivity : AppCompatActivity() {
         when (mGameType) {
             EBOOK_TREE -> {
                 EBookTreeActivity.start(this)
+                finish()
+
             }
             EBOOK_LOOP -> {
                 if (TextUtils.isEmpty(SaveSpData.newInstance(this).getCommomStringData(BOOK_ZHONGQIUJIE))) {
                     ToastUtils.show(this, "初始化书籍,请稍等...")
                 } else {
                     EBookLoopActivity.start(this)
+                    finish()
                 }
             }
             EBOOK_SUBFIELD -> {
-                EBookSubFieldActivity.start(this)
+                //保存书籍
+                if (TextUtils.isEmpty(SaveSpData.newInstance(this).getCommomStringData(BOOK_DAOCAOREN))) {
+                    ToastUtils.show(this, "初始化书籍,请稍等...")
+                } else {
+                    EBookSubFieldActivity.start(this)
+                    finish()
+                }
             }
         }
-        finish()
     }
 }
