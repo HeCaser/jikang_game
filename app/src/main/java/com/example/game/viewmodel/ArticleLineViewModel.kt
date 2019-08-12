@@ -22,6 +22,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.game.R
+import com.example.game.constant.BOOK_DAOCAOREN
 import com.example.game.constant.BOOK_ZHONGQIUJIE
 import com.example.game.database.ArticleLine
 import com.example.game.database.ArticleLineDao
@@ -54,6 +55,7 @@ class ArticleLineViewModel(private val dao: ArticleLineDao) : ViewModel() {
                 var mline = 0
                 val inputReader = when (name) {
                     BOOK_ZHONGQIUJIE -> InputStreamReader(ctx.resources.openRawResource(R.raw.zhongqiujie))
+                    BOOK_DAOCAOREN -> InputStreamReader(ctx.resources.openRawResource(R.raw.daocaoren))
                     else -> InputStreamReader(ctx.resources.openRawResource(R.raw.zhongqiujie))
                 }
 
