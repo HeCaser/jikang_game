@@ -28,6 +28,7 @@ const val EBOOK_SUBFIELD = 6 //分栏
 const val DATABASE_NAME = "jikang-db"
 const val BOOK_ZHONGQIUJIE = "zhongqiujie"
 const val BOOK_DAOCAOREN = "daocaoren"
+const val BOOK_QINGTANG_HEYUN = "qingtangheyun"
 
 const val LINE_BREAK = "&&" //换行符
 

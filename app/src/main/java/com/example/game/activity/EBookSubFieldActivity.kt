@@ -6,16 +6,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.game.R
 import com.example.game.constant.BOOK_ZHONGQIUJIE
 import com.example.game.database.AppDatabase
 import com.example.game.database.ArticleLine
+import com.example.game.util.px2dp
 import com.example.game.utils.ScreenUtils
 import com.example.game.utils.StatusBarUtils
 import com.example.game.viewmodel.ArticleLineViewModel
 import com.example.game.viewmodel.ArticleLineViewModelFactory
+import com.example.game.widget.EBookSubFieldView
+import com.example.game.widget.EbookSettingView
+import com.example.game.widget.MagnifyTextView
 import kotlinx.android.synthetic.main.activity_ebook_subfield.*
 
 
@@ -34,9 +39,7 @@ class EBookSubFieldActivity : BaseActivity() {
         }
     }
 
-    private var mCircleWidth = 0
-    private var mMindWidth = 0
-    private var mMaxWidth = 0
+    private var mViewItemList = arrayListOf<EBookSubFieldView>()//每一行的tv
     private var mStartLine = 0
     private var mStep = 80
     private var mMoveCircleDelay = 100L
@@ -52,7 +55,7 @@ class EBookSubFieldActivity : BaseActivity() {
             super.handleMessage(msg)
             when (msg!!.what) {
                 MSG_START_GAME -> {
-                    startGame()
+                    initShowView()
                 }
                 MSG_MOVE_CIRCLE -> {
                     changeRadius()
@@ -63,8 +66,8 @@ class EBookSubFieldActivity : BaseActivity() {
 
     private val articleLineViewModel: ArticleLineViewModel by lazy {
         ViewModelProviders.of(
-            this,
-            ArticleLineViewModelFactory(AppDatabase.getInstance(this).articleDao())
+                this,
+                ArticleLineViewModelFactory(AppDatabase.getInstance(this).articleDao())
         ).get(ArticleLineViewModel::class.java)
     }
 
@@ -77,12 +80,8 @@ class EBookSubFieldActivity : BaseActivity() {
     }
 
     private fun initViewAndData() {
-        mMaxWidth = (ScreenUtils.getScreenSize(this).x * 0.45).toInt()
         mHandler.sendEmptyMessageDelayed(MSG_START_GAME, 500)
-        setCenterTitle("济康-EBook循环")
-        viewText.setContent("11",0)
-        viewText.setContent("112",1)
-        viewText.setContent("113",2)
+        setCenterTitle("济康-EBook分栏")
     }
 
     private fun initListener() {
@@ -92,6 +91,31 @@ class EBookSubFieldActivity : BaseActivity() {
         })
     }
 
+
+    private fun initShowView() {
+        if (llParent.childCount != 0) return
+        val height = llParent.measuredHeight
+        val mContentDp = px2dp(height.toFloat())
+        val itemHeightDp = 90
+        val width = ScreenUtils.getScreenSize(this).x
+        if (mContentDp == 0) {
+            mHandler.sendEmptyMessageDelayed(MSG_START_GAME, 50)
+        } else {
+            llParent.removeAllViews()
+            mViewItemList.clear()
+            val mTotalItemCount = mContentDp / itemHeightDp
+            for (num in 0 until mTotalItemCount) {
+                val tv = EBookSubFieldView(this)
+                llParent.addView(tv, width, itemHeightDp)
+                mViewItemList.add(tv)
+            }
+//            mHandler.sendEmptyMessageDelayed(MSG_MOVE_LINE, 100)
+        }
+
+        if (mViewItemList.isNotEmpty()) {
+            mViewItemList[0].setContent("2000", 0)
+        }
+    }
 
     /**
      * 开始游戏就是去数据库里取数据
@@ -143,11 +167,6 @@ class EBookSubFieldActivity : BaseActivity() {
             }
         }
 
-
-        mCircleWidth += 4
-        if (mCircleWidth >= mMaxWidth) {
-            mCircleWidth = mMindWidth
-        }
         var end = mShowIndex + 2
         if (end > mContents.size) {
 //            tvLeft.text = mContents[mContents.size - 1].content
@@ -156,10 +175,15 @@ class EBookSubFieldActivity : BaseActivity() {
 //            tvLeft.text = mContents[mShowIndex].content
 //            tvRight.text = mContents[mShowIndex + 1].content
         }
-        mShowIndex+=2
+        mShowIndex += 2
         mHandler.sendEmptyMessageDelayed(MSG_MOVE_CIRCLE, mMoveCircleDelay)
     }
 
+    override fun onResume() {
+        super.onResume()
+        mHandler.sendEmptyMessageDelayed(MSG_START_GAME, 100)
+
+    }
 
     /**
      * 结束游戏

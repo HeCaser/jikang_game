@@ -78,4 +78,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/tvCover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black_60"
+        android:gravity="center"
+        android:text="初始化书籍..."
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

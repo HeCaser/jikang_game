@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.game.R
 import com.example.game.constant.BOOK_DAOCAOREN
+import com.example.game.constant.BOOK_QINGTANG_HEYUN
 import com.example.game.constant.BOOK_ZHONGQIUJIE
 import com.example.game.database.ArticleLine
 import com.example.game.database.ArticleLineDao
@@ -37,6 +38,7 @@ import java.io.InputStreamReader
 class ArticleLineViewModel(private val dao: ArticleLineDao) : ViewModel() {
 
     val lines: MutableLiveData<List<ArticleLine>> = MutableLiveData()
+    val saveResult: MutableLiveData<Int> = MutableLiveData()
     /**
      * Cancel all coroutines when the ViewModel is cleared.
      */
@@ -56,6 +58,7 @@ class ArticleLineViewModel(private val dao: ArticleLineDao) : ViewModel() {
                 val inputReader = when (name) {
                     BOOK_ZHONGQIUJIE -> InputStreamReader(ctx.resources.openRawResource(R.raw.zhongqiujie))
                     BOOK_DAOCAOREN -> InputStreamReader(ctx.resources.openRawResource(R.raw.daocaoren))
+                    BOOK_QINGTANG_HEYUN -> InputStreamReader(ctx.resources.openRawResource(R.raw.qingtangheyun))
                     else -> InputStreamReader(ctx.resources.openRawResource(R.raw.zhongqiujie))
                 }
 
@@ -65,10 +68,13 @@ class ArticleLineViewModel(private val dao: ArticleLineDao) : ViewModel() {
                     dao.insertAll(ArticleLine(mline++, line, line.length, name))
                     line = bufReader.readLine()
                 }
-                SaveSpData.newInstance(ctx).saveCommonStringData(name,"saved")
+                SaveSpData.newInstance(ctx).saveCommonStringData(name, "saved")
+                saveResult.postValue(1)
             } catch (e: Exception) {
                 e.printStackTrace()
-                SaveSpData.newInstance(ctx).saveCommonStringData(name,"")
+                SaveSpData.newInstance(ctx).saveCommonStringData(name, "")
+                saveResult.postValue(0)
+
             }
         }
     }

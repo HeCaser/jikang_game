@@ -1,17 +1,22 @@
 package com.example.game.activity
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.text.TextUtils
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.game.R
 import com.example.game.constant.*
 import com.example.game.database.AppDatabase
 import com.example.game.utils.SaveSpData
 import com.example.game.utils.ToastUtils
+import com.example.game.utils.gone
 import com.example.game.viewmodel.ArticleLineViewModel
 import com.example.game.viewmodel.ArticleLineViewModelFactory
 import kotlinx.android.synthetic.main.activity_before_ebook.*
@@ -21,19 +26,33 @@ class BeforeEBookActivity : AppCompatActivity() {
     private var mGameType = -1
 
     companion object {
+        const val SAVE_BOOK = 1
+
         fun start(ctx: Context, type: Int) {
             Intent(ctx, BeforeEBookActivity::class.java).apply {
                 putExtra("type", type)
                 ctx.startActivity(this)
             }
         }
+
     }
 
+    private var mHandler = @SuppressLint("HandlerLeak")
+    object : Handler() {
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            when (msg!!.what) {
+                SAVE_BOOK -> {
+                    saveBook()
+                }
+            }
+        }
+    }
 
     private val articleLineViewModel: ArticleLineViewModel by lazy {
         ViewModelProviders.of(
-            this,
-            ArticleLineViewModelFactory(AppDatabase.getInstance(this).articleDao())
+                this,
+                ArticleLineViewModelFactory(AppDatabase.getInstance(this).articleDao())
         ).get(ArticleLineViewModel::class.java)
     }
 
@@ -62,9 +81,9 @@ class BeforeEBookActivity : AppCompatActivity() {
                 tvFunction2.text = "增加视角跨度"
                 tvFunction3.visibility = View.INVISIBLE
                 //保存书籍
-                if (TextUtils.isEmpty(SaveSpData.newInstance(this).getCommomStringData(BOOK_ZHONGQIUJIE))) {
-                    articleLineViewModel.saveBook(this, BOOK_ZHONGQIUJIE)
-                }
+//                if (TextUtils.isEmpty(SaveSpData.newInstance(this).getCommomStringData(BOOK_QINGTANG_HEYUN))) {
+//                    articleLineViewModel.saveBook(this, BOOK_QINGTANG_HEYUN)
+//                }
             }
             EBOOK_SUBFIELD -> {
                 tvSearchName.text = "EBook/分栏"
@@ -83,6 +102,16 @@ class BeforeEBookActivity : AppCompatActivity() {
         btnStart.setOnClickListener {
             goSearchGame()
         }
+
+        articleLineViewModel.saveResult.observe(this, Observer {
+            if (it == 1) {
+                tvCover.gone()
+                ToastUtils.show(this, "初始化书籍成功")
+
+            } else {
+                ToastUtils.show(this, "初始化书籍错误")
+            }
+        })
     }
 
     /**
@@ -96,10 +125,10 @@ class BeforeEBookActivity : AppCompatActivity() {
 
             }
             EBOOK_LOOP -> {
-                if (TextUtils.isEmpty(SaveSpData.newInstance(this).getCommomStringData(BOOK_ZHONGQIUJIE))) {
+                if (TextUtils.isEmpty(SaveSpData.newInstance(this).getCommomStringData(BOOK_QINGTANG_HEYUN))) {
                     ToastUtils.show(this, "初始化书籍,请稍等...")
                 } else {
-                    EBookLoopActivity.start(this)
+                    EBookLoopActivity.start(this, BOOK_QINGTANG_HEYUN)
                     finish()
                 }
             }
@@ -112,6 +141,39 @@ class BeforeEBookActivity : AppCompatActivity() {
                     finish()
                 }
             }
+
         }
+    }
+
+    private fun saveBook() {
+
+        val bookName = when (mGameType) {
+            EBOOK_TREE -> {
+                ""
+            }
+            EBOOK_LOOP -> {
+                BOOK_QINGTANG_HEYUN
+            }
+            EBOOK_SUBFIELD -> {
+                BOOK_DAOCAOREN
+            }
+            else -> {
+                ""
+            }
+        }
+        if (TextUtils.isEmpty(bookName)) {
+            tvCover.gone()
+            return
+        }
+        if (TextUtils.isEmpty(SaveSpData.newInstance(this).getCommomStringData(bookName))) {
+            articleLineViewModel.saveBook(this, bookName)
+        } else {
+            tvCover.gone()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mHandler.sendEmptyMessageDelayed(SAVE_BOOK, 300)
     }
 }

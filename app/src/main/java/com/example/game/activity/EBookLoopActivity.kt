@@ -10,7 +10,6 @@ import android.text.TextUtils
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.game.R
-import com.example.game.constant.BOOK_ZHONGQIUJIE
 import com.example.game.database.AppDatabase
 import com.example.game.database.ArticleLine
 import com.example.game.utils.SaveSpData
@@ -32,8 +31,9 @@ class EBookLoopActivity : BaseActivity() {
     companion object {
         const val MSG_START_GAME = 1
         const val MSG_MOVE_CIRCLE = 2
-        fun start(ctx: Context) {
+        fun start(ctx: Context,book:String) {
             Intent(ctx, EBookLoopActivity::class.java).apply {
+                putExtra("book",book)
                 ctx.startActivity(this)
             }
         }
@@ -50,7 +50,7 @@ class EBookLoopActivity : BaseActivity() {
     private var mContents = listOf<ArticleLine>()//文本
     private var mTempContents = listOf<ArticleLine>()
     private var mShowIndex = 0
-
+    private var book=""
     private var mHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
         override fun handleMessage(msg: Message?) {
@@ -86,6 +86,7 @@ class EBookLoopActivity : BaseActivity() {
         mMindWidth = circleView.getmWidth()
         mMaxWidth = (ScreenUtils.getScreenSize(this).x * 0.45).toInt()
         mHandler.sendEmptyMessageDelayed(MSG_START_GAME, 500)
+        book = intent.getStringExtra("book")
         setCenterTitle("济康-EBook循环")
     }
 
@@ -105,7 +106,7 @@ class EBookLoopActivity : BaseActivity() {
      * 开始游戏就是去数据库里取数据
      */
     private fun startGame() {
-        articleLineViewModel.getLineFromIndex(mStartLine, mStep, BOOK_ZHONGQIUJIE)
+        articleLineViewModel.getLineFromIndex(mStartLine, mStep, book)
     }
 
     /**
@@ -184,6 +185,6 @@ class EBookLoopActivity : BaseActivity() {
 
     fun getData() {
         mStartLine += mStep
-        articleLineViewModel.getLineFromIndex(mStartLine, mStep, BOOK_ZHONGQIUJIE)
+        articleLineViewModel.getLineFromIndex(mStartLine, mStep, book)
     }
 }

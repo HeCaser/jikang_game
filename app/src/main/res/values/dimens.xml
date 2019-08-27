@@ -17,5 +17,6 @@
     <dimen name="big_divider_height">18dp</dimen>
     <dimen name="number100_size">32dp</dimen>
     <dimen name="number25_size">60dp</dimen>
+    <dimen name="sub_field_line_height">30dp</dimen>
 
 </resources>
