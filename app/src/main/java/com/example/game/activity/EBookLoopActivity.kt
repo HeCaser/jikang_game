@@ -12,12 +12,10 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.game.R
 import com.example.game.database.AppDatabase
 import com.example.game.database.ArticleLine
-import com.example.game.utils.SaveSpData
-import com.example.game.utils.ScreenUtils
-import com.example.game.utils.StatusBarUtils
-import com.example.game.utils.ToastUtils
+import com.example.game.utils.*
 import com.example.game.viewmodel.ArticleLineViewModel
 import com.example.game.viewmodel.ArticleLineViewModelFactory
+import com.example.game.widget.EbookSettingView
 import kotlinx.android.synthetic.main.activity_ebook_loop.*
 import java.util.*
 import androidx.core.text.isDigitsOnly as isDigitsOnly1
@@ -31,26 +29,30 @@ class EBookLoopActivity : BaseActivity() {
     companion object {
         const val MSG_START_GAME = 1
         const val MSG_MOVE_CIRCLE = 2
-        fun start(ctx: Context,book:String) {
+        fun start(ctx: Context, book: String) {
             Intent(ctx, EBookLoopActivity::class.java).apply {
-                putExtra("book",book)
+                putExtra("book", book)
                 ctx.startActivity(this)
             }
         }
     }
+
+    private var isPaused = false //游戏是否暂停
+    //半径是否反向变化(又大变小)
+    private var isReverse = false
 
     private var mCircleWidth = 0
     private var mMindWidth = 0
     private var mMaxWidth = 0
     private var mStartLine = 0
     private var mStep = 80
-    private var mMoveCircleDelay = 100L
+    private var mMoveCircleDelay = 1000L
     val TAG = EBookLoopActivity::class.java.simpleName
     //文章的行集合
     private var mContents = listOf<ArticleLine>()//文本
     private var mTempContents = listOf<ArticleLine>()
     private var mShowIndex = 0
-    private var book=""
+    private var book = ""
     private var mHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
         override fun handleMessage(msg: Message?) {
@@ -60,6 +62,11 @@ class EBookLoopActivity : BaseActivity() {
                     startGame()
                 }
                 MSG_MOVE_CIRCLE -> {
+                    if (isPaused) {
+                        //游戏暂停(设置速度,进度)时逻辑
+                        sendEmptyMessageDelayed(MSG_MOVE_CIRCLE, mMoveCircleDelay)
+                        return
+                    }
                     changeRadius()
                 }
             }
@@ -68,8 +75,8 @@ class EBookLoopActivity : BaseActivity() {
 
     private val articleLineViewModel: ArticleLineViewModel by lazy {
         ViewModelProviders.of(
-            this,
-            ArticleLineViewModelFactory(AppDatabase.getInstance(this).articleDao())
+                this,
+                ArticleLineViewModelFactory(AppDatabase.getInstance(this).articleDao())
         ).get(ArticleLineViewModel::class.java)
     }
 
@@ -84,17 +91,28 @@ class EBookLoopActivity : BaseActivity() {
     private fun initViewAndData() {
         mCircleWidth = circleView.getmWidth()
         mMindWidth = circleView.getmWidth()
-        mMaxWidth = (ScreenUtils.getScreenSize(this).x * 0.45).toInt()
+        mMaxWidth = (ScreenUtils.getScreenSize(this).x * 0.5).toInt()
         mHandler.sendEmptyMessageDelayed(MSG_START_GAME, 500)
         book = intent.getStringExtra("book")
+        ebookSet.setMaxSpeed(1000)
+        ebookSet.setMinSpeed(200)
+        ebookSet.setSpeed(700)
         setCenterTitle("济康-EBook循环")
     }
 
     private fun initListener() {
-        circleView.setOnClickListener {
-            mCircleWidth += 20
-            circleView.updateWidth(mCircleWidth)
+        clContent.setOnLongClickListener {
+            changeSetting()
+            return@setOnLongClickListener true
         }
+
+        ebookSet.setCallback(object : EbookSettingView.CallBack {
+            override fun onSetCallBack(type: Int, speed: Int) {
+                if (EbookSettingView.CALLBACK_FINISH == type) {
+                    continueGame(speed)
+                }
+            }
+        })
 
         articleLineViewModel.lines.observe(this, Observer {
             handleData(it)
@@ -115,7 +133,7 @@ class EBookLoopActivity : BaseActivity() {
     private fun handleData(lines: List<ArticleLine>) {
         if (lines.isEmpty() && mStartLine == 0) {
             //数据还没准备好,延时再次获取
-            mHandler.sendEmptyMessageDelayed(MSG_START_GAME, 500)
+            mHandler.sendEmptyMessageDelayed(MSG_START_GAME, 200)
             return
         }
 
@@ -152,11 +170,20 @@ class EBookLoopActivity : BaseActivity() {
             }
         }
 
-
-        mCircleWidth += 4
-        if (mCircleWidth >= mMaxWidth) {
-            mCircleWidth = mMindWidth
+        if (isReverse) {
+            mCircleWidth -= 4
+        } else {
+            mCircleWidth += 4
         }
+        if (mCircleWidth >= mMaxWidth) {
+            isReverse = true
+            mCircleWidth -= 4
+        }
+        if (mCircleWidth <= mMindWidth) {
+            isReverse = false
+            mCircleWidth += 4
+        }
+
         var end = mShowIndex + 2
         if (end > mContents.size) {
             tvLeft.text = mContents[mContents.size - 1].content
@@ -165,8 +192,10 @@ class EBookLoopActivity : BaseActivity() {
             tvLeft.text = mContents[mShowIndex].content
             tvRight.text = mContents[mShowIndex + 1].content
         }
-        mShowIndex+=2
+        mShowIndex += 2
         circleView.updateWidth(mCircleWidth)
+
+        mMoveCircleDelay = (100 + (ebookSet.mMax - ebookSet.mSpeed)).toLong()
         mHandler.sendEmptyMessageDelayed(MSG_MOVE_CIRCLE, mMoveCircleDelay)
     }
 
@@ -176,6 +205,9 @@ class EBookLoopActivity : BaseActivity() {
      */
     private fun finisGame() {
         mHandler.removeCallbacksAndMessages(null)
+        EbookRecordActivity.start(this, "", 10)
+        finish()
+
     }
 
     override fun onDestroy() {
@@ -186,5 +218,22 @@ class EBookLoopActivity : BaseActivity() {
     fun getData() {
         mStartLine += mStep
         articleLineViewModel.getLineFromIndex(mStartLine, mStep, book)
+    }
+
+    /**
+     * 继续游戏
+     */
+    private fun continueGame(speed: Int) {
+        ebookSet.gone()
+        println("speed=$speed")
+        isPaused = false
+    }
+
+    /**
+     * 修改游戏参数
+     */
+    private fun changeSetting() {
+        isPaused = true
+        ebookSet.isVisible = true
     }
 }

@@ -43,7 +43,7 @@ public class CircleDiffusionView extends View {
     private void init() {
         mScreenWidth = ScreenUtils.getScreenSize(getContext()).x;
         mCircleRadius = ScreenUtils.dip2px(getContext(), 20);
-        mWidth = (int) (mScreenWidth * 0.1);
+        mWidth = (int) (mScreenWidth * 0.12);
         if (mWidth < mCircleRadius * 4) {
             mWidth = (int) (mCircleRadius * 4);
         }

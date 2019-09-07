@@ -56,6 +56,21 @@ class EbookSettingView : ConstraintLayout {
 
     }
 
+    fun setSpeed(speed: Int) {
+        if (speed in mMin..mMax) {
+            mSpeed = speed
+            tvSpeed.text = mSpeed.toString()
+        }
+    }
+
+    fun setMaxSpeed(speed: Int) {
+        mMax = speed
+    }
+
+    fun setMinSpeed(speed: Int) {
+        mMin = speed
+    }
+
 
     interface CallBack {
         fun onSetCallBack(type: Int, speed: Int)
