@@ -3,7 +3,6 @@ package com.example.game.activity
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -13,14 +12,12 @@ import com.example.game.R
 import com.example.game.constant.BOOK_DAOCAOREN
 import com.example.game.database.AppDatabase
 import com.example.game.database.ArticleLine
-import com.example.game.util.px2dp
 import com.example.game.utils.ScreenUtils
 import com.example.game.utils.StatusBarUtils
 import com.example.game.viewmodel.ArticleLineViewModel
 import com.example.game.viewmodel.ArticleLineViewModelFactory
 import com.example.game.widget.EBookSubFieldView
 import kotlinx.android.synthetic.main.activity_ebook_subfield.*
-import kotlin.random.Random
 
 
 /**
@@ -42,14 +39,14 @@ class EBookSubFieldActivity : BaseActivity() {
     private var mStartLine = 0
     private var mStep = 80
     private var mMoveCircleDelay = 100L
-    private var mLineCount=1
+    private var mLineCount = 1
     val TAG = EBookSubFieldActivity::class.java.simpleName
     //文章的行集合
     private var mContents = listOf<ArticleLine>()//文本
     private var mTempContents = listOf<ArticleLine>()
     private var mShowIndex = 0
 
-    private var mBookName=""
+    private var mBookName = ""
     private var mHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
         override fun handleMessage(msg: Message?) {
@@ -59,7 +56,7 @@ class EBookSubFieldActivity : BaseActivity() {
                     initShowView()
                 }
                 MSG_MOVE_FOCUS -> {
-                    changeRadius()
+                    changeFocus()
                 }
             }
         }
@@ -104,26 +101,16 @@ class EBookSubFieldActivity : BaseActivity() {
             llParent.removeAllViews()
             mViewItemList.clear()
             mLineCount = height / itemHeight
+            mStep = mLineCount * 3 // 每一页数量是行数*3, 步进用来控制下一页请求时的起始位置判断
             for (num in 0 until mLineCount) {
                 val tv = EBookSubFieldView(this)
                 llParent.addView(tv, width, itemHeight)
-                tv.setBackgroundColor(Color.argb(255, Random.nextInt(0,255), Random.nextInt(0,255), Random.nextInt(0,255)))
                 mViewItemList.add(tv)
 
             }
-//            mHandler.sendEmptyMessageDelayed(MSG_MOVE_LINE, 100)
         }
 
-        if (mViewItemList.isNotEmpty()) {
-            mViewItemList[0].setContent("2000", 0)
-            mViewItemList[0].setContent("2000", 1)
-            mViewItemList[0].setContent("2000", 2)
-            mViewItemList[0].setStyle(0)
-
-            mViewItemList[mLineCount-1].setContent("最好",0)
-        }
-
-        println("hepan行$mLineCount")
+        startGame()
     }
 
     /**
@@ -155,15 +142,32 @@ class EBookSubFieldActivity : BaseActivity() {
             //首次获取数据,开始动画,显示文字
             mHandler.sendEmptyMessageDelayed(MSG_MOVE_FOCUS, mMoveCircleDelay)
             mContents = mTempContents
+            setPageData(mTempContents)
             //缓存下一页数据
             getData()
         }
     }
 
     /**
-     * 改变半径,文字,判断游戏是否结束,是否需要加载下一页内容
+     * 更新页面数据
+     * 每次取库都是取一整页数据
      */
-    private fun changeRadius() {
+    private fun setPageData(listData: List<ArticleLine>) {
+        for (index in 0 until mStep) {
+            val line = index / 3
+            val pos = index % 3
+            if (index >= listData.size) {
+                mViewItemList[line].setContent("", pos)
+            } else {
+                mViewItemList[line].setContent(listData[index].content!!, pos)
+            }
+        }
+    }
+
+    /**
+     * 改变当前选中文字,判断游戏是否结束,是否需要加载下一页内容
+     */
+    private fun changeFocus() {
         if (mShowIndex >= mContents.size) {
             if (mTempContents.isEmpty()) {
                 //没有数据了,游戏结束
@@ -176,15 +180,8 @@ class EBookSubFieldActivity : BaseActivity() {
             }
         }
 
-        var end = mShowIndex + 2
-        if (end > mContents.size) {
-//            tvLeft.text = mContents[mContents.size - 1].content
-//            tvRight.text = ""
-        } else {
-//            tvLeft.text = mContents[mShowIndex].content
-//            tvRight.text = mContents[mShowIndex + 1].content
-        }
-        mShowIndex += 2
+        mShowIndex++
+        print("位置$mShowIndex")
         mHandler.sendEmptyMessageDelayed(MSG_MOVE_FOCUS, mMoveCircleDelay)
     }
 
@@ -210,4 +207,6 @@ class EBookSubFieldActivity : BaseActivity() {
         mStartLine += mStep
         articleLineViewModel.getLineFromIndex(mStartLine, mStep, mBookName)
     }
+
+
 }
