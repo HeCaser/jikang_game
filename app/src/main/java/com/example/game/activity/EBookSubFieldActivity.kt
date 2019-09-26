@@ -6,11 +6,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.game.R
-import com.example.game.constant.BOOK_ZHONGQIUJIE
+import com.example.game.constant.BOOK_DAOCAOREN
 import com.example.game.database.AppDatabase
 import com.example.game.database.ArticleLine
 import com.example.game.util.px2dp
@@ -19,19 +18,17 @@ import com.example.game.utils.StatusBarUtils
 import com.example.game.viewmodel.ArticleLineViewModel
 import com.example.game.viewmodel.ArticleLineViewModelFactory
 import com.example.game.widget.EBookSubFieldView
-import com.example.game.widget.EbookSettingView
-import com.example.game.widget.MagnifyTextView
 import kotlinx.android.synthetic.main.activity_ebook_subfield.*
 
 
 /**
- *EBook 循环
+ *EBook 分栏
  */
 class EBookSubFieldActivity : BaseActivity() {
 
     companion object {
         const val MSG_START_GAME = 1
-        const val MSG_MOVE_CIRCLE = 2
+        const val MSG_MOVE_FOCUS = 2
         fun start(ctx: Context) {
             Intent(ctx, EBookSubFieldActivity::class.java).apply {
                 ctx.startActivity(this)
@@ -43,12 +40,13 @@ class EBookSubFieldActivity : BaseActivity() {
     private var mStartLine = 0
     private var mStep = 80
     private var mMoveCircleDelay = 100L
-    val TAG = EBookLoopActivity::class.java.simpleName
+    val TAG = EBookSubFieldActivity::class.java.simpleName
     //文章的行集合
     private var mContents = listOf<ArticleLine>()//文本
     private var mTempContents = listOf<ArticleLine>()
     private var mShowIndex = 0
 
+    private var mBookName=""
     private var mHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
         override fun handleMessage(msg: Message?) {
@@ -57,7 +55,7 @@ class EBookSubFieldActivity : BaseActivity() {
                 MSG_START_GAME -> {
                     initShowView()
                 }
-                MSG_MOVE_CIRCLE -> {
+                MSG_MOVE_FOCUS -> {
                     changeRadius()
                 }
             }
@@ -80,12 +78,12 @@ class EBookSubFieldActivity : BaseActivity() {
     }
 
     private fun initViewAndData() {
+        mBookName = BOOK_DAOCAOREN
         mHandler.sendEmptyMessageDelayed(MSG_START_GAME, 500)
         setCenterTitle("济康-EBook分栏")
     }
 
     private fun initListener() {
-
         articleLineViewModel.lines.observe(this, Observer {
             handleData(it)
         })
@@ -114,6 +112,14 @@ class EBookSubFieldActivity : BaseActivity() {
 
         if (mViewItemList.isNotEmpty()) {
             mViewItemList[0].setContent("2000", 0)
+            mViewItemList[0].setContent("2000", 1)
+            mViewItemList[0].setContent("2000", 2)
+            mViewItemList[0].setStyle(0)
+        }
+
+        mViewItemList[0].setOnClickListener {
+            mViewItemList[0].clearStyle(0)
+
         }
     }
 
@@ -121,7 +127,7 @@ class EBookSubFieldActivity : BaseActivity() {
      * 开始游戏就是去数据库里取数据
      */
     private fun startGame() {
-        articleLineViewModel.getLineFromIndex(mStartLine, mStep, BOOK_ZHONGQIUJIE)
+        articleLineViewModel.getLineFromIndex(mStartLine, mStep, mBookName)
     }
 
     /**
@@ -135,7 +141,7 @@ class EBookSubFieldActivity : BaseActivity() {
         }
 
         if (lines.isEmpty()) {
-            //没有数据了,现有数据显示完毕就结束游戏
+            //没有数据了,缓存集合置空. 等待现有数据显示完毕就结束游戏
             mTempContents = lines
             return
         } else {
@@ -144,7 +150,7 @@ class EBookSubFieldActivity : BaseActivity() {
         }
         if (mStartLine == 0) {
             //首次获取数据,开始动画,显示文字
-            mHandler.sendEmptyMessageDelayed(MSG_MOVE_CIRCLE, mMoveCircleDelay)
+            mHandler.sendEmptyMessageDelayed(MSG_MOVE_FOCUS, mMoveCircleDelay)
             mContents = mTempContents
             //缓存下一页数据
             getData()
@@ -176,7 +182,7 @@ class EBookSubFieldActivity : BaseActivity() {
 //            tvRight.text = mContents[mShowIndex + 1].content
         }
         mShowIndex += 2
-        mHandler.sendEmptyMessageDelayed(MSG_MOVE_CIRCLE, mMoveCircleDelay)
+        mHandler.sendEmptyMessageDelayed(MSG_MOVE_FOCUS, mMoveCircleDelay)
     }
 
     override fun onResume() {
@@ -199,6 +205,6 @@ class EBookSubFieldActivity : BaseActivity() {
 
     fun getData() {
         mStartLine += mStep
-        articleLineViewModel.getLineFromIndex(mStartLine, mStep, BOOK_ZHONGQIUJIE)
+        articleLineViewModel.getLineFromIndex(mStartLine, mStep, mBookName)
     }
 }

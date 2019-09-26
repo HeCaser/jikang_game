@@ -1,10 +1,14 @@
 package com.example.game.widget
 
 import android.content.Context
+import android.graphics.Color
+import android.text.*
+import android.text.style.ForegroundColorSpan
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.text.clearSpans
 import com.example.game.R
 import kotlinx.android.synthetic.main.sub_field_view.view.*
 
@@ -34,9 +38,25 @@ class EBookSubFieldView : ConstraintLayout {
     }
 
     fun setContent(text: String, pos: Int) {
-        if (pos >= mViewList.size) return
+        if (pos !in 0..2) return
         mViewList[pos].text = text
     }
 
+
+    fun clearStyle(pos: Int) {
+        if (pos !in 0..2) return
+        val text = mViewList[pos].text
+        val span = SpannableStringBuilder(text)
+        span.clearSpans()
+        mViewList[pos].text = span
+    }
+
+    fun setStyle(pos: Int) {
+        if (pos !in 0..2) return
+        val text = mViewList[pos].text
+        val span = SpannableStringBuilder(text)
+        span.setSpan(ForegroundColorSpan(Color.RED), 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+        mViewList[pos].text = span
+    }
 
 }

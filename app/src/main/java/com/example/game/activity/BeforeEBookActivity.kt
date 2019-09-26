@@ -145,6 +145,9 @@ class BeforeEBookActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 保存书籍到数据库,利用协程,数据过多对主线程有影响,因此加一个提示. 保存成功后才可继续逻辑
+     */
     private fun saveBook() {
 
         val bookName = when (mGameType) {
