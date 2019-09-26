@@ -3,6 +3,7 @@ package com.example.game.activity
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -19,6 +20,7 @@ import com.example.game.viewmodel.ArticleLineViewModel
 import com.example.game.viewmodel.ArticleLineViewModelFactory
 import com.example.game.widget.EBookSubFieldView
 import kotlinx.android.synthetic.main.activity_ebook_subfield.*
+import kotlin.random.Random
 
 
 /**
@@ -40,6 +42,7 @@ class EBookSubFieldActivity : BaseActivity() {
     private var mStartLine = 0
     private var mStep = 80
     private var mMoveCircleDelay = 100L
+    private var mLineCount=1
     val TAG = EBookSubFieldActivity::class.java.simpleName
     //文章的行集合
     private var mContents = listOf<ArticleLine>()//文本
@@ -93,19 +96,20 @@ class EBookSubFieldActivity : BaseActivity() {
     private fun initShowView() {
         if (llParent.childCount != 0) return
         val height = llParent.measuredHeight
-        val mContentDp = px2dp(height.toFloat())
-        val itemHeightDp = 90
+        val itemHeight = 200
         val width = ScreenUtils.getScreenSize(this).x
-        if (mContentDp == 0) {
+        if (height == 0) {
             mHandler.sendEmptyMessageDelayed(MSG_START_GAME, 50)
         } else {
             llParent.removeAllViews()
             mViewItemList.clear()
-            val mTotalItemCount = mContentDp / itemHeightDp
-            for (num in 0 until mTotalItemCount) {
+            mLineCount = height / itemHeight
+            for (num in 0 until mLineCount) {
                 val tv = EBookSubFieldView(this)
-                llParent.addView(tv, width, itemHeightDp)
+                llParent.addView(tv, width, itemHeight)
+                tv.setBackgroundColor(Color.argb(255, Random.nextInt(0,255), Random.nextInt(0,255), Random.nextInt(0,255)))
                 mViewItemList.add(tv)
+
             }
 //            mHandler.sendEmptyMessageDelayed(MSG_MOVE_LINE, 100)
         }
@@ -115,12 +119,11 @@ class EBookSubFieldActivity : BaseActivity() {
             mViewItemList[0].setContent("2000", 1)
             mViewItemList[0].setContent("2000", 2)
             mViewItemList[0].setStyle(0)
+
+            mViewItemList[mLineCount-1].setContent("最好",0)
         }
 
-        mViewItemList[0].setOnClickListener {
-            mViewItemList[0].clearStyle(0)
-
-        }
+        println("hepan行$mLineCount")
     }
 
     /**
