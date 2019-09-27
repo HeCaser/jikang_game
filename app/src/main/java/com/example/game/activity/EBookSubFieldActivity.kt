@@ -14,6 +14,8 @@ import com.example.game.database.AppDatabase
 import com.example.game.database.ArticleLine
 import com.example.game.utils.ScreenUtils
 import com.example.game.utils.StatusBarUtils
+import com.example.game.utils.gone
+import com.example.game.utils.isVisible
 import com.example.game.viewmodel.ArticleLineViewModel
 import com.example.game.viewmodel.ArticleLineViewModelFactory
 import com.example.game.widget.EBookSubFieldView
@@ -36,6 +38,8 @@ class EBookSubFieldActivity : BaseActivity() {
         }
     }
 
+    private var isPaused = false //游戏是否暂停
+
     private var mViewItemList = arrayListOf<EBookSubFieldView>()//每一行的tv
     private var mStartLine = 0
     private var mStep = 80
@@ -57,6 +61,11 @@ class EBookSubFieldActivity : BaseActivity() {
                     initShowView()
                 }
                 MSG_MOVE_FOCUS -> {
+                    if (isPaused) {
+                        //游戏暂停(设置速度,进度)时逻辑
+                        sendEmptyMessageDelayed(MSG_MOVE_FOCUS, mMoveCircleDelay)
+                        return
+                    }
                     changeFocus()
                 }
             }
@@ -81,12 +90,29 @@ class EBookSubFieldActivity : BaseActivity() {
     private fun initViewAndData() {
         mBookName = BOOK_DAOCAOREN
         mHandler.sendEmptyMessageDelayed(MSG_START_GAME, 500)
+        ebookSet.setMaxSpeed(1000)
+        ebookSet.setMinSpeed(200)
+        ebookSet.setSpeed(700)
         setCenterTitle("济康-EBook分栏")
     }
 
     private fun initListener() {
+        clContent.setOnLongClickListener {
+            changeSetting()
+            return@setOnLongClickListener true
+        }
+
         articleLineViewModel.lines.observe(this, Observer {
             handleData(it)
+        })
+
+
+        ebookSet.setCallback(object : EbookSettingView.CallBack {
+            override fun onSetCallBack(type: Int, speed: Int) {
+                if (EbookSettingView.CALLBACK_FINISH == type) {
+                    continueGame(speed)
+                }
+            }
         })
     }
 
@@ -234,15 +260,32 @@ class EBookSubFieldActivity : BaseActivity() {
         mHandler.removeCallbacksAndMessages(null)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mHandler.removeCallbacksAndMessages(null)
+    /**
+     * 继续游戏
+     */
+    private fun continueGame(speed: Int) {
+        ebookSet.gone()
+        println("speed=$speed")
+        isPaused = false
     }
+
+    /**
+     * 修改游戏参数
+     */
+    private fun changeSetting() {
+        isPaused = true
+        ebookSet.isVisible = true
+    }
+
 
     fun getData() {
         mStartLine += mStep
         articleLineViewModel.getLineFromIndex(mStartLine, mStep, mBookName)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mHandler.removeCallbacksAndMessages(null)
+    }
 
 }
