@@ -39,7 +39,7 @@ class EBookSubFieldActivity : BaseActivity() {
     private var mViewItemList = arrayListOf<EBookSubFieldView>()//每一行的tv
     private var mStartLine = 0
     private var mStep = 80
-    private var mMoveCircleDelay = 100L
+    private var mMoveCircleDelay = 500L
     private var mLineCount = 1
     val TAG = EBookSubFieldActivity::class.java.simpleName
     //文章的行集合
@@ -208,11 +208,16 @@ class EBookSubFieldActivity : BaseActivity() {
     //设置新的样式
     private fun setStyle() {
         if (mShowIndex == mStep) {
+            //显示最后一个, 需展示新的一页,并且缓存下一页
+            mContents = mTempContents
+            getData()
+            setPageData(mContents)
             mShowIndex = 0
+
         }
         val line = mShowIndex / 3
         val pos = mShowIndex % 3
-        mViewItemList[line].clearStyle(pos)
+        mViewItemList[line].setStyle(pos)
     }
 
 
