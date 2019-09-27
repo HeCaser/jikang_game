@@ -60,6 +60,9 @@
             android:name=".activity.EBookLoopActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".activity.ViewTestActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".activity.EbookRecordActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".activity.MainActivity">

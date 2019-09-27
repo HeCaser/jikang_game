@@ -42,6 +42,12 @@ class EBookSubFieldView : ConstraintLayout {
         mViewList[pos].text = text
     }
 
+    fun setContent(text1: String, text2: String, text3: String) {
+        mViewList[0].text = text1
+        mViewList[1].text = text2
+        mViewList[2].text = text3
+    }
+
 
     fun clearStyle(pos: Int) {
         if (pos !in 0..2) return
@@ -57,6 +63,10 @@ class EBookSubFieldView : ConstraintLayout {
         val span = SpannableStringBuilder(text)
         span.setSpan(ForegroundColorSpan(Color.RED), 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         mViewList[pos].text = span
+    }
+
+    fun getChild(pos: Int): TextView {
+        return mViewList[pos]
     }
 
 }

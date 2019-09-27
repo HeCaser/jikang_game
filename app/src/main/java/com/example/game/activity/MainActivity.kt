@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
             }
             mGames[10] -> {
 //                BeforeEBookActivity.start(this, EBOOK_SUBFIELD)
-                EBookSubFieldActivity.start(this)
+                ViewTestActivity.start(this)
             }
         }
 
