@@ -17,6 +17,7 @@ import com.example.game.utils.StatusBarUtils
 import com.example.game.viewmodel.ArticleLineViewModel
 import com.example.game.viewmodel.ArticleLineViewModelFactory
 import com.example.game.widget.EBookSubFieldView
+import com.example.game.widget.EbookSettingView
 import kotlinx.android.synthetic.main.activity_ebook_subfield.*
 
 
@@ -44,7 +45,7 @@ class EBookSubFieldActivity : BaseActivity() {
     //文章的行集合
     private var mContents = listOf<ArticleLine>()//文本
     private var mTempContents = listOf<ArticleLine>()
-    private var mShowIndex = 0
+    private var mShowIndex = -1
 
     private var mBookName = ""
     private var mHandler = @SuppressLint("HandlerLeak")
@@ -140,9 +141,9 @@ class EBookSubFieldActivity : BaseActivity() {
         }
         if (mStartLine == 0) {
             //首次获取数据,开始动画,显示文字
-            mHandler.sendEmptyMessageDelayed(MSG_MOVE_FOCUS, mMoveCircleDelay)
             mContents = mTempContents
-            setPageData(mTempContents)
+            setPageData(mContents)
+            mHandler.sendEmptyMessageDelayed(MSG_MOVE_FOCUS, mMoveCircleDelay)
             //缓存下一页数据
             getData()
         }
@@ -167,23 +168,53 @@ class EBookSubFieldActivity : BaseActivity() {
     /**
      * 改变当前选中文字,判断游戏是否结束,是否需要加载下一页内容
      */
+
     private fun changeFocus() {
-        if (mShowIndex >= mContents.size) {
-            if (mTempContents.isEmpty()) {
-                //没有数据了,游戏结束
-                finisGame()
-                return
-            } else {
-                mContents = mTempContents
-                getData()
-                mShowIndex = 0
-            }
+
+        if (mShowIndex >= mContents.size && mTempContents.isEmpty()) {
+            //没有数据了,游戏结束
+            finisGame()
+            return
         }
 
+        //第一次开始
+        if (mShowIndex == -1) {
+            mShowIndex = 0
+            mViewItemList[0].setStyle(0)
+            mHandler.sendEmptyMessageDelayed(MSG_MOVE_FOCUS, mMoveCircleDelay)
+            return
+        }
+
+
+        //显示到最后
+        if (mShowIndex == mStep) {
+            mShowIndex = 1
+            mViewItemList[mLineCount - 1].clearStyle(2)
+        }
+
+        clearStyle()
         mShowIndex++
-        print("位置$mShowIndex")
+        setStyle()
         mHandler.sendEmptyMessageDelayed(MSG_MOVE_FOCUS, mMoveCircleDelay)
     }
+
+    //清空样式
+    private fun clearStyle() {
+        val line = mShowIndex / 3
+        val pos = mShowIndex % 3
+        mViewItemList[line].clearStyle(pos)
+    }
+
+    //设置新的样式
+    private fun setStyle() {
+        if (mShowIndex == mStep) {
+            mShowIndex = 0
+        }
+        val line = mShowIndex / 3
+        val pos = mShowIndex % 3
+        mViewItemList[line].clearStyle(pos)
+    }
+
 
     override fun onResume() {
         super.onResume()
