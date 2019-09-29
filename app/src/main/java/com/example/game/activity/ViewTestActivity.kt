@@ -49,7 +49,7 @@ class ViewTestActivity : BaseActivity() {
 
     private fun initShowView() {
         val text1 = "我的"
-        val text2 = "我,"
+        val text2 = "我额,"
         val text3 = "我。"
 
         val length1 = getTextWidth(text1, subFieldView.getChild(0).textSize)
@@ -58,7 +58,7 @@ class ViewTestActivity : BaseActivity() {
 
         subFieldView.setContent(text1,text2,text3)
         val tv = subFieldView.getChild(1)
-        tv.setPadding((length2/2).toInt(), 0, 0, 0)
+//        tv.setPadding((length2/3).toInt(), 0, 0, 0)
         println("length=$length1 $length2 $length3")
 
     }

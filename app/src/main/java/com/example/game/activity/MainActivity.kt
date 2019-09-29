@@ -76,8 +76,8 @@ class MainActivity : AppCompatActivity() {
                 BeforeEBookActivity.start(this, EBOOK_LOOP)
             }
             mGames[10] -> {
-//                BeforeEBookActivity.start(this, EBOOK_SUBFIELD)
-                ViewTestActivity.start(this)
+                BeforeEBookActivity.start(this, EBOOK_SUBFIELD)
+//                ViewTestActivity.start(this)
             }
         }
 

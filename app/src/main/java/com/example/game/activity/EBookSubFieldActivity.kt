@@ -43,7 +43,7 @@ class EBookSubFieldActivity : BaseActivity() {
     private var mViewItemList = arrayListOf<EBookSubFieldView>()//每一行的tv
     private var mStartLine = 0
     private var mStep = 80
-    private var mMoveCircleDelay = 500L
+    private var mMoveCircleDelay = 200L
     private var mLineCount = 1
     val TAG = EBookSubFieldActivity::class.java.simpleName
     //文章的行集合
@@ -74,8 +74,8 @@ class EBookSubFieldActivity : BaseActivity() {
 
     private val articleLineViewModel: ArticleLineViewModel by lazy {
         ViewModelProviders.of(
-                this,
-                ArticleLineViewModelFactory(AppDatabase.getInstance(this).articleDao())
+            this,
+            ArticleLineViewModelFactory(AppDatabase.getInstance(this).articleDao())
         ).get(ArticleLineViewModel::class.java)
     }
 
@@ -197,11 +197,6 @@ class EBookSubFieldActivity : BaseActivity() {
 
     private fun changeFocus() {
 
-        if (mShowIndex >= mContents.size && mTempContents.isEmpty()) {
-            //没有数据了,游戏结束
-            finisGame()
-            return
-        }
 
         //第一次开始
         if (mShowIndex == -1) {
@@ -220,6 +215,13 @@ class EBookSubFieldActivity : BaseActivity() {
 
         clearStyle()
         mShowIndex++
+
+        if (mShowIndex >= mContents.size && mTempContents.isEmpty()) {
+            //没有数据了,游戏结束
+            finisGame()
+            return
+        }
+
         setStyle()
         mHandler.sendEmptyMessageDelayed(MSG_MOVE_FOCUS, mMoveCircleDelay)
     }
@@ -258,6 +260,7 @@ class EBookSubFieldActivity : BaseActivity() {
      */
     private fun finisGame() {
         mHandler.removeCallbacksAndMessages(null)
+        println("结束了")
     }
 
     /**
