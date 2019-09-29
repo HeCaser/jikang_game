@@ -260,7 +260,8 @@ class EBookSubFieldActivity : BaseActivity() {
      */
     private fun finisGame() {
         mHandler.removeCallbacksAndMessages(null)
-        println("结束了")
+        EbookRecordActivity.start(this, "", 10)
+        finish()
     }
 
     /**
