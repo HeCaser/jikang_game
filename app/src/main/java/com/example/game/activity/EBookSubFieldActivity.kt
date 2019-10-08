@@ -43,7 +43,7 @@ class EBookSubFieldActivity : BaseActivity() {
     private var mViewItemList = arrayListOf<EBookSubFieldView>()//每一行的tv
     private var mStartLine = 0
     private var mStep = 80
-    private var mMoveCircleDelay = 200L
+    private var mMoveCircleDelay = 400L
     private var mLineCount = 1
     val TAG = EBookSubFieldActivity::class.java.simpleName
     //文章的行集合
@@ -92,7 +92,7 @@ class EBookSubFieldActivity : BaseActivity() {
         mHandler.sendEmptyMessageDelayed(MSG_START_GAME, 500)
         ebookSet.setMaxSpeed(1000)
         ebookSet.setMinSpeed(200)
-        ebookSet.setSpeed(700)
+        ebookSet.setSpeed(400)
         setCenterTitle("济康-EBook分栏")
     }
 
@@ -223,6 +223,7 @@ class EBookSubFieldActivity : BaseActivity() {
         }
 
         setStyle()
+        mMoveCircleDelay = ebookSet.mSpeed.toLong()
         mHandler.sendEmptyMessageDelayed(MSG_MOVE_FOCUS, mMoveCircleDelay)
     }
 

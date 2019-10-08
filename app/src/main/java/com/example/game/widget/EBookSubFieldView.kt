@@ -19,7 +19,11 @@ import kotlinx.android.synthetic.main.sub_field_view.view.*
 class EBookSubFieldView : ConstraintLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    )
 
     var mLevel = 1
     var mViewList = arrayListOf<TextView>()
@@ -61,7 +65,21 @@ class EBookSubFieldView : ConstraintLayout {
         if (pos !in 0..2) return
         val text = mViewList[pos].text
         val span = SpannableStringBuilder(text)
-        span.setSpan(ForegroundColorSpan(Color.RED), 0, 1, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+        val length = text.length
+        var start = 0
+        if (length >= 3) {
+            if (length % 2 == 0) {
+                start = length / 2 - 1
+            } else {
+                start = length / 2
+            }
+        }
+        span.setSpan(
+            ForegroundColorSpan(Color.RED),
+            start,
+            start + 1,
+            Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+        )
         mViewList[pos].text = span
     }
 
