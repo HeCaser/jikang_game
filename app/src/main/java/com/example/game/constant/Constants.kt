@@ -11,6 +11,7 @@ const val NUMBER_25 = "number_25"
 const val SEARCH_WORD_ACTIVITY = "search_word_activity"
 const val SEARCH_NUMBER_ACTIVITY = "search_number_activity"
 const val SEARCH_ODD_EVEN_ACTIVITY = "search_odd_even_activity"
+const val SEARCH_DIFF_NUMBER_ACTIVITY = "search_diff_number_activity"
 
 
 const val TITLE_MAX = 10

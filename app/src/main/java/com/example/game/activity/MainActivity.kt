@@ -82,6 +82,7 @@ class MainActivity : AppCompatActivity() {
             }
             mGames[11] -> {
                 BeforeSearchActivity.start(this, SEARCH_DIFF_NUMBER)
+//                SearchDiffNumberActivity.start(this,5)
             }
         }
 

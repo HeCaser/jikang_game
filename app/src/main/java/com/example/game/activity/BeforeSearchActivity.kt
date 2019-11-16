@@ -48,9 +48,9 @@ class BeforeSearchActivity : AppCompatActivity() {
             SEARCH_DIFF_NUMBER -> {
                 tvSearchName.text = "差异/数字"
                 tvUnderStar.show("找到不同的一对数字")
-                tvFunction1.text="减少注视间隔"
-                tvFunction2.text="提高注意力"
-                tvFunction3.text="最小化倒退"
+                tvFunction1.text = "减少注视间隔"
+                tvFunction2.text = "提高注意力"
+                tvFunction3.text = "最小化倒退"
             }
         }
     }
@@ -83,6 +83,9 @@ class BeforeSearchActivity : AppCompatActivity() {
             }
             SEARCH_TYPE_JIOU -> {
                 SearchOddEvenActivity.start(this, speed)
+            }
+            SEARCH_DIFF_NUMBER -> {
+                SearchDiffNumberActivity.start(this, speed)
             }
         }
         finish()

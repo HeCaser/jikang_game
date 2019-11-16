@@ -3,6 +3,7 @@ package com.example.game.activity
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.annotation.StringRes
@@ -34,6 +35,7 @@ open class BaseActivity : AppCompatActivity() {
         ivBack.setOnClickListener {
             finish()
         }
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 
     override fun setContentView(layoutResID: Int) {
