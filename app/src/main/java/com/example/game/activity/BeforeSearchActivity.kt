@@ -5,9 +5,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.game.R
+import com.example.game.constant.SEARCH_DIFF_NUMBER
 import com.example.game.constant.SEARCH_TYPE_JIOU
 import com.example.game.constant.SEARCH_TYPE_NUMBER
 import com.example.game.constant.SEARCH_TYPE_WORD
+import com.example.game.utils.show
 import kotlinx.android.synthetic.main.activity_before_search.*
 
 class BeforeSearchActivity : AppCompatActivity() {
@@ -42,6 +44,13 @@ class BeforeSearchActivity : AppCompatActivity() {
             }
             SEARCH_TYPE_JIOU -> {
                 tvSearchName.text = "搜索/奇偶数"
+            }
+            SEARCH_DIFF_NUMBER -> {
+                tvSearchName.text = "差异/数字"
+                tvUnderStar.show("找到不同的一对数字")
+                tvFunction1.text="减少注视间隔"
+                tvFunction2.text="提高注意力"
+                tvFunction3.text="最小化倒退"
             }
         }
     }

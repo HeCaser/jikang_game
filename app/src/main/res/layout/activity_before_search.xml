@@ -1,29 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   xmlns:tools="http://schemas.android.com/tools"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="match_parent"
-                                                   tools:context=".activity.BeforeSearchActivity">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activity.BeforeSearchActivity">
 
     <TextView
             android:id="@+id/tvSearchName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20sp"
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/app_name"
-            android:layout_marginTop="20sp"
             android:textColor="@color/colorPrimary"
             android:textSize="40dp"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
     <com.example.game.widget.StarLevelView
             android:id="@+id/starLevel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/tvSearchName"/>
+            app:layout_constraintTop_toBottomOf="@+id/tvSearchName" />
+
+
+    <TextView
+            android:visibility="invisible"
+            android:id="@+id/tvUnderStar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="30dp"
+            android:text="增强视觉跨度"
+            android:textColor="@color/bg_gray"
+            android:textSize="26dp"
+            app:layout_constraintTop_toBottomOf="@+id/starLevel" />
 
     <LinearLayout
             android:id="@+id/llFunction"
@@ -31,42 +44,44 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20sp"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/starLevel">
+            app:layout_constraintTop_toBottomOf="@+id/tvUnderStar">
 
         <TextView
                 android:id="@+id/tvFunction1"
                 style="@style/before_search_style2"
-                android:text="增强视觉跨度"/>
+                android:text="增强视觉跨度" />
 
         <TextView
                 android:id="@+id/tvFunction2"
                 style="@style/before_search_style2"
-                android:text="提高注意力"/>
+                android:text="提高注意力" />
 
         <TextView
                 android:id="@+id/tvFunction3"
                 style="@style/before_search_style2"
-                android:text="增强积极记忆"/>
+                android:text="增强积极记忆" />
     </LinearLayout>
 
     <ImageView
-            android:padding="20dp"
-            android:layout_marginTop="100dp"
-            android:src="@drawable/speed_add"
-            app:layout_constraintLeft_toLeftOf="@+id/llFunction"
-            app:layout_constraintTop_toBottomOf="@+id/llFunction"
             android:id="@+id/ivAdd"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    <ImageView
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
             android:padding="20dp"
-            android:src="@drawable/speed_sub"
-            android:layout_marginTop="20dp"
+            android:src="@drawable/speed_add"
             app:layout_constraintLeft_toLeftOf="@+id/llFunction"
-            app:layout_constraintTop_toBottomOf="@+id/ivAdd"
+            app:layout_constraintTop_toBottomOf="@+id/llFunction" />
+
+    <ImageView
             android:id="@+id/ivSub"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:padding="20dp"
+            android:src="@drawable/speed_sub"
+            app:layout_constraintLeft_toLeftOf="@+id/llFunction"
+            app:layout_constraintTop_toBottomOf="@+id/ivAdd" />
+
     <TextView
             android:id="@+id/btnStart"
             android:layout_width="wrap_content"
@@ -80,5 +95,5 @@
             android:textSize="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

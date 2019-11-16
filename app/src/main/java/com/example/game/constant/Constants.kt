@@ -19,6 +19,7 @@ const val TITLE_MAX = 10
 const val SEARCH_TYPE_WORD = 1 //搜索词
 const val SEARCH_TYPE_NUMBER = 2 //奇偶数
 const val SEARCH_TYPE_JIOU = 3 //奇偶数
+const val SEARCH_DIFF_NUMBER = 4 //差异数字
 
 //EBook的类型
 const val EBOOK_TREE = 4 //树形
