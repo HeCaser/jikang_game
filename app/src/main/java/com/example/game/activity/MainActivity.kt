@@ -17,8 +17,8 @@ class MainActivity : AppCompatActivity() {
     private val mGames = arrayListOf(
         "济康1-100", "1SharpEye", "舒尔特注意力",
         "舒尔特方格", "Num25", "搜索词",
-        "搜索数", "奇偶数", "EBook树形",
-        "EBook循环", "EBook分栏","差异数字"
+        "搜索数", "奇偶数","差异数字", "垂直练习","EBook树形",
+        "EBook循环", "EBook分栏"
     )
 //
 
@@ -47,42 +47,44 @@ class MainActivity : AppCompatActivity() {
 
     private fun goToGame(name: String) {
         when (name) {
-            mGames[0] -> {
+            "济康1-100" -> {
                 OneToOneHundredActivity.start(this)
             }
-            mGames[1] -> {
+            "1SharpEye"-> {
                 OneSharpEyeActivity.start(this)
             }
-            mGames[2] -> {
+           "舒尔特注意力" -> {
                 SchulteAttentionActivity.start(this)
             }
-            mGames[3] -> {
+            "舒尔特方格" -> {
                 SchulteGridActivity.start(this)
             }
-            mGames[4] -> {
+            "Num25" -> {
                 Num25Activity.start(this)
             }
-            mGames[5] -> {
+            "搜索词" -> {
                 BeforeSearchActivity.start(this, SEARCH_TYPE_WORD)
             }
-            mGames[6] -> {
+            "搜索数" -> {
                 BeforeSearchActivity.start(this, SEARCH_TYPE_NUMBER)
             }
-            mGames[7] -> {
+            "奇偶数" -> {
                 BeforeSearchActivity.start(this, SEARCH_TYPE_JIOU)
             }
-            mGames[8] -> {
+            "EBook树形" -> {
                 BeforeEBookActivity.start(this, EBOOK_TREE)
             }
-            mGames[9] -> {
+            "EBook循环" -> {
                 BeforeEBookActivity.start(this, EBOOK_LOOP)
             }
-            mGames[10] -> {
+            "EBook分栏" -> {
                 BeforeEBookActivity.start(this, EBOOK_SUBFIELD)
             }
-            mGames[11] -> {
+            "差异数字" -> {
                 BeforeSearchActivity.start(this, SEARCH_DIFF_NUMBER)
-//                SearchDiffNumberActivity.start(this,5)
+            }
+            "垂直练习"->{
+                VerticalPracticeActivity.start(this)
             }
         }
 

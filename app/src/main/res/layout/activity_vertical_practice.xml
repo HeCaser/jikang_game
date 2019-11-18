@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <ImageView
+            android:background="@drawable/speed_add"
+            android:id="@+id/tvVerticalAdd"
+            android:layout_marginTop="20dp"
+            android:textSize="26sp"
+            app:layout_constraintHorizontal_bias="0.4"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            style="@style/vertival_style1" />
+
+    <ImageView
+            android:background="@drawable/speed_sub"
+            android:id="@+id/tvVerticalSub"
+            android:layout_marginTop="10dp"
+            style="@style/vertival_style1"
+            android:textSize="30sp"
+            app:layout_constraintLeft_toLeftOf="@id/tvVerticalAdd"
+            app:layout_constraintTop_toBottomOf="@+id/tvVerticalAdd" />
+
+    <TextView
+            android:id="@+id/tvVerticalSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:text="80"
+            android:textColor="@color/color_31c2ff"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvVerticalSub"
+            app:layout_constraintLeft_toRightOf="@+id/tvVerticalAdd"
+            app:layout_constraintTop_toTopOf="@+id/tvVerticalAdd" />
+
+    <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/flexBox"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/white_90"
+            app:flexWrap="wrap"
+            app:justifyContent="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvVerticalSub" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

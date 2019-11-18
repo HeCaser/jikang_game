@@ -107,4 +107,11 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="vertival_style1">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/color_31c2ff</item>
+    </style>
+
 </resources>
