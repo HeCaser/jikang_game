@@ -49,8 +49,8 @@ class VerticalPracticeActivity : BaseActivity() {
     var mIconColor = 1
     val mViewList = arrayListOf<VerticalPracticeView>()
     var mHintPos = 0
-    var TOTAL_WORD_NUMBER=0
-
+    var TOTAL_WORD_NUMBER = 0
+    var mSpeed = 200
     override fun onCreate(savedInstanceState: Bundle?) {
         StatusBarUtils.setStatusBarTransparent(this)
         super.onCreate(savedInstanceState)
@@ -63,6 +63,18 @@ class VerticalPracticeActivity : BaseActivity() {
         mIconColor = resources.getColor(R.color.color_31c2ff)
         tvVerticalAdd.background.setColorFilter(mIconColor, PorterDuff.Mode.SRC_ATOP)
         tvVerticalSub.background.setColorFilter(mIconColor, PorterDuff.Mode.SRC_ATOP)
+        tvVerticalSpeed.text = "$mSpeed"
+
+        tvVerticalSub.setOnClickListener {
+            if (mSpeed > 80)
+                mSpeed -= 20
+            tvVerticalSpeed.text = "$mSpeed"
+        }
+        tvVerticalAdd.setOnClickListener {
+            if (mSpeed < 800)
+                mSpeed += 20
+            tvVerticalSpeed.text = "$mSpeed"
+        }
     }
 
     private fun initViewAndData() {
@@ -98,13 +110,13 @@ class VerticalPracticeActivity : BaseActivity() {
         val rowNumber = (parentH) / (itemHeight + margin) //行数= 总高度/(条目高度+顶部间距)
         val columNumber = parentW / (itemWidth + margin) //列数=总宽度(条目宽度+横向间距)
 
-        TOTAL_WORD_NUMBER= rowNumber * columNumber
+        TOTAL_WORD_NUMBER = rowNumber * columNumber
 
         //添加view给flexbox
         flexBox.removeAllViews()
         for (num in 0 until TOTAL_WORD_NUMBER) {
             val tv = VerticalPracticeView(this)
-            tv.text = "$num"
+//            tv.text = "$num"
             flexBox.addView(tv, itemWidth, itemHeight)
             val para = tv.layoutParams
             if (para is FlexboxLayout.LayoutParams) {
@@ -118,22 +130,32 @@ class VerticalPracticeActivity : BaseActivity() {
 //                    para.topMargin = margin
 //                }
             }
+            tv.row = num/columNumber
+            tv.colum = num%columNumber
             mViewList.add(tv)
         }
+
+        //以列的倒序,行的正序排列
+        mViewList.sortBy { -it.colum }
         mHandler.sendEmptyMessageDelayed(MSG_MOVE_HINT, 50)
 
     }
 
     private fun moveHintView() {
-        if (mHintPos>=TOTAL_WORD_NUMBER)return
-        mViewList.get(mHintPos).setHintColor()
-        if (mHintPos!=0){
+        if (mHintPos == TOTAL_WORD_NUMBER){
+            //最后一个
+            mViewList.get(mHintPos-1).setNormalColor()
+            mHintPos=0
+            mHandler.sendEmptyMessageDelayed(MSG_MOVE_HINT, 900 - mSpeed.toLong())
+            return
+        }
+        mViewList.get(mHintPos).setHintColor(1)
+        if (mHintPos>0){
             mViewList.get(mHintPos-1).setNormalColor()
         }
-        mHintPos++
-        val speed = tvVerticalSpeed.text.toString().trim()
-        mHandler.sendEmptyMessageDelayed(MSG_MOVE_HINT, speed.toLong()*4)
 
+        mHintPos++
+        mHandler.sendEmptyMessageDelayed(MSG_MOVE_HINT, 900 - mSpeed.toLong())
 
     }
 

@@ -10,38 +10,45 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.example.game.R;
+
 public class VerticalPracticeView extends TextView {
 
+    private int mNormalBgColor;
+    private int mHintBgColor;
     public VerticalPracticeView(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public VerticalPracticeView(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0);
     }
 
     public VerticalPracticeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        mNormalBgColor = getResources().getColor(R.color.white);
+        mHintBgColor = getResources().getColor(R.color.color_31c2ff);
+        setBackgroundColor(mNormalBgColor);
     }
 
+    public int row, colum; //行号,列号.
 
-    public void setNormalColor(){
+    public void setNormalColor() {
         clearAnimation();
-        int normalColor = Color.WHITE;
-        int hintColor = Color.RED;
-        ValueAnimator animator = ObjectAnimator.ofInt(this, "backgroundColor", hintColor, normalColor);//对背景色颜色进行改变，操作的属性为"backgroundColor",此处必须这样写，不能全小写,后面的颜色为在对应颜色间进行渐变
-        animator.setDuration(1000);
+        ValueAnimator animator = ObjectAnimator.ofInt(this, "backgroundColor", mHintBgColor, mNormalBgColor);//对背景色颜色进行改变，操作的属性为"backgroundColor",此处必须这样写，不能全小写,后面的颜色为在对应颜色间进行渐变
+        animator.setDuration(500);
         animator.setEvaluator(new ArgbEvaluator());//如果要颜色渐变必须要ArgbEvaluator，来实现颜色之间的平滑变化，否则会出现颜色不规则跳动
         animator.start();
     }
-    public void setHintColor(){
+
+    public void setHintColor(int speed) {
         int normalColor = Color.WHITE;
-        int hintColor = Color.RED;
 //        ValueAnimator animator = ObjectAnimator.ofInt(this, "backgroundColor", normalColor, hintColor);//对背景色颜色进行改变，操作的属性为"backgroundColor",此处必须这样写，不能全小写,后面的颜色为在对应颜色间进行渐变
 //        animator.setDuration(200);
 //        animator.setEvaluator(new ArgbEvaluator());//如果要颜色渐变必须要ArgbEvaluator，来实现颜色之间的平滑变化，否则会出现颜色不规则跳动
 //        animator.start();
 //
-        setBackgroundColor(hintColor);
+        setBackgroundColor(mHintBgColor);
+
     }
 }
