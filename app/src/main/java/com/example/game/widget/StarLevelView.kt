@@ -56,6 +56,9 @@ class StarLevelView : ConstraintLayout {
         }
     }
 
+    /**
+     * 返回范围 1-10
+     */
     fun getLevel(): Int {
         return mLevel
     }
