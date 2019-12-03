@@ -16,11 +16,13 @@ const val SEARCH_DIFF_NUMBER_ACTIVITY = "search_diff_number_activity"
 
 const val TITLE_MAX = 10
 
-//速度游戏类型
+//速读游戏类型
 const val SEARCH_TYPE_WORD = 1 //搜索词
 const val SEARCH_TYPE_NUMBER = 2 //奇偶数
 const val SEARCH_TYPE_JIOU = 3 //奇偶数
 const val SEARCH_DIFF_NUMBER = 4 //差异数字
+const val SEARCH_SPEED_NUMBER = 5 //速读数
+const val SEARCH_REMEMBER_NUMBER = 6 //记忆数
 
 //EBook的类型
 const val EBOOK_TREE = 4 //树形

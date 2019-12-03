@@ -5,20 +5,17 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.game.R
-import com.example.game.constant.SEARCH_DIFF_NUMBER
-import com.example.game.constant.SEARCH_TYPE_JIOU
-import com.example.game.constant.SEARCH_TYPE_NUMBER
-import com.example.game.constant.SEARCH_TYPE_WORD
+import com.example.game.constant.*
 import com.example.game.utils.show
 import kotlinx.android.synthetic.main.activity_before_search.*
 
-class BeforeSearchActivity : AppCompatActivity() {
+class SelectStarActivity : AppCompatActivity() {
 
     private var mGameType = -1
 
     companion object {
         fun start(ctx: Context, type: Int) {
-            Intent(ctx, BeforeSearchActivity::class.java).apply {
+            Intent(ctx, SelectStarActivity::class.java).apply {
                 putExtra("type", type)
                 ctx.startActivity(this)
             }
@@ -51,6 +48,12 @@ class BeforeSearchActivity : AppCompatActivity() {
                 tvFunction1.text = "减少注视间隔"
                 tvFunction2.text = "提高注意力"
                 tvFunction3.text = "最小化倒退"
+            }
+            SEARCH_SPEED_NUMBER -> {
+                tvSearchName.text = "速读数"
+            }
+            SEARCH_REMEMBER_NUMBER -> {
+                tvSearchName.text = "记忆数"
             }
         }
     }
@@ -86,6 +89,9 @@ class BeforeSearchActivity : AppCompatActivity() {
             }
             SEARCH_DIFF_NUMBER -> {
                 SearchDiffNumberActivity.start(this, speed)
+            }
+            SEARCH_SPEED_NUMBER->{
+                SpeedReadNumberActivity.start(this,speed)
             }
         }
         finish()

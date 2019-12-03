@@ -17,8 +17,8 @@ class MainActivity : AppCompatActivity() {
     private val mGames = arrayListOf(
         "济康1-100", "1SharpEye", "舒尔特注意力",
         "舒尔特方格", "Num25", "搜索词",
-        "搜索数", "奇偶数","差异数字", "垂直练习","EBook树形",
-        "EBook循环", "EBook分栏"
+        "搜索数", "奇偶数", "差异数字", "垂直练习", "EBook树形",
+        "EBook循环", "EBook分栏", "速读数", "记忆数"
     )
 //
 
@@ -50,10 +50,10 @@ class MainActivity : AppCompatActivity() {
             "济康1-100" -> {
                 OneToOneHundredActivity.start(this)
             }
-            "1SharpEye"-> {
+            "1SharpEye" -> {
                 OneSharpEyeActivity.start(this)
             }
-           "舒尔特注意力" -> {
+            "舒尔特注意力" -> {
                 SchulteAttentionActivity.start(this)
             }
             "舒尔特方格" -> {
@@ -63,13 +63,13 @@ class MainActivity : AppCompatActivity() {
                 Num25Activity.start(this)
             }
             "搜索词" -> {
-                BeforeSearchActivity.start(this, SEARCH_TYPE_WORD)
+                SelectStarActivity.start(this, SEARCH_TYPE_WORD)
             }
             "搜索数" -> {
-                BeforeSearchActivity.start(this, SEARCH_TYPE_NUMBER)
+                SelectStarActivity.start(this, SEARCH_TYPE_NUMBER)
             }
             "奇偶数" -> {
-                BeforeSearchActivity.start(this, SEARCH_TYPE_JIOU)
+                SelectStarActivity.start(this, SEARCH_TYPE_JIOU)
             }
             "EBook树形" -> {
                 BeforeEBookActivity.start(this, EBOOK_TREE)
@@ -81,10 +81,16 @@ class MainActivity : AppCompatActivity() {
                 BeforeEBookActivity.start(this, EBOOK_SUBFIELD)
             }
             "差异数字" -> {
-                BeforeSearchActivity.start(this, SEARCH_DIFF_NUMBER)
+                SelectStarActivity.start(this, SEARCH_DIFF_NUMBER)
             }
-            "垂直练习"->{
+            "垂直练习" -> {
                 VerticalPracticeActivity.start(this)
+            }
+            "速读数" -> {
+                SelectStarActivity.start(this, SEARCH_SPEED_NUMBER)
+            }
+            "记忆数" -> {
+                SelectStarActivity.start(this, SEARCH_REMEMBER_NUMBER)
             }
         }
 
