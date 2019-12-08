@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.game.R
 import com.example.game.constant.*
+import com.example.game.utils.gone
 import com.example.game.utils.show
 import kotlinx.android.synthetic.main.activity_before_search.*
 
@@ -50,7 +51,11 @@ class SelectStarActivity : AppCompatActivity() {
                 tvFunction3.text = "最小化倒退"
             }
             SEARCH_SPEED_NUMBER -> {
-                tvSearchName.text = "速读数"
+                tvSearchName.text = "速度/数"
+                tvUnderStar.show("尽量注意该数字")
+                tvFunction1.text = "减少注视间隔"
+                tvFunction2.text = "增强积极记忆"
+                tvFunction3.gone()
             }
             SEARCH_REMEMBER_NUMBER -> {
                 tvSearchName.text = "记忆数"

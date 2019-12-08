@@ -71,6 +71,15 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
+    fun showSoftInput() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (imm.isActive && currentFocus != null) {
+            if (currentFocus!!.windowToken != null) {
+                imm.showSoftInput(currentFocus, 0)
+            }
+        }
+    }
+
     fun getTrimText(tv: TextView): String {
         return tv.text.toString()
     }

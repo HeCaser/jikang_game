@@ -31,7 +31,7 @@ public class WaterMarkView extends ConstraintLayout {
         super(context, attrs, defStyleAttr);
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setColor(Color.RED);
-        mPaint.setTextSize(ScreenUtils.dip2px(getContext(), 8f));
+        mPaint.setTextSize(ScreenUtils.dip2px(getContext(), 10f));
         mPaint.setColor(Color.parseColor("#e4e4e4"));
         setWillNotDraw(false);
     }
@@ -56,7 +56,7 @@ public class WaterMarkView extends ConstraintLayout {
         for (int i = 0; i < rowCount; i++) {
             starty = (mHeight / rowCount) * i;
 
-            starty+=200;
+            starty+=100;
             for (int j = 0; j < columnCount; j++) {
                 startx = (mWidth / columnCount) * (j+0.3f);
                 path.reset();

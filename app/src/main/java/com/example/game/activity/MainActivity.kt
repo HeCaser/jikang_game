@@ -15,10 +15,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mAdapter: MultiTypeAdapter
     private lateinit var mItems: MutableList<Any>
     private val mGames = arrayListOf(
+
         "济康1-100", "1SharpEye", "舒尔特注意力",
         "舒尔特方格", "Num25", "搜索词",
         "搜索数", "奇偶数", "差异数字", "垂直练习", "EBook树形",
-        "EBook循环", "EBook分栏", "速读数", "记忆数"
+        "EBook循环", "EBook分栏", "速度数"
     )
 //
 
@@ -86,8 +87,9 @@ class MainActivity : AppCompatActivity() {
             "垂直练习" -> {
                 VerticalPracticeActivity.start(this)
             }
-            "速读数" -> {
+            "速度数" -> {
                 SelectStarActivity.start(this, SEARCH_SPEED_NUMBER)
+//                SpeedReadNumberActivity.start(this, 4)
             }
             "记忆数" -> {
                 SelectStarActivity.start(this, SEARCH_REMEMBER_NUMBER)

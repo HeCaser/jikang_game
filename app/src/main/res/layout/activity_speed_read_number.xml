@@ -1,50 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/jikang_bg_shu">
-
-
-    <TextView
-        android:id="@+id/tvSpeedNumber"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:gravity="center"
-        android:text="济康学习包"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="38dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent">
+
+    <com.example.game.widget.CircleStepView
+            android:id="@+id/stSpeedNumber"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvNumberCover"
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:background="@drawable/ff8e00_solid_corner_4dp"
-        app:layout_constraintBottom_toBottomOf="@id/tvSpeedNumber"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+            android:id="@+id/tvSpeedNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="90dp"
+            android:layout_marginTop="60dp"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/black"
+            android:textSize="66dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stSpeedNumber"
+            tools:text="0" />
+    ¬
+
+    <TextView
+            android:id="@+id/tvSNScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="0"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="36sp"
+            android:textStyle="italic"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stSpeedNumber" />
+
+    <TextView
+            android:id="@+id/tvNumberCover"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/blue_solid_corner_4dp"
+            android:visibility="invisible"
+            app:layout_constraintLeft_toLeftOf="@+id/tvSpeedNumber"
+            app:layout_constraintRight_toRightOf="@+id/tvSpeedNumber"
+            app:layout_constraintTop_toTopOf="@id/tvSpeedNumber" />
 
     <EditText
-        android:id="@+id/etInputRes"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvNumberCover" />
+            android:id="@+id/etInputRes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginRight="40dp"
+            android:background="@null"
+            android:inputType="number"
+            android:minWidth="20dp"
+            android:padding="5dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="66dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNumberCover"
+            tools:text="1113" />
 
-    <com.google.android.flexbox.FlexboxLayout
-        android:id="@+id/flexBox"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvNumberCover">
+    <View
+            android:id="@+id/viewEtLine"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintLeft_toLeftOf="@+id/etInputRes"
+            app:layout_constraintRight_toRightOf="@+id/etInputRes"
+            app:layout_constraintTop_toBottomOf="@+id/etInputRes" />
 
-    </com.google.android.flexbox.FlexboxLayout>
+    <TextView
+            android:id="@+id/rightOrError"
+            android:layout_width="wrap_content"
+            tools:text="正确"
+            android:textSize="20dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_marginTop="15dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewEtLine" />
+
+    <TextView
+            android:id="@+id/tvConfirm"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ff8e00_solid_corner_4dp"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="@color/white"
+            android:visibility="invisible"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etInputRes" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

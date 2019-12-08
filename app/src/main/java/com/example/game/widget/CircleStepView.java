@@ -115,8 +115,8 @@ public class CircleStepView extends View {
         mTotalStep = num;
     }
 
-    public void setStep(int num, int step) {
-        mTotalStep = num;
+    public void setStep(int total, int step) {
+        mTotalStep = total;
         mStep = step;
         postInvalidate();
     }
