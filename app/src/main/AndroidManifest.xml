@@ -12,7 +12,7 @@
             android:roundIcon="@mipmap/taikang_icon"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".activity.SelectStarActivity"/>
+        <activity android:name=".activity.SelectStarActivity" />
         <activity
                 android:name=".activity.OneSharpEyeActivity"
                 android:screenOrientation="landscape" />
@@ -69,6 +69,9 @@
                 android:name=".activity.ViewTestActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:name=".activity.RememberEyeActivity"
+                android:screenOrientation="portrait" />
+        <activity
                 android:name=".activity.VerticalPracticeActivity"
                 android:screenOrientation="portrait" />
         <activity
@@ -77,7 +80,8 @@
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
