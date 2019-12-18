@@ -10,7 +10,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.example.game"
+        applicationId "com.jikang.game"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
@@ -29,10 +29,16 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.release
+            manifestPlaceholders =[
+                    APP_NAME:"济康学习包"
+            ]
         }
         release {
             signingConfig signingConfigs.release
             minifyEnabled false
+            manifestPlaceholders =[
+                    APP_NAME:"济康学习包"
+            ]
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
