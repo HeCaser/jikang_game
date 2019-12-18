@@ -98,6 +98,9 @@ class SelectStarActivity : AppCompatActivity() {
             SEARCH_SPEED_NUMBER->{
                 SpeedReadNumberActivity.start(this,speed)
             }
+            SEARCH_REMEMBER_NUMBER->{
+                RememberNumberActivity.start(this,speed)
+            }
         }
         finish()
     }

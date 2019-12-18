@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <LinearLayout
+            android:id="@+id/llMultiOne"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+
+        <TextView
+                style="@style/show_multi_number_style1"
+                android:text="3242" />
+
+        <TextView
+                style="@style/show_multi_number_style1"
+                android:text="3242" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/llMultiTwo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+        <TextView
+                style="@style/show_multi_number_style1"
+                android:text="3242" />
+
+        <TextView
+                style="@style/show_multi_number_style1"
+                android:text="3242" />
+
+
+    </LinearLayout>
+</LinearLayout>

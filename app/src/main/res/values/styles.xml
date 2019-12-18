@@ -114,4 +114,14 @@
         <item name="android:textColor">@color/color_31c2ff</item>
     </style>
 
+    <style name="show_multi_number_style1">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/multi_number_bg_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/multi_tv_corlor</item>
+    </style>
+
 </resources>
