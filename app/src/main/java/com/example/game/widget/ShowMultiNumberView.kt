@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.forEach
 import com.example.game.R
 import kotlinx.android.synthetic.main.view_show_multi_number.view.*
+import kotlin.random.Random
 
 /**
  * 展示多个数字
@@ -47,13 +48,21 @@ class ShowMultiNumberView : ConstraintLayout {
         }
     }
 
-    fun setErrorStyle(pos: Int) {
+    fun setRightStyle(pos: Int) {
         mViewList[pos].isSelected = true
     }
+
 
     fun initStyle() {
         mViewList.forEach {
             it.isSelected = false
+        }
+    }
+
+    fun setShowNumber(number: ArrayList<String>) {
+        for (count in 0 until 4) {
+            mViewList[count].isSelected = false
+            mViewList[count].text = number[count]
         }
     }
 

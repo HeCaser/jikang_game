@@ -6,12 +6,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.text.InputFilter
-import android.text.InputFilter.LengthFilter
 import android.view.View
 import androidx.core.text.isDigitsOnly
 import com.example.game.R
-import com.example.game.constant.SEARCH_SPEED_NUMBER_ACTIVITY
+import com.example.game.constant.SEARCH_REMEMBER_ACTIVITY
 import com.example.game.utils.StatusBarUtils
 import com.example.game.widget.ShowMultiNumberView
 import kotlinx.android.synthetic.main.activity_remember_number.*
@@ -26,13 +24,15 @@ class RememberNumberActivity : BaseActivity() {
 
     companion object {
         const val MSG_START = 1
-        const val MSG_DISSMISS_NUMNER = 2
         const val MSG_SHOW_NUMBER = 3
         const val MSG_ADD_WAIT_TIME = 4
         const val MSG_FINISH_GAME = 5
 
-        //所需正确选择数量,到达则游戏结束
-        const val TOTAL_RIGHT_NUM = 10
+        //一共五轮,正确,错误的选择都计算在内
+        const val TOTAL_PLAY_TIME = 5
+        //一轮中需要展示的数字数量
+        const val ONE_TIME_COUNT = 8
+
         //等待时间自增间隔
         const val WAIT_TIEM_ADD_JIANGE = 600L
 
@@ -46,34 +46,33 @@ class RememberNumberActivity : BaseActivity() {
 
     //选择的星标值, 越大数字长度越大,展示时间越短 范围 1-10
     private var mSpeed = 0
-    //现在显示的内容
-    private var mShowNumber = ""
     //当前显示内容的长度
     private var mShowNumberLength = 0
-    //当前已正确输入的个数
-    private var mRightNum = 0
     //数字展示时长
     private var mShowTime = 0L
-    //输入等待时长
-    private var mWaitTime = 0
-
+    //每轮展示的数据(每轮8个)
+    private var mShowList = arrayListOf<String>()
+    //当前展示的位置
+    private var mShowPos = 0
+    //完成的次数
+    private var mPlayTime = 0
+    private var mScore = 0
     private var mHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
             when (msg!!.what) {
-                MSG_DISSMISS_NUMNER -> {
-                    dismissNumber()
-                }
                 MSG_START -> {
                     startGame()
                 }
                 MSG_SHOW_NUMBER -> {
+                    if (mShowPos >= ONE_TIME_COUNT) {
+                        showSelectView()
+                        return
+                    }
                     showNextNumber()
                 }
                 MSG_ADD_WAIT_TIME -> {
-                    mWaitTime++
-                    sendEmptyMessageDelayed(MSG_ADD_WAIT_TIME, WAIT_TIEM_ADD_JIANGE)
                 }
                 MSG_FINISH_GAME -> {
                     finisGame()
@@ -93,28 +92,49 @@ class RememberNumberActivity : BaseActivity() {
     }
 
     private fun initViewAndData() {
-        stRememberNumber.setStep(TOTAL_RIGHT_NUM + 1, 0)
-        hideInput()
+        stRememberNumber.setStep(TOTAL_PLAY_TIME, 0)
+
 
         mSpeed = intent.getIntExtra("speed", 0)
         mShowTime = (1800 - (100 * mSpeed)).toLong()
+
+        //生成要展示的数据集合
+        generateNumberList()
+
         mHandler.sendEmptyMessageDelayed(MSG_START, 1000)
 
     }
 
+
     private fun initListener() {
-        showMultiNumberView.setCallback(object : ShowMultiNumberView.CallBack{
+        showMultiNumberView.setCallback(object : ShowMultiNumberView.CallBack {
             override fun onSetCallBack(pos: Int, number: String) {
-                handleItemClick(pos,number)
+                handleItemClick(pos, number)
             }
         })
     }
 
+    /**
+     * 处理选择view的条目点击事件
+     */
     private fun handleItemClick(pos: Int, number: String) {
-        if (mShowNumber == number){
 
-        }else{
-            showMultiNumberView.setErrorStyle(pos)
+        if (mShowList.contains(number)) {
+//            showMultiNumberView.setRightStyle(pos)
+            rightOrError.text = "正确"
+            mScore += 50
+            tvSNScore.text = "$mScore"
+            stRememberNumber.addStep()
+        } else {
+            rightOrError.text = "错误"
+        }
+        generateNumberList()
+        mPlayTime++
+        showMultiNumberView.visibility = View.INVISIBLE
+        if (mPlayTime == TOTAL_PLAY_TIME) {
+            mHandler.sendEmptyMessageDelayed(MSG_FINISH_GAME, 1000)
+        } else {
+            mHandler.sendEmptyMessageDelayed(MSG_START, 1000)
         }
     }
 
@@ -122,67 +142,66 @@ class RememberNumberActivity : BaseActivity() {
      * 开始游戏
      */
     private fun startGame() {
-        showNumber(false)
-        //延时隐藏显示
-        mHandler.sendEmptyMessageDelayed(MSG_DISSMISS_NUMNER, mShowTime)
+        rightOrError.text = ""
+        mShowPos = 0
+        tvRememberNumber.text = mShowList[mShowPos++]
+        //延时显示下一个
+        mHandler.sendEmptyMessageDelayed(MSG_SHOW_NUMBER, mShowTime)
     }
 
     /**
      * 展示下一个数字
      */
     private fun showNextNumber() {
-        hideInput()
-        showNumber(Random.nextBoolean())
-        //延时隐藏显示
-        mHandler.sendEmptyMessageDelayed(MSG_DISSMISS_NUMNER, mShowTime)
+        tvRememberNumber.text = mShowList[mShowPos++]
+        mHandler.sendEmptyMessageDelayed(MSG_SHOW_NUMBER, mShowTime)
     }
 
     /**
-     * 显示数字
+     * 展示选择view,重点是显示内容
      */
-    private fun showNumber(showCover: Boolean) {
-        tvRememberNumber.visibility = View.VISIBLE
-        mShowNumber = generateNum()
-        tvRememberNumber.text = mShowNumber
-        if (showCover) {
-            tvNumberCover.visibility = View.VISIBLE
-        } else {
-            tvNumberCover.visibility = View.INVISIBLE
+    private fun showSelectView() {
+        mHandler.removeMessages(MSG_SHOW_NUMBER)
+        tvRememberNumber.text = ""
+        showMultiNumberView.visibility = View.VISIBLE
+        val s = Random.nextInt(0, ONE_TIME_COUNT)
+        val show = mShowList[s]
+
+        val list = arrayListOf<String>()
+        var count = 0
+        while (count < 4) {
+            val diff = getDiffNumber(show)
+            if (!mShowList.contains(diff) && !list.contains(diff)) {
+                list.add(diff)
+                count++
+            }
         }
+
+//        list.shuffle() //不好用,大概率出现在固定位置
+
+        //采用随机添加,然后移除的方法
+        val index = Random.nextInt(0, 4)
+        println("位置$index")
+        list.add(index, show)
+        list.removeAt(index + 1)
+        showMultiNumberView.setShowNumber(list)
     }
 
     /**
-     * 隐藏数字
+     * 根据传入的字符串生成近似字符串
      */
-    private fun dismissNumber() {
-        tvNumberCover.visibility = View.INVISIBLE
-        tvRememberNumber.visibility = View.INVISIBLE
-        showInput()
-    }
-
-
-
-    /**
-     *计算分数
-     *
-     */
-    private fun countScore() {
-        var nowScore = getScore()
-        var targetScore = 0
-        if (mWaitTime < 10) {
-            //在规定时间内完成,有提分
-            nowScore = nowScore + (12 - mWaitTime)
-        }
-        targetScore = nowScore + 7
-        tvSNScore.text = "$targetScore"
-
+    private fun getDiffNumber(src: String): String {
+        var des = src
+        val pos = Random.nextInt(0, src.length)
+        des = src.replaceRange(pos, pos + 1, "${Random.nextInt(1, 9)}")
+        return des
     }
 
     /**
      * 结束游戏
      */
     private fun finisGame() {
-        val spKey = SEARCH_SPEED_NUMBER_ACTIVITY + mSpeed
+        val spKey = SEARCH_REMEMBER_ACTIVITY + mSpeed
         SearchRecordActivity.start(this, spKey, getScore(), mSpeed)
         finish()
     }
@@ -190,6 +209,21 @@ class RememberNumberActivity : BaseActivity() {
     private fun getScore(): Int {
         val text = tvSNScore.text.toString()
         return if (text.isDigitsOnly()) text.toInt() else 0
+    }
+
+    /**
+     * 生成要展示的数字集合
+     */
+    private fun generateNumberList() {
+        var count = 0
+        mShowList.clear()
+        while (count < ONE_TIME_COUNT) {
+            val number = generateNum()
+            if (!mShowList.contains(number)) {
+                mShowList.add(number)
+                count++
+            }
+        }
     }
 
     /**
@@ -215,24 +249,9 @@ class RememberNumberActivity : BaseActivity() {
             sb.append(random)
             index++
         }
-        val filters = arrayOf<InputFilter>(LengthFilter(mShowNumberLength))
         return sb.toString()
     }
 
-
-    private fun showInput() {
-        //等待时长开始计算
-        mWaitTime = 0
-        mHandler.sendEmptyMessageDelayed(MSG_ADD_WAIT_TIME, WAIT_TIEM_ADD_JIANGE)
-
-        showSoftInput()
-    }
-
-    private fun hideInput() {
-        mHandler.removeMessages(MSG_ADD_WAIT_TIME)
-        rightOrError.text = ""
-        hideSoftInput()
-    }
 
     override fun onDestroy() {
         super.onDestroy()

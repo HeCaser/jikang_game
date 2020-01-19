@@ -92,12 +92,13 @@ class MainActivity : AppCompatActivity() {
                 SelectStarActivity.start(this, SEARCH_SPEED_NUMBER)
             }
             "记忆数" -> {
-//                SelectStarActivity.start(this, SEARCH_REMEMBER_NUMBER)
-                RememberNumberActivity.start(this, 4)
+                SelectStarActivity.start(this, SEARCH_REMEMBER_NUMBER)
+//                RememberNumberActivity.start(this, 5)
             }
             "过目不忘" -> {
                 RememberEyeActivity.start(this)
             }
+
         }
 
     }

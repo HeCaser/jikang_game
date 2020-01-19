@@ -47,31 +47,21 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/stRememberNumber" />
 
-    <TextView
-            android:id="@+id/tvNumberCover"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="50dp"
-            android:background="@drawable/blue_solid_corner_4dp"
-            android:visibility="invisible"
-            app:layout_constraintLeft_toLeftOf="@+id/tvRememberNumber"
-            app:layout_constraintRight_toRightOf="@+id/tvRememberNumber"
-            app:layout_constraintTop_toTopOf="@id/tvRememberNumber" />
-
 
     <TextView
             android:id="@+id/rightOrError"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewEtLine"
+            app:layout_constraintBottom_toTopOf="@+id/showMultiNumberView"
             tools:text="正确" />
 
     <com.example.game.widget.ShowMultiNumberView
+            android:visibility="invisible"
             android:id="@+id/showMultiNumberView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

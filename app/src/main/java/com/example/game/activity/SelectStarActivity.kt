@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.example.game.R
 import com.example.game.constant.*
 import com.example.game.utils.gone
@@ -59,6 +60,10 @@ class SelectStarActivity : AppCompatActivity() {
             }
             SEARCH_REMEMBER_NUMBER -> {
                 tvSearchName.text = "记忆数"
+                tvUnderStar.show("尽量记住数字")
+                tvFunction1.text = "增强积极记忆"
+                tvFunction2.text = "提高注意力"
+                tvFunction3.visibility = View.INVISIBLE
             }
         }
     }
@@ -95,11 +100,11 @@ class SelectStarActivity : AppCompatActivity() {
             SEARCH_DIFF_NUMBER -> {
                 SearchDiffNumberActivity.start(this, speed)
             }
-            SEARCH_SPEED_NUMBER->{
-                SpeedReadNumberActivity.start(this,speed)
+            SEARCH_SPEED_NUMBER -> {
+                SpeedReadNumberActivity.start(this, speed)
             }
-            SEARCH_REMEMBER_NUMBER->{
-                RememberNumberActivity.start(this,speed)
+            SEARCH_REMEMBER_NUMBER -> {
+                RememberNumberActivity.start(this, speed)
             }
         }
         finish()

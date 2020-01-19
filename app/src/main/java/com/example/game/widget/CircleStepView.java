@@ -126,4 +126,9 @@ public class CircleStepView extends View {
         mStep = step;
         postInvalidate();
     }
+
+    public void addStep(){
+        mStep++;
+        setStep(mStep);
+    }
 }
