@@ -14,6 +14,7 @@ const val SEARCH_ODD_EVEN_ACTIVITY = "search_odd_even_activity"
 const val SEARCH_DIFF_NUMBER_ACTIVITY = "search_diff_number_activity"
 const val SEARCH_SPEED_NUMBER_ACTIVITY = "search_speed_number_activity"
 const val SEARCH_REMEMBER_ACTIVITY = "search_remember_activity"
+const val SEARCH_REMEMBER_EYE_ACTIVITY = "search_remember_eye_activity"
 
 
 const val TITLE_MAX = 10

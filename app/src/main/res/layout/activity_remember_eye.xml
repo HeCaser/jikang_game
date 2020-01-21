@@ -20,13 +20,25 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.9" />
 
+    <TextView
+            android:id="@+id/tvREScore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="0"
+            android:textSize="40dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="@+id/guideLineLeft"
             app:layout_constraintRight_toRightOf="@+id/guideLineRight"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/tvREScore" />
 
     <TextView
             android:id="@+id/tvUnfoundCount"
@@ -34,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:paddingRight="10dp"
-            android:text="2"
+            android:text="3"
             android:textColor="@color/color_333333"
             android:textSize="20dp"
             app:layout_constraintLeft_toLeftOf="parent"

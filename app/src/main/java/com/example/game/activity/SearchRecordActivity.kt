@@ -3,7 +3,9 @@ package com.example.game.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import com.example.game.R
+import com.example.game.constant.SEARCH_REMEMBER_EYE_ACTIVITY
 import com.example.game.utils.SaveSpData
 import com.example.game.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_search_record.*
@@ -47,7 +49,11 @@ class SearchRecordActivity : BaseActivity() {
         mThisScore = intent.getIntExtra("thisScore", 0)
         mSpeed = intent.getIntExtra("speed", 0)
 
-        starView.setLevel(mSpeed)
+        if (mKey == SEARCH_REMEMBER_EYE_ACTIVITY) {
+            starView.visibility = View.INVISIBLE
+        } else {
+            starView.setLevel(mSpeed)
+        }
     }
 
     override fun onResume() {

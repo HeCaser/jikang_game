@@ -31,13 +31,13 @@ class RememberEyeItemBinder(var callBack: (bean: RememberEyeBean) -> Unit) :
 //                val total = Math.sqrt(adapterItems.size.toDouble())
 //                para.height= (width/total).toInt()
 //                para.width= (width/total).toInt()
-
+                //避免复用产生的问题
+                tvBgError.visibility = View.INVISIBLE
+                tvBg.visibility = View.VISIBLE
                 squareParent.setOnClickListener {
-                    callBack(mData)
-                }
-
-                if(mData.isFaceShow){
-                    showFace()
+                    if (!mData.isFaceShow) {
+                        callBack(mData)
+                    }
                 }
             }
         }
@@ -53,6 +53,13 @@ class RememberEyeItemBinder(var callBack: (bean: RememberEyeBean) -> Unit) :
         fun showFace() {
             with(itemView) {
                 tvBg.visibility = View.GONE
+            }
+        }
+
+        //展示错误
+        fun showError() {
+            with(itemView) {
+                tvBgError.visibility = View.VISIBLE
             }
         }
 
