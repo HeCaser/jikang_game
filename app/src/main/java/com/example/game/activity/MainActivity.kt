@@ -1,7 +1,7 @@
 package com.example.game.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.game.R
@@ -19,9 +19,7 @@ class MainActivity : AppCompatActivity() {
         "舒尔特方格", "Num25", "搜索词",
         "搜索数", "奇偶数", "差异数字",
         "垂直练习", "EBook树形", "EBook循环",
-        "EBook分栏", "速度数", "记忆数"
-//        "过目不忘"
-    )
+        "EBook分栏", "速度数", "记忆数", "过目不忘")
 //
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,7 +91,6 @@ class MainActivity : AppCompatActivity() {
             }
             "记忆数" -> {
                 SelectStarActivity.start(this, SEARCH_REMEMBER_NUMBER)
-//                RememberNumberActivity.start(this, 5)
             }
             "过目不忘" -> {
                 RememberEyeActivity.start(this)

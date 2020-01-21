@@ -103,7 +103,7 @@ class SpeedReadNumberActivity : BaseActivity() {
     private fun initViewAndData() {
         stSpeedNumber.setStep(TOTAL_RIGHT_NUM + 1, 0)
         hideInput()
-
+        setCenterTitle("济康-速度/数")
         mSpeed = intent.getIntExtra("speed", 0)
         mShowTime = (1800 - (100 * mSpeed)).toLong()
         mHandler.sendEmptyMessageDelayed(MSG_START, 1000)

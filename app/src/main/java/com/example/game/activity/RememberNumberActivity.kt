@@ -93,7 +93,7 @@ class RememberNumberActivity : BaseActivity() {
 
     private fun initViewAndData() {
         stRememberNumber.setStep(TOTAL_PLAY_TIME, 0)
-
+        setCenterTitle("济康-记忆数")
 
         mSpeed = intent.getIntExtra("speed", 0)
         mShowTime = (1800 - (100 * mSpeed)).toLong()
