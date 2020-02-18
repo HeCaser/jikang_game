@@ -36,6 +36,9 @@
                 android:name=".activity.RememberNumberActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:name=".activity.BeatPracticeActivity"
+                android:screenOrientation="portrait" />
+        <activity
                 android:name=".activity.SearchWordActivity"
                 android:screenOrientation="portrait" />
         <activity
