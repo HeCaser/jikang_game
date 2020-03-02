@@ -1,12 +1,12 @@
 package com.example.game.activity
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import com.example.game.R
 import com.example.game.constant.TITLE_MAX
 import com.example.game.util.res2String
@@ -31,6 +31,7 @@ open class BaseActivity : AppCompatActivity() {
         StatusBarUtils.setStatusBarTransparentAndFullScreen(this)
         super.onCreate(savedInstanceState)
         super.setContentView(R.layout.activity_gradient_base)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         StatusBarUtils.addStatusBarHeightToPaddingByView(this, flToolbar)
         ivBack.setOnClickListener {
             finish()

@@ -35,9 +35,9 @@
         <activity
                 android:name=".activity.RememberNumberActivity"
                 android:screenOrientation="portrait" />
-        <activity
-                android:name=".activity.BeatPracticeActivity"
-                android:screenOrientation="portrait" />
+<!--        <activity-->
+<!--                android:name=".activity.BeatPracticeActivity"-->
+<!--                android:screenOrientation="portrait" />-->
         <activity
                 android:name=".activity.SearchWordActivity"
                 android:screenOrientation="portrait" />
@@ -80,7 +80,8 @@
         <activity
                 android:name=".activity.EbookRecordActivity"
                 android:screenOrientation="portrait" />
-        <activity android:name=".activity.MainActivity">
+        <service android:name=".service.MusicService"/>
+        <activity android:name=".activity.BeatPracticeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
