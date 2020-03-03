@@ -5,13 +5,14 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import android.os.Message
 import com.example.game.R
+import com.example.game.constant.BEAT_PRACTIVE_SPEED
 import com.example.game.service.MusicService
+import com.example.game.utils.SaveSpData
 import kotlinx.android.synthetic.main.activity_beat_practice.*
 import java.util.*
 import kotlin.concurrent.timerTask
@@ -23,7 +24,6 @@ import kotlin.concurrent.timerTask
 class BeatPracticeActivity : BaseActivity() {
 
 
-    private var isCanClick = false
     private lateinit var mBinder: MusicService.MyBinder
 
     private var mConnection = object : ServiceConnection {
@@ -34,21 +34,21 @@ class BeatPracticeActivity : BaseActivity() {
             mBinder = service as MusicService.MyBinder
         }
     }
-
-    val music = arrayListOf(
-        R.raw.tone1,
-        R.raw.tone1_1,
-        R.raw.tone2,
-        R.raw.tone2_1
-    )
-
-    val mLoadId = arrayListOf(0)
+    private var mHandler = @SuppressLint("HandlerLeak")
+    object : Handler() {
+        override fun handleMessage(msg: Message?) {
+            super.handleMessage(msg)
+            when (msg!!.what) {
+                MSG_CHANGE_S -> {
+                    play(speed = beatSpeedView.getPercent().toInt())
+                }
+            }
+        }
+    }
 
     companion object {
-        const val MUSIC_MAX_SIZE = 4
-        const val MSG_START = 1
-        const val MSG_NEXT_TURN = 2
-        const val MSG_CAN_CLICK = 3
+        var isPlay = false
+        const val MSG_CHANGE_S = 1
         fun start(ctx: Context) {
             Intent(ctx, BeatPracticeActivity::class.java).apply {
                 ctx.startActivity(this)
@@ -56,24 +56,6 @@ class BeatPracticeActivity : BaseActivity() {
         }
     }
 
-    private var mHandler = @SuppressLint("HandlerLeak")
-    object : Handler() {
-        override fun handleMessage(msg: Message?) {
-            super.handleMessage(msg)
-            when (msg!!.what) {
-                MSG_START -> {
-                    play(1)
-                    sendEmptyMessageDelayed(MSG_START, 5000)
-                }
-                MSG_NEXT_TURN -> {
-                }
-                MSG_CAN_CLICK -> {
-                    isCanClick = true
-                }
-
-            }
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,74 +69,114 @@ class BeatPracticeActivity : BaseActivity() {
     private fun initViewAndData() {
         setCenterTitle("济康-节拍器")
 
-        var speed = 1
-        tvPlay.setOnClickListener {
-            //                        mHandler.sendEmptyMessageDelayed(MSG_START,200)
-
-            changeSpeed(speed++)
-//            mBinder.playMusic(1)
-
-//            testMusic()
+        val speed = SaveSpData.newInstance(this).getCommomIntData(BEAT_PRACTIVE_SPEED)
+        beatSpeedView.setPercent(speed.toFloat())
+        //还原未关闭的播放
+        if (isPlay) {
+            changeSpeed(speed)
         }
+
+        tvPlay.setOnClickListener {
+            changeSpeed(beatSpeedView.getPercent().toInt())
+        }
+        tvStop.setOnClickListener {
+            isPlay = false
+            cancelTimer()
+            stopService(Intent(this, MusicService::class.java))
+            unbindService(mConnection)
+        }
+        beatSpeedView.setCallBack {
+            changeSpeed(it.toInt())
+        }
+        ivAddSpeed.setOnClickListener {
+            beatSpeedView.addPercent(2)
+        }
+        ivSubpeed.setOnClickListener {
+            beatSpeedView.subPercent(2)
+        }
+
     }
 
 
+    /**
+     * @param speed 播放速度,越大间隔应该越小
+     * 输入范围 0-100
+     */
     private fun play(speed: Int) {
-        val i = (speed * 500.0f).toInt()
-        var j = i
-        if (i < 80) {
-            j = 80
-        }
+        var speedChange = 1000 - (speed * 9)
+
         if (MusicService.mTimer == null) {
+            isPlay = true
             MusicService.mTimer = Timer().apply {
-                var i = 4
+                var i = 0
                 schedule(timerTask {
                     println("hepan$i")
-                    runOnUiThread {
 
+                    when (i) {
+                        0 -> {
+                            mBinder.playMusic(1)
+                            ivBeat1.isSelected = true
+                            ivBeat2.isSelected = false
+                            ivBeat3.isSelected = false
+                            ivBeat4.isSelected = false
+                        }
+                        1 -> {
+                            mBinder.playMusic(2)
+                            ivBeat1.isSelected = false
+                            ivBeat2.isSelected = true
+                            ivBeat3.isSelected = false
+                            ivBeat4.isSelected = false
+                        }
+                        2 -> {
+                            mBinder.playMusic(2)
+                            ivBeat1.isSelected = false
+                            ivBeat2.isSelected = false
+                            ivBeat3.isSelected = true
+                            ivBeat4.isSelected = false
+                        }
+                        3 -> {
+                            mBinder.playMusic(2)
+                            ivBeat1.isSelected = false
+                            ivBeat2.isSelected = false
+                            ivBeat3.isSelected = false
+                            ivBeat4.isSelected = true
+                        }
                     }
-                    if (i % 4 == 0) {
-                        mBinder.playMusic(1)
-                    } else {
-                        mBinder.playMusic(2)
-                    }
+
                     i++
-                }, 1L, j * 1L)
+                    if (i >= 4) {
+                        i = 0
+                    }
+                }, 1L, speedChange.toLong())
             }
         }
     }
 
     /**
-     * 修改了播放速度
+     * 修改播放速度
+     *
      */
-    private fun changeSpeed(speed:Int){
+    private fun changeSpeed(speed: Int) {
         cancelTimer()
-        play(speed =speed )
+        mHandler.removeMessages(MSG_CHANGE_S)
+        mHandler.sendEmptyMessageDelayed(MSG_CHANGE_S, 500)
+
     }
+
     /**
      * 取消服务中 Timer
      */
     private fun cancelTimer() {
         if (MusicService.mTimer != null) {
             MusicService.mTimer!!.cancel()
-            MusicService.mTimer=null
+            MusicService.mTimer = null
         }
-    }
-
-    //生成所有数据
-    private fun generateAdapterData() {
-
-    }
-
-    private fun testMusic(){
-        var play = MediaPlayer.create(this,R.raw.tone1)
-        play.start()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mBinder.stopPlay()
-        cancelTimer()
+        SaveSpData.newInstance(this)
+            .saveCommonIntData(BEAT_PRACTIVE_SPEED, beatSpeedView.getPercent().toInt())
     }
 
 

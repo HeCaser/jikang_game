@@ -3,21 +3,106 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/color_E7E2DD">
 
-]
+
+    <com.example.game.widget.BeatSpeedView
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.15"
+            android:id="@+id/beatSpeedView"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+            android:padding="15dp"
+            android:id="@+id/ivAddSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/jia_adagio"
+            app:layout_constraintLeft_toRightOf="@+id/beatSpeedView"
+            app:layout_constraintBottom_toBottomOf="@+id/beatSpeedView"
+            app:layout_constraintTop_toTopOf="@+id/beatSpeedView" />
+
+    <ImageView
+            android:padding="15dp"
+            app:layout_constraintRight_toLeftOf="@+id/beatSpeedView"
+            android:id="@+id/ivSubpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/jian_adagio"
+            app:layout_constraintBottom_toBottomOf="@+id/beatSpeedView"
+            app:layout_constraintTop_toTopOf="@+id/beatSpeedView" />
+
+    <LinearLayout
+            android:id="@+id/ll11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/beatSpeedView">
+
+        <ImageView
+                android:id="@+id/ivBeat1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:src="@drawable/beat_item_selector" />
+
+        <ImageView
+                android:id="@+id/ivBeat2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:src="@drawable/beat_item2_selector" />
+
+
+        <ImageView
+                android:id="@+id/ivBeat3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:src="@drawable/beat_item2_selector" />
+
+        <ImageView
+                android:id="@+id/ivBeat4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+                android:src="@drawable/beat_item2_selector" />
+
+    </LinearLayout>
+
     <TextView
             android:id="@+id/tvPlay"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
+            android:layout_width="180dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/blue_solid_corner_4dp"
             android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:paddingRight="10dp"
             android:text="播放"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/white"
             android:textSize="20dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+            app:layout_constraintTop_toBottomOf="@+id/ll11" />
 
+    <TextView
+            android:id="@+id/tvStop"
+            android:layout_width="180dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/blue_solid_corner_4dp"
+            android:gravity="center"
+            android:text="停止"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvPlay" />
 </androidx.constraintlayout.widget.ConstraintLayout>
