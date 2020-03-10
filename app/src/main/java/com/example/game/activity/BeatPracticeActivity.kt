@@ -69,7 +69,10 @@ class BeatPracticeActivity : BaseActivity() {
     private fun initViewAndData() {
         setCenterTitle("济康-节拍器")
 
-        val speed = SaveSpData.newInstance(this).getCommomIntData(BEAT_PRACTIVE_SPEED)
+        var speed = SaveSpData.newInstance(this).getCommomIntData(BEAT_PRACTIVE_SPEED)
+        if (speed==0){
+            speed=50
+        }
         beatSpeedView.setPercent(speed.toFloat())
         //还原未关闭的播放
         if (isPlay) {
