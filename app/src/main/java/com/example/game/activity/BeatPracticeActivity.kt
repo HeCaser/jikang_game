@@ -74,6 +74,7 @@ class BeatPracticeActivity : BaseActivity() {
             speed=50
         }
         beatSpeedView.setPercent(speed.toFloat())
+        showSpeed(speed)
         //还原未关闭的播放
         if (isPlay) {
             changeSpeed(speed)
@@ -163,7 +164,11 @@ class BeatPracticeActivity : BaseActivity() {
         cancelTimer()
         mHandler.removeMessages(MSG_CHANGE_S)
         mHandler.sendEmptyMessageDelayed(MSG_CHANGE_S, 500)
+        showSpeed(speed)
+    }
 
+    private fun showSpeed(speed: Int){
+        tvBeatSpeed.text = "${(speed*3.59+1).toInt()}"
     }
 
     /**

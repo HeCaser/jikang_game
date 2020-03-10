@@ -8,34 +8,47 @@
 
 
     <com.example.game.widget.BeatSpeedView
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.15"
             android:id="@+id/beatSpeedView"
             android:layout_width="240dp"
             android:layout_height="240dp"
             android:layout_marginTop="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.15" />
+
+    <TextView
+            android:id="@+id/tvBeatSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="180"
+            android:textColor="@color/color_ff8e00"
+            android:textSize="24dp"
+            app:layout_constraintBottom_toBottomOf="@id/beatSpeedView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/beatSpeedView" />
+
 
     <ImageView
-            android:padding="15dp"
             android:id="@+id/ivAddSpeed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="15dp"
             android:src="@drawable/jia_adagio"
-            app:layout_constraintLeft_toRightOf="@+id/beatSpeedView"
             app:layout_constraintBottom_toBottomOf="@+id/beatSpeedView"
+            app:layout_constraintLeft_toRightOf="@+id/beatSpeedView"
             app:layout_constraintTop_toTopOf="@+id/beatSpeedView" />
 
     <ImageView
-            android:padding="15dp"
-            app:layout_constraintRight_toLeftOf="@+id/beatSpeedView"
             android:id="@+id/ivSubpeed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="15dp"
             android:src="@drawable/jian_adagio"
             app:layout_constraintBottom_toBottomOf="@+id/beatSpeedView"
+            app:layout_constraintRight_toLeftOf="@+id/beatSpeedView"
             app:layout_constraintTop_toTopOf="@+id/beatSpeedView" />
 
     <LinearLayout
