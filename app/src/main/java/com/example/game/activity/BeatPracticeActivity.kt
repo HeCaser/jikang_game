@@ -71,7 +71,7 @@ class BeatPracticeActivity : BaseActivity() {
 
         var speed = SaveSpData.newInstance(this).getCommomIntData(BEAT_PRACTIVE_SPEED)
         if (speed==0){
-            speed=50
+            speed=55
         }
         beatSpeedView.setPercent(speed.toFloat())
         showSpeed(speed)
@@ -93,10 +93,10 @@ class BeatPracticeActivity : BaseActivity() {
             changeSpeed(it.toInt())
         }
         ivAddSpeed.setOnClickListener {
-            beatSpeedView.addPercent(2)
+            beatSpeedView.addPercent(1)
         }
         ivSubpeed.setOnClickListener {
-            beatSpeedView.subPercent(2)
+            beatSpeedView.subPercent(1)
         }
 
     }
@@ -104,10 +104,10 @@ class BeatPracticeActivity : BaseActivity() {
 
     /**
      * @param speed 播放速度,越大间隔应该越小
-     * 输入范围 0-100
+     * 输入范围 1-360
      */
     private fun play(speed: Int) {
-        var speedChange = 1000 - (speed * 9)
+        var speedChange = -2.5*speed+1000
 
         if (MusicService.mTimer == null) {
             isPlay = true
@@ -168,7 +168,7 @@ class BeatPracticeActivity : BaseActivity() {
     }
 
     private fun showSpeed(speed: Int){
-        tvBeatSpeed.text = "${(speed*3.59+1).toInt()}"
+        tvBeatSpeed.text = "$speed"
     }
 
     /**
