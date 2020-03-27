@@ -29,15 +29,15 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.release
-            manifestPlaceholders =[
-                    APP_NAME:"济康学习包"
+            manifestPlaceholders = [
+                    APP_NAME: "济康学习包"
             ]
         }
         release {
             signingConfig signingConfigs.release
             minifyEnabled false
-            manifestPlaceholders =[
-                    APP_NAME:"济康学习包"
+            manifestPlaceholders = [
+                    APP_NAME: "济康学习包"
             ]
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -48,8 +48,25 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    applicationVariants.all{
-
+    android.applicationVariants.all { variant ->
+//        variant.outputs.all {
+//            def date = new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+08"))
+//            if ( variant.buildType.name.equals('debug')) {
+//                //这个修改输出的APK路径 （路径不能是盘符根目录例如F：\\，要指定一个文件夹）
+//                variant.getPackageApplication().outputDirectory = new File(rootProject.apkDirector)
+//                variant.getPackageApplication().outputScope.apkDatas.forEach { apkData ->
+//                    //这个修改输出APK的文件名
+//                    apkData.outputFileName = "${date}_${versionName}_debug.apk"
+//                }
+//            }
+//            if (variant.buildType.name.equals('release')) {
+//                variant.getPackageApplication().outputDirectory = new File(rootProject.apkDirector)
+//                variant.getPackageApplication().outputScope.apkDatas.forEach { apkData ->
+//                    //这个修改输出APK的文件名
+//                    apkData.outputFileName = "${date}_${versionName}_release.apk"
+//                }
+//            }
+//        }
     }
 
 }

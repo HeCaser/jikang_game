@@ -61,8 +61,12 @@ class BeatPracticeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_beat_practice)
         initViewAndData()
-        startService(Intent(this, MusicService::class.java))
-        bindService(Intent(this, MusicService::class.java), mConnection, Context.BIND_AUTO_CREATE)
+        startService(Intent(applicationContext, MusicService::class.java))
+        bindService(
+            Intent(applicationContext, MusicService::class.java),
+            mConnection,
+            Context.BIND_AUTO_CREATE
+        )
 
     }
 
@@ -70,8 +74,8 @@ class BeatPracticeActivity : BaseActivity() {
         setCenterTitle("济康-节拍器")
 
         var speed = SaveSpData.newInstance(this).getCommomIntData(BEAT_PRACTIVE_SPEED)
-        if (speed==0){
-            speed=55
+        if (speed == 0) {
+            speed = 55
         }
         beatSpeedView.setPercent(speed.toFloat())
         showSpeed(speed)
@@ -81,13 +85,14 @@ class BeatPracticeActivity : BaseActivity() {
         }
 
         tvPlay.setOnClickListener {
+            isPlay = true
             changeSpeed(beatSpeedView.getPercent().toInt())
         }
         tvStop.setOnClickListener {
             isPlay = false
             cancelTimer()
-            stopService(Intent(this, MusicService::class.java))
-            unbindService(mConnection)
+//            stopService(Intent(this, MusicService::class.java))
+//            unbindService(mConnection)
         }
         beatSpeedView.setCallBack {
             changeSpeed(it.toInt())
@@ -107,49 +112,52 @@ class BeatPracticeActivity : BaseActivity() {
      * 输入范围 1-360
      */
     private fun play(speed: Int) {
-        var speedChange = -2.5*speed+1000
-
+        var speedChange = -2.5 * speed + 1000
+        speedChange = 500.0
         if (MusicService.mTimer == null) {
             isPlay = true
             MusicService.mTimer = Timer().apply {
                 var i = 0
                 schedule(timerTask {
-                    println("hepan$i")
 
-                    when (i) {
-                        0 -> {
-                            mBinder.playMusic(1)
-                            ivBeat1.isSelected = true
-                            ivBeat2.isSelected = false
-                            ivBeat3.isSelected = false
-                            ivBeat4.isSelected = false
-                        }
-                        1 -> {
-                            mBinder.playMusic(2)
-                            ivBeat1.isSelected = false
-                            ivBeat2.isSelected = true
-                            ivBeat3.isSelected = false
-                            ivBeat4.isSelected = false
-                        }
-                        2 -> {
-                            mBinder.playMusic(2)
-                            ivBeat1.isSelected = false
-                            ivBeat2.isSelected = false
-                            ivBeat3.isSelected = true
-                            ivBeat4.isSelected = false
-                        }
-                        3 -> {
-                            mBinder.playMusic(2)
-                            ivBeat1.isSelected = false
-                            ivBeat2.isSelected = false
-                            ivBeat3.isSelected = false
-                            ivBeat4.isSelected = true
-                        }
-                    }
+                    runOnUiThread {
+                        println("hepan$i")
 
-                    i++
-                    if (i >= 4) {
-                        i = 0
+                        when (i) {
+                            0 -> {
+                                mBinder.playMusic(1)
+                                ivBeat1.isSelected = true
+                                ivBeat2.isSelected = false
+                                ivBeat3.isSelected = false
+                                ivBeat4.isSelected = false
+                            }
+                            1 -> {
+                                mBinder.playMusic(2)
+                                ivBeat1.isSelected = false
+                                ivBeat2.isSelected = true
+                                ivBeat3.isSelected = false
+                                ivBeat4.isSelected = false
+                            }
+                            2 -> {
+                                mBinder.playMusic(2)
+                                ivBeat1.isSelected = false
+                                ivBeat2.isSelected = false
+                                ivBeat3.isSelected = true
+                                ivBeat4.isSelected = false
+                            }
+                            3 -> {
+                                mBinder.playMusic(2)
+                                ivBeat1.isSelected = false
+                                ivBeat2.isSelected = false
+                                ivBeat3.isSelected = false
+                                ivBeat4.isSelected = true
+                            }
+                        }
+
+                        i++
+                        if (i >= 4) {
+                            i = 0
+                        }
                     }
                 }, 1L, speedChange.toLong())
             }
@@ -167,7 +175,7 @@ class BeatPracticeActivity : BaseActivity() {
         showSpeed(speed)
     }
 
-    private fun showSpeed(speed: Int){
+    private fun showSpeed(speed: Int) {
         tvBeatSpeed.text = "$speed"
     }
 
@@ -185,6 +193,12 @@ class BeatPracticeActivity : BaseActivity() {
         super.onDestroy()
         SaveSpData.newInstance(this)
             .saveCommonIntData(BEAT_PRACTIVE_SPEED, beatSpeedView.getPercent().toInt())
+
+        if (!isPlay) {
+            cancelTimer()
+            stopService(Intent(this, MusicService::class.java))
+            unbindService(mConnection)
+        }
     }
 
 
