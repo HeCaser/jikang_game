@@ -16,6 +16,7 @@ import com.example.game.utils.SaveSpData
 import kotlinx.android.synthetic.main.activity_beat_practice.*
 import java.util.*
 import kotlin.concurrent.timerTask
+import kotlin.math.sin
 
 
 /**
@@ -109,11 +110,20 @@ class BeatPracticeActivity : BaseActivity() {
 
     /**
      * @param speed 播放速度,越大间隔应该越小
-     * 输入范围 1-360
+     * 1-270
      */
     private fun play(speed: Int) {
-        var speedChange = -2.5 * speed + 1000
-        speedChange = 500.0
+        var radius = (speed) / 3.0
+        if (radius > 90){
+            radius=90.0
+        }
+//        var radius2 = sin(radius / 180.0 * Math.PI)*90
+
+        //转换为 0.0-1.0 (0度-90度的sin值) 来计算节拍间隔, 斜率的变化 由最初数据向0.0-1.0映射时完成
+        var range = sin(radius / 180.0 * Math.PI)
+
+        var speedChange = -1800 * range + 2000
+        println("hepans  $speedChange")
         if (MusicService.mTimer == null) {
             isPlay = true
             MusicService.mTimer = Timer().apply {
@@ -121,7 +131,6 @@ class BeatPracticeActivity : BaseActivity() {
                 schedule(timerTask {
 
                     runOnUiThread {
-                        println("hepan$i")
 
                         when (i) {
                             0 -> {
@@ -176,7 +185,7 @@ class BeatPracticeActivity : BaseActivity() {
     }
 
     private fun showSpeed(speed: Int) {
-        tvBeatSpeed.text = "$speed"
+        tvBeatSpeed.text = "${speed + 29}"
     }
 
     /**

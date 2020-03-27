@@ -27,8 +27,8 @@ class BeatSpeedView : View {
     var radius = 0f
 
     //波动范围 0-100,如果需要其他范围请自行在外转换
-    private val MAX = 360f
-    private val MIN = 30f
+    private val MAX = 271f
+    private val MIN = 1f
     private var mPercent = 55f
 
     //回调
