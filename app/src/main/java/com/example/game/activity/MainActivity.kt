@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mAdapter: MultiTypeAdapter
     private lateinit var mItems: MutableList<Any>
     private val mGames = arrayListOf(
-        "节拍器",
+        "节拍器","舒尔特",
         "济康1-100", "1SharpEye", "舒尔特注意力",
         "舒尔特方格", "Num25", "搜索词",
         "搜索数", "奇偶数", "差异数字",
@@ -99,6 +99,9 @@ class MainActivity : AppCompatActivity() {
             }
             "节拍器" -> {
                 BeatPracticeActivity.start(this)
+            }
+            "舒尔特"->{
+                SchulteActivity.start(this)
             }
 
         }
