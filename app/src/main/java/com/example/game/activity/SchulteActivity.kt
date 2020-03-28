@@ -3,6 +3,7 @@ package com.example.game.activity
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -14,6 +15,7 @@ import com.example.game.bean.SchulteItemBean
 import com.example.game.constant.SCHULTE_ACTIVITY
 import com.example.game.utils.SaveSpData
 import kotlinx.android.synthetic.main.activity_schulte.*
+import kotlinx.android.synthetic.main.schulte_item.view.*
 import me.drakeet.multitype.MultiTypeAdapter
 
 /**
@@ -48,7 +50,7 @@ class SchulteActivity : BaseActivity() {
             when (msg.what) {
                 MSG_TIME_COUNT -> {
                     mCountTime += 1000
-                    tvTimeRecord.text = "${mCountTime/1000}"
+                    tvTimeRecord.text = "${mCountTime / 1000}"
                     sendEmptyMessageDelayed(MSG_TIME_COUNT, 1000)
                 }
                 MSG_HIDE_NUMBE -> {
@@ -118,7 +120,7 @@ class SchulteActivity : BaseActivity() {
      */
     private fun startGame() {
         mSelectedNum = 1
-        mCountTime=0
+        mCountTime = 0
         tvTimeRecord.text = ""
         rvNumbers.apply {
             setHasFixedSize(true)
@@ -138,7 +140,7 @@ class SchulteActivity : BaseActivity() {
         setShowText()
         mAdapter.notifyDataSetChanged()
         mHandler.removeMessages(MSG_TIME_COUNT)
-        mHandler.sendEmptyMessageDelayed(MSG_TIME_COUNT,1000)
+        mHandler.sendEmptyMessageDelayed(MSG_TIME_COUNT, 1000)
     }
 
     /**
@@ -187,44 +189,43 @@ class SchulteActivity : BaseActivity() {
      * 根据不同游戏类型处理
      */
     private fun handleItemClick(pos: Int) {
+        val total = mSpanNum * mSpanNum
+        val showNext = tvNextValue.text
+        val clickText = mItems[pos].showText
+        val child = rvNumbers.getChildAt(pos)
 
-        handleGameThree(pos)
-
-    }
-
-
-    /**
-     * pos: 点击的条目所在 adapter 中位置
-     */
-    private fun handleGameThree(pos: Int) {
-        var item = mItems[pos]
-        var number = item.number
-        if (number == mSelectedNum) {
-            mAdapter.notifyDataSetChanged()
-            if (number == mSpanNum * mSpanNum) {
-                //选择完毕,游戏结束
-                showRecord()
-            }
+        if (showNext == clickText) {
             mSelectedNum++
-        } else if (number != mSelectedNum) {
-//                ToastUtils.show(this, "此处是$number")
-            var child = rvNumbers.getChildAt(pos)
+            if (mSelectedNum > total) {
+                showRecord()
+                return
+            }
+            showNextHint()
             with(child) {
-                //点击了错误选项,展示5ms
-//                    tvNumber.setTextColor(Color.WHITE)
-//                    tvNumber.setBackgroundColor(Color.RED)
-                mHandler.sendEmptyMessageDelayed(MSG_NOTOFY_DADA_CHANGED, 500L)
+                tvNumber.setBackgroundColor(resources.getColor(R.color.colorPrimary))
+                mHandler.postDelayed({
+                    tvNumber.setBackgroundColor(android.graphics.Color.WHITE)
+                }, 200)
+            }
+        } else {
+            //点击错误
+            with(child) {
+                tvNumber.setBackgroundColor(Color.RED)
+                mHandler.postDelayed({
+                    tvNumber.setBackgroundColor(Color.WHITE)
+                }, 200)
             }
         }
 
     }
+
 
     /**
      * 跳转到成绩展示界面
      */
     private fun showRecord() {
         mHandler.removeCallbacksAndMessages(null)
-        mSpKey = "$mSpanNum${if (isTakeLetter) 1 else 0}" + SCHULTE_ACTIVITY
+        mSpKey = "$mSpanNum" + SCHULTE_ACTIVITY
         var history = SaveSpData.newInstance(this).getCommomLongData(mSpKey)
         if (history == 0L || history > mCountTime - 1000) {
             //新的记录

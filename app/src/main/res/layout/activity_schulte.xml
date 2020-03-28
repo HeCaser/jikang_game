@@ -25,15 +25,15 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:paddingLeft="@dimen/activity_margin"
-                    android:paddingRight="10dp"
                     android:text="字母"
                     android:textSize="20sp" />
 
             <Switch
                     android:id="@+id/switchZiMu"
+                    android:paddingLeft="10dp"
                     style="@style/MySwitch"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true" />
 
