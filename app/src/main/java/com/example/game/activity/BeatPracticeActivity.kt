@@ -16,7 +16,6 @@ import com.example.game.utils.SaveSpData
 import kotlinx.android.synthetic.main.activity_beat_practice.*
 import java.util.*
 import kotlin.concurrent.timerTask
-import kotlin.math.sin
 
 
 /**
@@ -110,19 +109,24 @@ class BeatPracticeActivity : BaseActivity() {
 
     /**
      * @param speed 播放速度,越大间隔应该越小
-     * 1-270
+     * 1-271
      */
-    private fun play(speed: Int) {
-        var radius = (speed) / 3.0
-        if (radius > 90){
-            radius=90.0
-        }
-//        var radius2 = sin(radius / 180.0 * Math.PI)*90
+    private fun play( speed: Int) {
+//        var radius = (speed) / 3.0
+//        if (radius > 90){
+//            radius=90.0
+//        }
+////        var radius2 = sin(radius / 180.0 * Math.PI)*90
+//
+//        //转换为 0.0-1.0 (0度-90度的sin值) 来计算节拍间隔, 斜率的变化 由最初数据向0.0-1.0映射时完成
+//        var range = sin(radius / 180.0 * Math.PI)
+//
+//        var speedChange = -1800 * range + 2000
 
-        //转换为 0.0-1.0 (0度-90度的sin值) 来计算节拍间隔, 斜率的变化 由最初数据向0.0-1.0映射时完成
-        var range = sin(radius / 180.0 * Math.PI)
+        var s = speed+29 //范围30-300
 
-        var speedChange = -1800 * range + 2000
+        var speedChange = (300.0/s.toDouble())*200
+
         println("hepans  $speedChange")
         if (MusicService.mTimer == null) {
             isPlay = true
