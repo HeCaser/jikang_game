@@ -2,8 +2,7 @@ package com.example.game.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.game.R
 import com.example.game.adapter.MainStringViewBinder
 import com.example.game.constant.*
@@ -40,7 +39,8 @@ class MainActivity : AppCompatActivity() {
         rvGameNames.apply {
             setHasFixedSize(true)
             adapter = mAdapter
-            layoutManager = LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
+//            layoutManager = LinearLayoutManager(this@MainActivity, RecyclerView.VERTICAL, false)
+            layoutManager = GridLayoutManager(this@MainActivity, 2)
         }
         mAdapter.items = mItems
         mAdapter.notifyDataSetChanged()
