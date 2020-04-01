@@ -144,7 +144,7 @@ class SearchNumberActivity : BaseActivity() {
         for (num in 0..TOTAL_WORD_NUMBER) {
             val tv = TextView(this)
             tv.textSize = textSize
-            tv.setLetterSpacingText(getErrorWord(num))
+            tv.setLetterSpacingText(getErrorWord())
             tv.setPadding(padding , padding, padding , padding)
 
             tv.setTextColor(getTextColor(num))
@@ -155,9 +155,10 @@ class SearchNumberActivity : BaseActivity() {
             }
         }
 
-        //随机放入待选择的数字
+        //随机放入待选择的数字,四个
         val q = TOTAL_WORD_NUMBER / 4
         for (num in 0..3) {
+            //每1/4区域,计算一个位置,放置待选择的数字
             var random = Random.nextInt(q * num, q * (num + 1))
             while (random >= TOTAL_WORD_NUMBER || random == 0) {
                 random = Random.nextInt(q * (num + 1))
@@ -247,7 +248,10 @@ class SearchNumberActivity : BaseActivity() {
         mHandler.sendEmptyMessageDelayed(MSG_START_MOVE, 500)
     }
 
-    private fun getErrorWord(index: Int): String {
+    /**
+     * 获取非正常数字
+     */
+    private fun getErrorWord(): String {
         var res = (Random.nextInt(1, 999) + randomSeed * 1000).toString()
         //如果出现相同的四位数就-1 防止和目标数相同
         if (res.matches(Regex("([0-9])\\1{3}"))) {
