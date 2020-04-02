@@ -156,7 +156,7 @@ class SearchOddEvenActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutLis
         //父控件尺寸决定子 View 数量
         val flexWidth = flexBox.measuredWidth
         val flexHeight = flexBox.measuredHeight
-        val columnNumber = 3 //默认列数
+        val columnNumber = 4 //默认列数
         var rowNumber: Int // 行数根据行高计算
 
         val itemWidth = flexWidth / columnNumber //宽度/列 = 条目宽度
@@ -166,6 +166,7 @@ class SearchOddEvenActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutLis
 
 
         totalNumber = columnNumber * rowNumber
+
         for (num in 0 until totalNumber) {
             val tv = TextView(this)
             tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, (itemWidth / 5.0).toFloat())
@@ -173,11 +174,12 @@ class SearchOddEvenActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutLis
             tv.gravity=Gravity.CENTER
             tv.setTextColor(resources.getColor(R.color.color_333333))
 
-            flexBox.addView(tv,itemWidth,1) ////宽度有效,高度无效?
+            flexBox.addView(tv,(itemWidth*0.9).toInt(),1) ////宽度有效,高度无效?
 
             val para = tv.layoutParams
             if (para is FlexboxLayout.LayoutParams) {
                 para.topMargin = 10
+                para.leftMargin = itemHeight*0.1.toInt()  //上面宽度设置为0.9  margin为0.1
             }
         }
 
