@@ -8,16 +8,16 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.ViewTreeObserver
 import android.widget.TextView
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.get
 import com.example.game.R
 import com.example.game.constant.SEARCH_NUMBER_ACTIVITY
-import com.example.game.util.screenWidth
 import com.example.game.utils.StatusBarUtils
 import com.example.game.utils.setLetterSpacingText
-import com.google.android.flexbox.FlexboxLayout
 import kotlinx.android.synthetic.main.activity_search_word.*
 import kotlin.random.Random
 
@@ -25,10 +25,9 @@ import kotlin.random.Random
 /**
  *搜索数字
  */
-class SearchNumberActivity : BaseActivity() {
+class SearchNumberActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener {
 
     companion object {
-        const val TOTAL_WORD_NUMBER = 133
         const val MSG_MOVE_LINE = 1
         const val MSG_START_MOVE = 2
         const val MSG_TIME_COUT_DOWN = 3
@@ -47,7 +46,8 @@ class SearchNumberActivity : BaseActivity() {
             super.handleMessage(msg)
             when (msg!!.what) {
                 MSG_MOVE_LINE -> {
-                    val anim = ObjectAnimator.ofFloat(viewLine, "y", mStart + (mTvHeight * mRemoveCount))
+                    val anim =
+                        ObjectAnimator.ofFloat(viewLine, "y", mStart + (mTvHeight * mRemoveCount))
                     anim.start()
                     mRemoveCount++
                     if (mRemoveCount < 25) {
@@ -85,10 +85,9 @@ class SearchNumberActivity : BaseActivity() {
     private var mSocre = 0
     private var mTotalTime = 90
     private var randomSeed = 1
-//    val padding = screenWidth / 260
+    //    val padding = screenWidth / 260
     val padding = 2
-    val margin = screenWidth / 140
-    val textSize = screenWidth / 28.0F
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         StatusBarUtils.setStatusBarTransparent(this)
@@ -98,13 +97,15 @@ class SearchNumberActivity : BaseActivity() {
         initListener()
     }
 
+
     private fun initListener() {
-        flexBox.viewTreeObserver.addOnGlobalLayoutListener(ViewTreeObserver.OnGlobalLayoutListener {
-            val tv = flexBox.getChildAt(0)
-            var totalSpace = (tv.bottom - tv.top) + margin
-            mStart = flexBox.top + tv.bottom.toFloat()
-            mTvHeight = totalSpace.toFloat()
-        })
+        //设置布局监听,获取view尺寸
+        flexBox.viewTreeObserver.addOnGlobalLayoutListener(this)
+    }
+
+    override fun onGlobalLayout() {
+        flexBox.viewTreeObserver.removeOnGlobalLayoutListener(this)
+        initGameView()
     }
 
     private fun initViewAndData() {
@@ -115,14 +116,13 @@ class SearchNumberActivity : BaseActivity() {
         //计算pb的最大值, 倒计时共90s
         mTotalTime = 900 * mCountDownTimeDelay.toInt()
         progressBar.max = mTotalTime
-        progressBar.progress=mTotalTime
+        progressBar.progress = mTotalTime
 
         setCenterTitle("济康-搜索数")
         mShowView.add(tvContent1)
         mShowView.add(tvContent2)
         mShowView.add(tvContent3)
         mShowView.add(tvContent4)
-        initGameView()
     }
 
     /**
@@ -141,26 +141,36 @@ class SearchNumberActivity : BaseActivity() {
 
         //添加view给flexbox
         flexBox.removeAllViews()
-        for (num in 0..TOTAL_WORD_NUMBER) {
+        //父控件尺寸决定子 View 数量
+        val flexWidth = flexBox.measuredWidth
+        val flexHeight = flexBox.measuredHeight
+        val columnNumber = 5 //默认列数
+        var rowNumber: Int // 行数根据行高计算
+
+        val itemWidth = flexWidth / columnNumber //宽度/列 = 条目宽度
+        val itemHeight = itemWidth / 2 //行高为宽度一半
+        rowNumber = flexHeight / itemHeight
+        rowNumber -= 1 //减少一行,避免只显示一半的数据
+
+
+        var totalNumber = columnNumber * rowNumber
+        for (num in 0 until totalNumber) {
             val tv = TextView(this)
-            tv.textSize = textSize
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, (itemWidth / 4.0).toFloat())
             tv.setLetterSpacingText(getErrorWord())
-            tv.setPadding(padding , padding, padding , padding)
+            tv.gravity = Gravity.CENTER_HORIZONTAL
 
             tv.setTextColor(getTextColor(num))
-            flexBox.addView(tv)
-            val para = tv.layoutParams
-            if (para is FlexboxLayout.LayoutParams) {
-                para.topMargin = margin
-            }
+            flexBox.addView(tv, itemWidth, itemHeight)
         }
 
+
         //随机放入待选择的数字,四个
-        val q = TOTAL_WORD_NUMBER / 4
+        val q = totalNumber / 4
         for (num in 0..3) {
             //每1/4区域,计算一个位置,放置待选择的数字
             var random = Random.nextInt(q * num, q * (num + 1))
-            while (random >= TOTAL_WORD_NUMBER || random == 0) {
+            while (random >= totalNumber || random == 0) {
                 random = Random.nextInt(q * (num + 1))
             }
             val tv = flexBox[random] as TextView
@@ -169,6 +179,17 @@ class SearchNumberActivity : BaseActivity() {
             }
             tv.setLetterSpacingText(rText)
         }
+
+        //延时获取子view高度,会和上面添加时计算的尺寸稍有差别.
+        mHandler.postDelayed({
+            val tv = flexBox.getChildAt(0)
+            var totalSpace = (tv.bottom - tv.top)
+            mStart = flexBox.top + tv.bottom.toFloat()*0.8f
+            mTvHeight = totalSpace.toFloat()
+            mHandler.sendEmptyMessageDelayed(MSG_START_MOVE, 500)
+
+        },1000)
+
     }
 
     /**
@@ -210,7 +231,6 @@ class SearchNumberActivity : BaseActivity() {
     }
 
 
-
     /**
      * 根据起始颜色确定tv色值
      */
@@ -235,18 +255,16 @@ class SearchNumberActivity : BaseActivity() {
         val g3 = (g1 + (g2 - g1) * value).toInt()
         val b3 = (b1 + (b2 - b1) * value).toInt()
 
-        val color = a3 and 0xff shl 24 or (r3 and 0xff shl 16) or (g3 and 0xff shl 8) or (b3 and 0xff)
+        val color =
+            a3 and 0xff shl 24 or (r3 and 0xff shl 16) or (g3 and 0xff shl 8) or (b3 and 0xff)
         return color
     }
+
     private fun getScore(): Int {
         val text = tvScore.text.toString()
         return if (text.isDigitsOnly()) text.toInt() else 0
     }
 
-    override fun onResume() {
-        super.onResume()
-        mHandler.sendEmptyMessageDelayed(MSG_START_MOVE, 500)
-    }
 
     /**
      * 获取非正常数字
@@ -264,5 +282,6 @@ class SearchNumberActivity : BaseActivity() {
         super.onDestroy()
         mHandler.removeCallbacksAndMessages(null)
     }
+
 
 }

@@ -60,7 +60,7 @@
     </style>
 
     <style name="search_number_style1">
-        <item name="android:minWidth">120dp</item>
+<!--        <item name="android:minWidth">120dp</item>-->
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginLeft">6dp</item>
         <item name="android:layout_marginRight">6dp</item>
