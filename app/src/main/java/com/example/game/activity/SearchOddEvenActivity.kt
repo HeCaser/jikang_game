@@ -7,6 +7,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.ViewTreeObserver
 import android.widget.TextView
 import androidx.core.text.isDigitsOnly
@@ -23,10 +25,9 @@ import kotlin.random.Random
 /**
  *搜索奇偶数
  */
-class SearchOddEvenActivity : BaseActivity() {
+class SearchOddEvenActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener {
 
     companion object {
-        const val TOTAL_WORD_NUMBER = 90
         const val SEARCH_WORD_NUMBER = 6
 
         const val MSG_MOVE_HINT = 1//移动指示背景(样式改变)
@@ -86,9 +87,6 @@ class SearchOddEvenActivity : BaseActivity() {
 
     private var mRemoveCount = 0
     private var mSpeed = 0
-    //横线初始位置
-    private var mStart = 0F
-    private var mTvHeight = 0F
     private var mLineMoveDelayTime = 1000L
     private var mCountDownTimeDelay = 100L
     private var mGlintDelay = 500L
@@ -98,7 +96,6 @@ class SearchOddEvenActivity : BaseActivity() {
     //是否搜索奇数
     private var isSearchOdd = true
     val padding = 4
-    private val margin = screenWidth / 140
     val textSize = screenWidth / 28.0F
     //等待选择的数据
     private var mSearPositions = arrayListOf<Int>()
@@ -114,12 +111,12 @@ class SearchOddEvenActivity : BaseActivity() {
     }
 
     private fun initListener() {
-        flexBox.viewTreeObserver.addOnGlobalLayoutListener(ViewTreeObserver.OnGlobalLayoutListener {
-            val tv = flexBox.getChildAt(0)
-            var totalSpace = (tv.bottom - tv.top) + margin
-            mStart = flexBox.top + tv.bottom.toFloat()
-            mTvHeight = totalSpace.toFloat()
-        })
+        flexBox.viewTreeObserver.addOnGlobalLayoutListener(this)
+    }
+
+    override fun onGlobalLayout() {
+        flexBox.viewTreeObserver.removeOnGlobalLayoutListener(this)
+        initGameView()
     }
 
     private fun initViewAndData() {
@@ -135,15 +132,16 @@ class SearchOddEvenActivity : BaseActivity() {
         setCenterTitle("济康-奇偶数")
 
         //设置步进总数,根据速度设置
-        circleStepView.setStep(mSpeed * 3 + 10,0)
+        circleStepView.setStep(mSpeed * 3 + 10, 0)
 
-        initGameView()
 
     }
 
     /**
      * 游戏开始前的初始化,可能需要多次重置
      */
+    private var totalNumber = 0
+
     private fun initGameView() {
         isSearchOdd = !isSearchOdd
         if (isSearchOdd) {
@@ -155,17 +153,31 @@ class SearchOddEvenActivity : BaseActivity() {
 
         //添加view给flexbox
         flexBox.removeAllViews()
-        for (num in 0 until TOTAL_WORD_NUMBER) {
-            val tv = TextView(this)
-            tv.textSize = textSize
-            tv.text = generateNumber(!isSearchOdd).toString()
-            tv.setPadding(padding + 10, padding, padding + 10, padding)
+        //父控件尺寸决定子 View 数量
+        val flexWidth = flexBox.measuredWidth
+        val flexHeight = flexBox.measuredHeight
+        val columnNumber = 3 //默认列数
+        var rowNumber: Int // 行数根据行高计算
 
+        val itemWidth = flexWidth / columnNumber //宽度/列 = 条目宽度
+        val itemHeight = itemWidth / 2 //行高为宽度一半
+        rowNumber = flexHeight / itemHeight
+        rowNumber -= 1 //减少一行,避免只显示一半的数据
+
+
+        totalNumber = columnNumber * rowNumber
+        for (num in 0 until totalNumber) {
+            val tv = TextView(this)
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, (itemWidth / 5.0).toFloat())
+            tv.text = generateNumber(!isSearchOdd).toString()
+            tv.gravity=Gravity.CENTER
             tv.setTextColor(resources.getColor(R.color.color_333333))
-            flexBox.addView(tv)
+
+            flexBox.addView(tv,itemWidth,1) ////宽度有效,高度无效?
+
             val para = tv.layoutParams
             if (para is FlexboxLayout.LayoutParams) {
-                para.topMargin = margin
+                para.topMargin = 10
             }
         }
 
@@ -173,9 +185,9 @@ class SearchOddEvenActivity : BaseActivity() {
         mSearPositions.clear()
         for (num in 0 until SEARCH_WORD_NUMBER) {
             val random = generateNumber(isSearchOdd)
-            var position = Random.nextInt(0, TOTAL_WORD_NUMBER)
+            var position = Random.nextInt(0, totalNumber)
             while (mSearPositions.contains(position)) {
-                position = Random.nextInt(0, TOTAL_WORD_NUMBER)
+                position = Random.nextInt(0, totalNumber)
             }
             mSearPositions.add(position)
 
@@ -235,7 +247,7 @@ class SearchOddEvenActivity : BaseActivity() {
      * 提示状态的移动,根据传入的速度来决定移动快慢
      */
     private fun moveHint() {
-        if (mHintPosition >= TOTAL_WORD_NUMBER) return
+        if (mHintPosition >= totalNumber) return
         val tv = flexBox[mHintPosition] as TextView
         tv.setShadowLayer(2.0f, 1.0f, 1.0f, resources.getColor(R.color.colorPrimary))
         if (mHintPosition != 0) {
@@ -281,5 +293,6 @@ class SearchOddEvenActivity : BaseActivity() {
         super.onDestroy()
         mHandler.removeCallbacksAndMessages(null)
     }
+
 
 }
