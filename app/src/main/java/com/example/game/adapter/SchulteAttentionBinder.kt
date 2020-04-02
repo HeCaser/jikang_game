@@ -30,7 +30,7 @@ class SchulteAttentionBinder(var span: Int, var callBack: (phone: Int) -> Unit) 
         lateinit var mData: NumberBean
         fun setData() {
             with(itemView) {
-//                tvNumber.text = "${mData.number}"
+                tvNumber.text = "${mData.number}"
 //                var size = context.dp2px(50f - (span - 2) * 3)
 
 
