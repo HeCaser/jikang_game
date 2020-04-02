@@ -3,16 +3,13 @@ package com.example.game.activity
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.widget.TextView
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.get
 import com.example.game.R
 import com.example.game.constant.SEARCH_DIFF_NUMBER_ACTIVITY
-import com.example.game.constant.SEARCH_ODD_EVEN_ACTIVITY
 import com.example.game.util.screenWidth
 import com.example.game.utils.ScreenUtils
 import com.example.game.utils.StatusBarUtils
@@ -164,7 +161,7 @@ class SearchDiffNumberActivity : BaseActivity() {
     private fun addViewToFlexBox() {
         val parentH = flexBox.measuredHeight
 
-        val itemHeight = ScreenUtils.dip2px(this, 90f)//条目的宽度
+        val itemHeight = ScreenUtils.dip2px(this, 90f)//条目的高度
         val margin = ScreenUtils.dip2px(this, 10f)
         val itemWidth = (flexBox.measuredWidth - 6 * margin) / 4//条目的宽度,固定一行四个
         val rowNumber = (parentH - 50) / (itemHeight + margin) //行数= 总高度/(条目高度+顶部间距)
