@@ -1,7 +1,6 @@
 package com.example.game.activity
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.game.R
 import com.example.game.adapter.MainStringViewBinder
@@ -9,7 +8,7 @@ import com.example.game.constant.*
 import kotlinx.android.synthetic.main.activity_main.*
 import me.drakeet.multitype.MultiTypeAdapter
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var mAdapter: MultiTypeAdapter
     private lateinit var mItems: MutableList<Any>
@@ -31,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initView() {
+        setCenterTitle("济康学习包")
         mAdapter = MultiTypeAdapter()
         mAdapter.register(MainStringViewBinder {
             goToGame(it)
