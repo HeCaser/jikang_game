@@ -1,11 +1,14 @@
 package com.example.game.adapter
 
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.game.R
 import com.example.game.bean.NumberBean
+import com.example.game.util.dp2px
+import com.example.game.util.screenWidth
 import kotlinx.android.synthetic.main.number_item.view.*
 import me.drakeet.multitype.ItemViewBinder
 
@@ -23,7 +26,23 @@ class NumberViewBinder(var callBack: (phone: Int) -> Unit) :
   inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         lateinit var mData: NumberBean
         fun setData() {
+
+
             with(itemView) {
+                val half = 3f //item 之间的间隔
+                var width = screenWidth
+                //减去间隔是一行条目所占的宽度之和
+                width -= context.dp2px(half)*9
+                var itemWidth = width/10
+
+                var size2 = width/ 20
+                with(tvNumberView.getTv()){
+                    setTextSize(TypedValue.COMPLEX_UNIT_PX,size2.toFloat())
+                    var para = layoutParams
+                    para.height = itemWidth
+//                    layoutParams = para
+                }
+
                 tvNumberView.setData(mData)
                 tvNumberView.setOnClickListener {
                     callBack(adapterPosition)

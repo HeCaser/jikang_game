@@ -3,6 +3,7 @@ package com.example.game.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.game.R
 import com.example.game.bean.NumberBean
@@ -55,5 +56,9 @@ class NumberView : ConstraintLayout {
             tvNumber.setBackgroundColor(this.context.res2color(bgList[2]))
             tvNumber.setTextColor(this.context.res2color(colorList[2]))
         }
+    }
+
+    fun getTv():TextView{
+        return  tvNumber
     }
 }

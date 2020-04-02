@@ -75,7 +75,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="2dp"
         app:flexWrap="wrap"
-        app:justifyContent="center" />
+        app:justifyContent="space_around" />
 
 
 </LinearLayout>

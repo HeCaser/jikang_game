@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         "搜索数", "奇偶数", "差异数字",
         "垂直练习", "EBook树形", "EBook循环",
         "EBook分栏", "速度数", "记忆数", "过目不忘"
+//    "奇偶数"
     )
 //
 
