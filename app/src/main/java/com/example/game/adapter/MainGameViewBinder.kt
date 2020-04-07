@@ -6,18 +6,20 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.game.R
+import com.example.game.bean.GameBean
 import me.drakeet.multitype.ItemViewBinder
 
-class MainStringViewBinder(var callBack: (phone: String) -> Unit) : ItemViewBinder<String, MainStringViewBinder.ViewHolder>() {
+class MainGameViewBinder(var callBack: (phone: String) -> Unit) : ItemViewBinder<GameBean, MainGameViewBinder.ViewHolder>() {
 
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): ViewHolder {
         return ViewHolder(inflater.inflate(R.layout.main_item, parent, false))
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, item: String) {
-        holder.fooView.text = item
+    override fun onBindViewHolder(holder: ViewHolder, item: GameBean) {
+        holder.fooView.text = item.gameName
+        holder.fooView.setTextColor(item.tvColor)
         holder.fooView.setOnClickListener {
-            callBack(item)
+            callBack(item.gameName)
         }
     }
 
