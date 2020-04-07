@@ -38,7 +38,16 @@ class SchulteAttentionBinder(var span: Int, var callBack: (phone: Int) -> Unit) 
                 var number =adapterItems.size
                 var screenWidth = screenWidth
                 screenWidth-=span*context.dp2px(10f)
-                var size2 = screenWidth/ sqrt(number.toDouble())
+                //行数
+                var row = sqrt(number.toDouble())
+                var size2=when {
+                    number>10 -> {
+                        screenWidth/(row*2)
+                    }
+                    else -> {
+                        screenWidth/row
+                    }
+                }
                 tvNumber.setTextSize(TypedValue.COMPLEX_UNIT_PX,size2.toFloat())
 
                 if (mData.isSelected) {
