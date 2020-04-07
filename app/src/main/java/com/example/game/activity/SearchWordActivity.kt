@@ -8,6 +8,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.ViewTreeObserver
 import android.widget.TextView
 import androidx.core.text.isDigitsOnly
@@ -17,7 +19,6 @@ import com.example.game.constant.SEARCH_WORD_ACTIVITY
 import com.example.game.util.screenHeight
 import com.example.game.util.screenWidth
 import com.example.game.utils.StatusBarUtils
-import com.google.android.flexbox.FlexboxLayout
 import kotlinx.android.synthetic.main.activity_search_word.*
 import kotlin.random.Random
 
@@ -25,10 +26,10 @@ import kotlin.random.Random
 /**
  *搜索词
  */
-class SearchWordActivity : BaseActivity() {
+class SearchWordActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener {
 
     companion object {
-        const val TOTAL_WORD_NUMBER = 223
+         var totalNumber = 223
         const val MSG_MOVE_LINE = 1
         const val MSG_START_MOVE = 2
         const val MSG_TIME_COUT_DOWN = 3
@@ -85,7 +86,6 @@ class SearchWordActivity : BaseActivity() {
     }
 
     private var mRemoveCount = 0
-    private var mRecord = 0L
     private var mSpeed = 0
     private var mWidth = 0
     private var mHeight = 0
@@ -97,25 +97,28 @@ class SearchWordActivity : BaseActivity() {
     private var mShowView = arrayListOf<TextView>()
     private var mSocre = 0
     private var mTotalTime = 90
-    val padding = screenWidth / 160
-    val margin = screenWidth / 140
-    val textSize = screenWidth / 28.0F
 
     override fun onCreate(savedInstanceState: Bundle?) {
         StatusBarUtils.setStatusBarTransparent(this)
         super.onCreate(savedInstanceState)
-        setContentView(com.example.game.R.layout.activity_search_word)
+        setContentView(R.layout.activity_search_word)
         initViewAndData()
         initListener()
     }
 
     private fun initListener() {
-        flexBox.viewTreeObserver.addOnGlobalLayoutListener(ViewTreeObserver.OnGlobalLayoutListener {
-            val tv = flexBox.getChildAt(0)
-            var totalSpace = (tv.bottom - tv.top) + margin
-            mStart = flexBox.top + tv.bottom.toFloat()
-            mTvHeight = totalSpace.toFloat()
-        })
+        flexBox.viewTreeObserver.addOnGlobalLayoutListener(this)
+//
+//        flexBox.viewTreeObserver.addOnGlobalLayoutListener(ViewTreeObserver.OnGlobalLayoutListener {
+//            val tv = flexBox.getChildAt(0)
+//            var totalSpace = (tv.bottom - tv.top) + margin
+//            mStart = flexBox.top + tv.bottom.toFloat()
+//            mTvHeight = totalSpace.toFloat()
+//        })
+    }
+    override fun onGlobalLayout() {
+        flexBox.viewTreeObserver.removeOnGlobalLayoutListener(this)
+        initGameView()
     }
 
     private fun initViewAndData() {
@@ -135,7 +138,6 @@ class SearchWordActivity : BaseActivity() {
         mShowView.add(tvContent2)
         mShowView.add(tvContent3)
         mShowView.add(tvContent4)
-        initGameView()
     }
 
     /**
@@ -155,28 +157,34 @@ class SearchWordActivity : BaseActivity() {
 
         //添加view给flexbox
         flexBox.removeAllViews()
-        for (num in 0..TOTAL_WORD_NUMBER) {
+        //父控件尺寸决定子 View 数量
+        val flexWidth = flexBox.measuredWidth
+        val flexHeight = flexBox.measuredHeight
+        val columnNumber = 8 //默认列数
+        var rowNumber: Int // 行数根据行高计算
+
+        val itemWidth = flexWidth / columnNumber //宽度/列 = 条目宽度
+        val itemHeight = (itemWidth *1.2).toInt()
+        rowNumber = flexHeight / itemHeight
+        rowNumber -= 1 //减少一行,避免只显示一半的数据
+
+        totalNumber = columnNumber * rowNumber
+        for (num in 0 until totalNumber) {
             val tv = TextView(this)
-            tv.textSize = textSize
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, itemWidth.toFloat())
+            tv.gravity = Gravity.CENTER_HORIZONTAL
 
             tv.text = "${getErrorWord(num)}"
             tv.setTextColor(getTextColor(num))
-            tv.setPadding(padding + 6, padding, padding + 6, padding)
+//            tv.setPadding(padding + 6, padding, padding + 6, padding)
             flexBox.addView(tv)
-            val para = tv.layoutParams
-            if (para is FlexboxLayout.LayoutParams) {
-                para.topMargin = margin
-            }
-//            if(num%9==0){
-//                tv.setBackgroundColor(resources.getColor(R.color.colorPrimary))
-//            }
         }
 
         //随机放入待选择的词
-        val q = TOTAL_WORD_NUMBER / 4
+        val q = totalNumber / 4
         for (num in 0..3) {
             var random = Random.nextInt(q * num, q * (num + 1))
-            while (random >= TOTAL_WORD_NUMBER || random == 0) {
+            while (random >= totalNumber || random == 0) {
                 random = Random.nextInt(q * (num + 1))
             }
             val tv = flexBox[random] as TextView
@@ -185,6 +193,16 @@ class SearchWordActivity : BaseActivity() {
             }
             tv.text = mSelectWords[num]
         }
+
+        //延时获取子view高度,会和上面添加时计算的尺寸稍有差别.
+        mHandler.postDelayed({
+            val tv = flexBox.getChildAt(0)
+            var totalSpace = (tv.bottom - tv.top)
+            mStart = flexBox.top + tv.bottom.toFloat()*0.8f
+            mTvHeight = totalSpace.toFloat()
+            mHandler.sendEmptyMessageDelayed(MSG_START_MOVE, 500)
+
+        },1000)
     }
 
     /**
