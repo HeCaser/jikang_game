@@ -181,15 +181,16 @@ class SearchNumberActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutList
         }
 
         //延时获取子view高度,会和上面添加时计算的尺寸稍有差别.
-        mHandler.postDelayed({
-            val tv = flexBox.getChildAt(0)
-            var totalSpace = (tv.bottom - tv.top)
-            mStart = flexBox.top + tv.bottom.toFloat()*0.8f
-            mTvHeight = totalSpace.toFloat()
-            mHandler.sendEmptyMessageDelayed(MSG_START_MOVE, 500)
+        if (mTvHeight==0f){
+            mHandler.postDelayed({
+                val tv = flexBox.getChildAt(0)
+                var totalSpace = (tv.bottom - tv.top)
+                mStart = flexBox.top + tv.bottom.toFloat()*0.8f
+                mTvHeight = totalSpace.toFloat()
+                mHandler.sendEmptyMessageDelayed(MSG_START_MOVE, 500)
 
-        },1000)
-
+            },1000)
+        }
     }
 
     /**

@@ -29,7 +29,8 @@ import kotlin.random.Random
 class SearchWordActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListener {
 
     companion object {
-         var totalNumber = 223
+        var totalNumber = 223
+        const val COLUM_NUMBER = 8
         const val MSG_MOVE_LINE = 1
         const val MSG_START_MOVE = 2
         const val MSG_TIME_COUT_DOWN = 3
@@ -52,16 +53,20 @@ class SearchWordActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListen
         }
     }
 
+    var rowNumber: Int = 0 //行数
+
     private var mHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
         override fun handleMessage(msg: Message?) {
             super.handleMessage(msg)
             when (msg!!.what) {
                 MSG_MOVE_LINE -> {
-                    val anim = ObjectAnimator.ofFloat(viewLine, "y", mStart + (mTvHeight * mRemoveCount))
+                    val ty = mStart + (mTvHeight * mRemoveCount)
+                    println("行数= $mRemoveCount 高度= $ty")
+                    val anim = ObjectAnimator.ofFloat(viewLine, "y", ty)
                     anim.start()
                     mRemoveCount++
-                    if (mRemoveCount < 25) {
+                    if (mRemoveCount < rowNumber) {
                         this.sendEmptyMessageDelayed(MSG_MOVE_LINE, mLineMoveDelayTime)
                     }
                 }
@@ -108,14 +113,8 @@ class SearchWordActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListen
 
     private fun initListener() {
         flexBox.viewTreeObserver.addOnGlobalLayoutListener(this)
-//
-//        flexBox.viewTreeObserver.addOnGlobalLayoutListener(ViewTreeObserver.OnGlobalLayoutListener {
-//            val tv = flexBox.getChildAt(0)
-//            var totalSpace = (tv.bottom - tv.top) + margin
-//            mStart = flexBox.top + tv.bottom.toFloat()
-//            mTvHeight = totalSpace.toFloat()
-//        })
     }
+
     override fun onGlobalLayout() {
         flexBox.viewTreeObserver.removeOnGlobalLayoutListener(this)
         initGameView()
@@ -129,7 +128,7 @@ class SearchWordActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListen
         //计算pb的最大值, 倒计时共90s
         mTotalTime = 900 * mCountDownTimeDelay.toInt()
         progressBar.max = mTotalTime
-        progressBar.progress=mTotalTime
+        progressBar.progress = mTotalTime
 
         mWidth = screenWidth
         mHeight = screenHeight
@@ -160,11 +159,10 @@ class SearchWordActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListen
         //父控件尺寸决定子 View 数量
         val flexWidth = flexBox.measuredWidth
         val flexHeight = flexBox.measuredHeight
-        val columnNumber = 8 //默认列数
-        var rowNumber: Int // 行数根据行高计算
+        val columnNumber = COLUM_NUMBER //默认列数
 
         val itemWidth = flexWidth / columnNumber //宽度/列 = 条目宽度
-        val itemHeight = (itemWidth *1.2).toInt()
+        val itemHeight = (itemWidth * 1.2).toInt()
         rowNumber = flexHeight / itemHeight
         rowNumber -= 1 //减少一行,避免只显示一半的数据
 
@@ -195,14 +193,16 @@ class SearchWordActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListen
         }
 
         //延时获取子view高度,会和上面添加时计算的尺寸稍有差别.
-        mHandler.postDelayed({
-            val tv = flexBox.getChildAt(0)
-            var totalSpace = (tv.bottom - tv.top)
-            mStart = flexBox.top + tv.bottom.toFloat()*0.8f
-            mTvHeight = totalSpace.toFloat()
-            mHandler.sendEmptyMessageDelayed(MSG_START_MOVE, 500)
+        if (mTvHeight == 0f) {
+            mHandler.postDelayed({
+                val tv = flexBox.getChildAt(0)
+                var totalSpace = (tv.bottom - tv.top)
+                mStart = flexBox.top + tv.bottom.toFloat() * 0.9f
+                mTvHeight = totalSpace.toFloat()
+                mHandler.sendEmptyMessageDelayed(MSG_START_MOVE, 500)
 
-        },1000)
+            }, 1000)
+        }
     }
 
     /**
@@ -274,14 +274,11 @@ class SearchWordActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListen
         val g3 = (g1 + (g2 - g1) * value).toInt()
         val b3 = (b1 + (b2 - b1) * value).toInt()
 
-        val color = a3 and 0xff shl 24 or (r3 and 0xff shl 16) or (g3 and 0xff shl 8) or (b3 and 0xff)
+        val color =
+            a3 and 0xff shl 24 or (r3 and 0xff shl 16) or (g3 and 0xff shl 8) or (b3 and 0xff)
         return color
     }
 
-    override fun onResume() {
-        super.onResume()
-        mHandler.sendEmptyMessageDelayed(MSG_START_MOVE, 500)
-    }
 
     private fun getErrorWord(index: Int): Char {
         val position = index % ERROR_WORD_SIZE
