@@ -143,6 +143,8 @@ class SearchWordActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListen
      * 游戏开始前的初始化,可能需要多次重置
      */
     private fun initGameView() {
+        //打乱显示顺序
+        mShowView.shuffle()
         //设置需要找出的词 四个
         var start = Random.nextInt(RIGHT_WORD.length - 5)
         println("其实$start")
