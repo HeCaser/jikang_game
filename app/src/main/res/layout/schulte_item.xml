@@ -15,6 +15,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+                android:textStyle="bold"
                 android:layout_margin="3dp"
                 android:id="@+id/tvNumber"
                 android:layout_width="match_parent"

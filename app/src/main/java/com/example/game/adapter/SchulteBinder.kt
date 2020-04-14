@@ -1,5 +1,6 @@
 package com.example.game.adapter
 
+import android.graphics.Color
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -46,7 +47,12 @@ class SchulteBinder(var callBack: (phone: Int) -> Unit) :
                     }
                 }
                 tvNumber.setTextSize(TypedValue.COMPLEX_UNIT_PX,size2.toFloat())
-
+                //是否展示彩色
+                if (mData.isFullColor){
+                    tvNumber.setTextColor(mData.fullColor)
+                }else{
+                    tvNumber.setTextColor(Color.BLACK)
+                }
                 itemView.setOnClickListener {
                     callBack(adapterPosition)
                 }

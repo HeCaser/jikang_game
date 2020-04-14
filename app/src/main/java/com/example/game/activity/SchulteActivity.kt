@@ -112,6 +112,20 @@ class SchulteActivity : BaseActivity() {
             }
             startGame()
         }
+        switchColor.setOnCheckedChangeListener{ buttonView, isChecked ->
+            changeColor(isChecked)
+        }
+    }
+
+
+    /**
+     * 改变文字颜色
+     */
+    private fun changeColor(checked: Boolean) {
+        mItems.forEach {
+            it.isFullColor = checked
+        }
+        mAdapter.notifyDataSetChanged()
     }
 
 
@@ -132,6 +146,8 @@ class SchulteActivity : BaseActivity() {
         var total = mSpanNum * mSpanNum
         for (number in 1..total) {
             val num = SchulteItemBean(number, "")
+            num.fullColor =getTvColor(number)
+            num.isFullColor = switchColor.isChecked
             mItems.add(num)
 
         }
@@ -235,6 +251,14 @@ class SchulteActivity : BaseActivity() {
         finish()
     }
 
+    /**
+     * 获取 tv 颜色
+     */
+    private var mTvColorList = arrayListOf(0xff098dfa.toInt(),
+        0xffe60012.toInt(),0xff2fcd1e.toInt(),0xffff8e00.toInt())
+    private fun getTvColor(pos:Int):Int{
+        return mTvColorList.random()
+    }
 
     override fun onDestroy() {
         super.onDestroy()
