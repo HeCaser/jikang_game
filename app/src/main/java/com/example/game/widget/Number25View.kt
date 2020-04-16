@@ -3,6 +3,7 @@ package com.example.game.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.game.R
 import com.example.game.bean.NumberBean
@@ -16,11 +17,16 @@ import kotlinx.android.synthetic.main.number_view.view.*
 class Number25View : ConstraintLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
+        context,
+        attrs,
+        defStyleAttr
+    )
 
     //选中 错误 默认
-    private val bgList = arrayListOf(R.color.colorPrimary_60, R.color.color_e60012_60, R.color.white)
-    private val colorList = arrayListOf(R.color.white, R.color.white,R.color.colorPrimary)
+    private val bgList =
+        arrayListOf(R.color.colorPrimary_60, R.color.color_e60012_60, R.color.white)
+    private val colorList = arrayListOf(R.color.white, R.color.white, R.color.colorPrimary)
 
     init {
         LayoutInflater.from(context).inflate(R.layout.number_25_view, this, true)
@@ -55,5 +61,9 @@ class Number25View : ConstraintLayout {
             tvNumber.setBackgroundColor(this.context.res2color(bgList[2]))
             tvNumber.setTextColor(this.context.res2color(colorList[2]))
         }
+    }
+
+    fun getTv(): TextView{
+        return tvNumber
     }
 }

@@ -7,24 +7,18 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
-import android.provider.SyncStateContract
-import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.game.R
-import com.example.game.adapter.NumberViewBinder
 import com.example.game.adapter.SchulteAttentionBinder
 import com.example.game.bean.NumberBean
 import com.example.game.constant.SCHULTE_GRID_ACTIVITY
-import com.example.game.util.sp
 import com.example.game.utils.*
-import com.example.game.widget.NumberItemDecoration
 import kotlinx.android.synthetic.main.activity_schulte_grid.*
-import kotlinx.android.synthetic.main.activity_schulte_grid.button
-import kotlinx.android.synthetic.main.activity_schulte_grid.rvNumbers
 import kotlinx.android.synthetic.main.schulte_attention_item.view.*
 import me.drakeet.multitype.MultiTypeAdapter
 import java.util.*
+import kotlin.random.Random
 
 /**
  * 舒尔特注意力
@@ -194,14 +188,23 @@ class SchulteAttentionActivity : BaseActivity() {
      * 类型2的处理
      * pos: 点击的条目
      */
+    var coutinueCount =0 //连续选对的个数
+    var targetCount=2 //目标连续选对个数,到达后需打乱顺序
     private fun handleGameTwo(pos: Int) {
         var item = mItems[pos]
         var number = item.number
         if (item.isSelected) return
         if (number == mSelectedNum) {
+
             item.isSelected = true
-            mItems.shuffle()
+            coutinueCount++
+            if (coutinueCount>=targetCount){
+                coutinueCount=0
+                targetCount= Random.nextInt(2, 4)
+                mItems.shuffle()
+            }
             mAdapter.notifyDataSetChanged()
+
             if (number == mSpanNum * mSpanNum) {
                 //选择完毕,游戏结束
                 showRecord()

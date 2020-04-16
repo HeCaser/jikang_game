@@ -14,10 +14,12 @@ import android.view.ViewTreeObserver
 import android.widget.TextView
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.get
+import com.example.game.BuildConfig
 import com.example.game.R
 import com.example.game.constant.SEARCH_NUMBER_ACTIVITY
 import com.example.game.utils.StatusBarUtils
 import com.example.game.utils.setLetterSpacingText
+import com.example.game.widget.SeparateTextView
 import kotlinx.android.synthetic.main.activity_search_word.*
 import kotlin.random.Random
 
@@ -144,22 +146,24 @@ class SearchNumberActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutList
         //父控件尺寸决定子 View 数量
         val flexWidth = flexBox.measuredWidth
         val flexHeight = flexBox.measuredHeight
-        val columnNumber = 5 //默认列数
+        val columnNumber = 4 //默认列数
         var rowNumber: Int // 行数根据行高计算
 
         val itemWidth = flexWidth / columnNumber //宽度/列 = 条目宽度
-        val itemHeight = itemWidth / 2 //行高为宽度一半
+        val itemHeight = (itemWidth / 3).toInt() //行高根据宽高决定
         rowNumber = flexHeight / itemHeight
         rowNumber -= 1 //减少一行,避免只显示一半的数据
 
 
         var totalNumber = columnNumber * rowNumber
         for (num in 0 until totalNumber) {
-            val tv = TextView(this)
+            val tv = SeparateTextView(this)
             tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, (itemWidth / 4.0).toFloat())
             tv.setLetterSpacingText(getErrorWord())
             tv.gravity = Gravity.CENTER_HORIZONTAL
-
+            if (Random.nextBoolean() && BuildConfig.DEBUG){
+                tv.setBackgroundColor(Color.RED)
+            }
             tv.setTextColor(getTextColor(num))
             flexBox.addView(tv, itemWidth, itemHeight)
         }
@@ -185,7 +189,7 @@ class SearchNumberActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutList
             mHandler.postDelayed({
                 val tv = flexBox.getChildAt(0)
                 var totalSpace = (tv.bottom - tv.top)
-                mStart = flexBox.top + tv.bottom.toFloat()*0.8f
+                mStart = flexBox.top + tv.bottom.toFloat()*0.9f
                 mTvHeight = totalSpace.toFloat()
                 mHandler.sendEmptyMessageDelayed(MSG_START_MOVE, 500)
 

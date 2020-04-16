@@ -28,7 +28,7 @@ class SearchDiffNumberActivity : BaseActivity() {
         var TOTAL_WORD_NUMBER = 10
         var NUMBER_LENGTH = 3 //数字的长度
 
-        const val DIFF_NUMBER = 2
+        var DIFF_NUMBER = Random.nextInt(3,5)
         const val MSG_MOVE_HINT = 1//移动指示背景(样式改变)
         const val MSG_START_GAME = 2//开始游戏
         const val MSG_TIME_COUNT_DOWN = 3//倒计时

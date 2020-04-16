@@ -2,7 +2,6 @@ package com.example.game.utils
 
 import android.view.View
 import android.widget.TextView
-import java.lang.StringBuilder
 
 /**
  * Author pan.he
@@ -53,7 +52,7 @@ fun TextView.setLetterSpacingText(text: String) {
     for (i in 0 until size) {
         builder.append(text[i])
         if (i!=size){
-            builder.append(" ")
+            builder.append("")
         }
     }
     this.text = builder.toString()
