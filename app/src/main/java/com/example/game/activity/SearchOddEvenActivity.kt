@@ -156,11 +156,11 @@ class SearchOddEvenActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutLis
         //父控件尺寸决定子 View 数量
         val flexWidth = flexBox.measuredWidth
         val flexHeight = flexBox.measuredHeight
-        val columnNumber = 4 //默认列数
+        val columnNumber = 5 //默认列数
         var rowNumber: Int // 行数根据行高计算
 
         val itemWidth = flexWidth / columnNumber //宽度/列 = 条目宽度
-        val itemHeight = itemWidth / 2 //行高为宽度一半
+        val itemHeight = (itemWidth / 3).toInt() //行高为宽度一半
         rowNumber = flexHeight / itemHeight
         rowNumber -= 1 //减少一行,避免只显示一半的数据
 
