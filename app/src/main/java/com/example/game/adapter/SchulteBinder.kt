@@ -1,6 +1,5 @@
 package com.example.game.adapter
 
-import android.graphics.Color
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -51,7 +50,7 @@ class SchulteBinder(var callBack: (phone: Int) -> Unit) :
                 if (mData.isFullColor){
                     tvNumber.setTextColor(mData.fullColor)
                 }else{
-                    tvNumber.setTextColor(Color.BLACK)
+                    tvNumber.setTextColor(context.resources.getColor(R.color.color_333333))
                 }
                 itemView.setOnClickListener {
                     callBack(adapterPosition)

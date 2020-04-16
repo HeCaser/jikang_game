@@ -82,7 +82,7 @@
         android:id="@+id/tvCover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black_60"
+        android:background="@color/color_ebook_cover"
         android:gravity="center"
         android:text="初始化书籍..."
         android:textColor="@color/colorPrimary"
