@@ -14,6 +14,7 @@ import com.example.game.adapter.SchulteBinder
 import com.example.game.bean.SchulteItemBean
 import com.example.game.constant.SCHULTE_ACTIVITY
 import com.example.game.utils.SaveSpData
+import com.example.game.widget.SchulteDecoration
 import kotlinx.android.synthetic.main.activity_schulte.*
 import kotlinx.android.synthetic.main.schulte_item.view.*
 import me.drakeet.multitype.MultiTypeAdapter
@@ -140,6 +141,7 @@ class SchulteActivity : BaseActivity() {
             setHasFixedSize(true)
             adapter = mAdapter
             layoutManager = GridLayoutManager(this@SchulteActivity, mSpanNum)
+            addItemDecoration(SchulteDecoration())
         }
 
         mItems.clear()
