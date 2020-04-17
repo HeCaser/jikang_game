@@ -146,7 +146,7 @@ class SearchNumberActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutList
         //父控件尺寸决定子 View 数量
         val flexWidth = flexBox.measuredWidth
         val flexHeight = flexBox.measuredHeight
-        val columnNumber = 4 //默认列数
+        val columnNumber = 8 //默认列数
         var rowNumber: Int // 行数根据行高计算
 
         val itemWidth = flexWidth / columnNumber //宽度/列 = 条目宽度
