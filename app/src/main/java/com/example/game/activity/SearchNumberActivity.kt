@@ -14,7 +14,6 @@ import android.view.ViewTreeObserver
 import android.widget.TextView
 import androidx.core.text.isDigitsOnly
 import androidx.core.view.get
-import com.example.game.BuildConfig
 import com.example.game.R
 import com.example.game.constant.SEARCH_NUMBER_ACTIVITY
 import com.example.game.utils.StatusBarUtils
@@ -42,6 +41,8 @@ class SearchNumberActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutList
         }
     }
 
+    private var rowNumber: Int=30 // 行数根据行高计算
+
     private var mHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
         override fun handleMessage(msg: Message?) {
@@ -52,7 +53,7 @@ class SearchNumberActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutList
                         ObjectAnimator.ofFloat(viewLine, "y", mStart + (mTvHeight * mRemoveCount))
                     anim.start()
                     mRemoveCount++
-                    if (mRemoveCount < 25) {
+                    if (mRemoveCount < rowNumber) {
                         this.sendEmptyMessageDelayed(MSG_MOVE_LINE, mLineMoveDelayTime)
                     }
                 }
@@ -107,7 +108,9 @@ class SearchNumberActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutList
 
     override fun onGlobalLayout() {
         flexBox.viewTreeObserver.removeOnGlobalLayoutListener(this)
-        initGameView()
+        mHandler.postDelayed({
+            initGameView()
+        }, 300)
     }
 
     private fun initViewAndData() {
@@ -147,7 +150,6 @@ class SearchNumberActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutList
         val flexWidth = flexBox.measuredWidth
         val flexHeight = flexBox.measuredHeight
         val columnNumber = 8 //默认列数
-        var rowNumber: Int // 行数根据行高计算
 
         val itemWidth = flexWidth / columnNumber //宽度/列 = 条目宽度
         val itemHeight = (itemWidth / 3).toInt() //行高根据宽高决定
@@ -161,9 +163,9 @@ class SearchNumberActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutList
             tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, (itemWidth / 4.0).toFloat())
             tv.setLetterSpacingText(getErrorWord())
             tv.gravity = Gravity.CENTER_HORIZONTAL
-            if (Random.nextBoolean() && BuildConfig.DEBUG){
-                tv.setBackgroundColor(Color.RED)
-            }
+//            if (Random.nextBoolean() && BuildConfig.DEBUG){
+//                tv.setBackgroundColor(Color.RED)
+//            }
             tv.setTextColor(getTextColor(num))
             flexBox.addView(tv, itemWidth, itemHeight)
         }
@@ -185,15 +187,15 @@ class SearchNumberActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutList
         }
 
         //延时获取子view高度,会和上面添加时计算的尺寸稍有差别.
-        if (mTvHeight==0f){
+        if (mTvHeight == 0f) {
             mHandler.postDelayed({
                 val tv = flexBox.getChildAt(0)
                 var totalSpace = (tv.bottom - tv.top)
-                mStart = flexBox.top + tv.bottom.toFloat()*0.9f
+                mStart = flexBox.top + tv.bottom.toFloat()
                 mTvHeight = totalSpace.toFloat()
                 mHandler.sendEmptyMessageDelayed(MSG_START_MOVE, 500)
 
-            },1000)
+            }, 1000)
         }
     }
 

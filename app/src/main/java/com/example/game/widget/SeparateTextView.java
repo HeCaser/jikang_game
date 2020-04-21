@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -14,44 +15,23 @@ import androidx.annotation.RequiresApi;
  * 文案内容均匀分布
  */
 public class SeparateTextView extends TextView {
-    private CharSequence originalText = "";
     private int mWidth, mHeight;
-
-    private void init() {
-    }
-
+    private int mColor;
     public SeparateTextView(Context context) {
         super(context);
-        init();
     }
 
     public SeparateTextView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init();
-
     }
 
     public SeparateTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public SeparateTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init();
-
-    }
-
-    @Override
-    public void setText(CharSequence text, BufferType type) {
-        originalText = text;
-    }
-
-    @Override
-    public void setTextSize(float size) {
-        super.setTextSize(size);
     }
 
     @Override
@@ -59,17 +39,31 @@ public class SeparateTextView extends TextView {
         super.onSizeChanged(w, h, oldw, oldh);
         mWidth = w;
         mHeight = h;
+    }
 
+    @Override
+    public void setTextColor(int color) {
+        super.setTextColor(color);
+        mColor = color;
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        int length = originalText.length();
-        int itemWitdh = mWidth/length;
-        int y  = getBaseline();
-        for (int i = 0; i < length; i++) {
-            canvas.drawText(String.valueOf(originalText.charAt(i)),itemWitdh*i+itemWitdh/4,y,  getPaint());
+
+        String originalText = getText().toString();
+        if(TextUtils.isEmpty(originalText)){
+            super.onDraw(canvas);
+        }else{
+            Paint p = getPaint();
+            p.setColor(mColor);
+            int length = originalText.length();
+            int itemWitdh = mWidth/length;
+            int y  = getBaseline();
+            for (int i = 0; i < length; i++) {
+
+                canvas.drawText(String.valueOf(originalText.charAt(i)),itemWitdh*i+itemWitdh/4,y,  p);
+            }
         }
+
     }
 }
