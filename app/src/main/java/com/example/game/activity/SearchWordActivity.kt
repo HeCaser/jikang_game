@@ -30,7 +30,7 @@ class SearchWordActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListen
 
     companion object {
         var totalNumber = 223
-        const val COLUM_NUMBER = 8
+        const val COLUM_NUMBER = 18
         const val MSG_MOVE_LINE = 1
         const val MSG_START_MOVE = 2
         const val MSG_TIME_COUT_DOWN = 3
@@ -117,7 +117,10 @@ class SearchWordActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListen
 
     override fun onGlobalLayout() {
         flexBox.viewTreeObserver.removeOnGlobalLayoutListener(this)
-        initGameView()
+        //延时加载,否则 view 的实际宽高不准确
+        mHandler.postDelayed({
+            initGameView()
+        }, 300)
     }
 
     private fun initViewAndData() {
@@ -161,12 +164,15 @@ class SearchWordActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListen
         //父控件尺寸决定子 View 数量
         val flexWidth = flexBox.measuredWidth
         val flexHeight = flexBox.measuredHeight
+
         val columnNumber = COLUM_NUMBER //默认列数
 
         val itemWidth = flexWidth / columnNumber //宽度/列 = 条目宽度
         val itemHeight = (itemWidth * 1.2).toInt()
         rowNumber = flexHeight / itemHeight
-        rowNumber -= 1 //减少一行,避免只显示一半的数据
+        rowNumber -= 2 //减少一行,避免只显示一半的数据
+
+        println("hepan= $itemHeight $flexHeight $rowNumber")
 
         totalNumber = columnNumber * rowNumber
         for (num in 0 until totalNumber) {
@@ -176,7 +182,6 @@ class SearchWordActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListen
 
             tv.text = "${getErrorWord(num)}"
             tv.setTextColor(getTextColor(num))
-//            tv.setPadding(padding + 6, padding, padding + 6, padding)
             flexBox.addView(tv)
         }
 
