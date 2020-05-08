@@ -30,7 +30,7 @@ class SearchWordActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListen
 
     companion object {
         var totalNumber = 223
-        const val COLUM_NUMBER = 18
+        const val COLUM_NUMBER = 16
         const val MSG_MOVE_LINE = 1
         const val MSG_START_MOVE = 2
         const val MSG_TIME_COUT_DOWN = 3
@@ -177,8 +177,10 @@ class SearchWordActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListen
         totalNumber = columnNumber * rowNumber
         for (num in 0 until totalNumber) {
             val tv = TextView(this)
-            tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, itemWidth.toFloat())
-            tv.gravity = Gravity.CENTER_HORIZONTAL
+
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, itemWidth.toFloat()*0.8f)
+            tv.setPadding((itemWidth.toFloat()*0.1f).toInt(),0,(itemWidth.toFloat()*0.1f).toInt(),0)
+            tv.gravity = Gravity.CENTER
 
             tv.text = "${getErrorWord(num)}"
             tv.setTextColor(getTextColor(num))
