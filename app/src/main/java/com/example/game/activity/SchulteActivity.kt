@@ -116,6 +116,15 @@ class SchulteActivity : BaseActivity() {
         switchColor.setOnCheckedChangeListener{ buttonView, isChecked ->
             changeColor(isChecked)
         }
+
+        switchBackground.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked){
+                rvNumbers.setBackgroundColor(0xffc7edcc.toInt())
+            }else{
+                rvNumbers.setBackgroundColor(Color.TRANSPARENT)
+
+            }
+        }
     }
 
 
