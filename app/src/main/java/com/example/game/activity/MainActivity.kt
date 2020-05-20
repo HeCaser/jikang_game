@@ -44,7 +44,7 @@ class MainActivity : BaseActivity() {
         val partOneIndex = 12
        when(BuildConfig.GAME_TYPE){
            0->{
-
+                mGames.addAll(mGamesALl)
            }
            1->{
                //初级版

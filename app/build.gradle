@@ -33,7 +33,7 @@ android {
                     APP_NAME: "济康测试包"
             ]
             buildConfigField 'int', 'GAME_TYPE', "0"
-            applicationIdSuffix "gametest"
+            applicationIdSuffix ".gametest"
         }
         release {
             signingConfig signingConfigs.release
@@ -42,7 +42,7 @@ android {
                     APP_NAME: "济康初级包"
             ]
             buildConfigField 'int', 'GAME_TYPE', "1"
-            applicationIdSuffix "game"
+            applicationIdSuffix ".game"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release2.initWith(release)
@@ -51,7 +51,7 @@ android {
                     APP_NAME: "济康升级包"
             ]
             buildConfigField 'int', 'GAME_TYPE', "2"
-            applicationIdSuffix "game2"
+            applicationIdSuffix ".game2"
         }
     }
 
