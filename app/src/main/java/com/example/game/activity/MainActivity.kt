@@ -2,6 +2,7 @@ package com.example.game.activity
 
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.game.BuildConfig
 import com.example.game.R
 import com.example.game.adapter.MainGameViewBinder
 import com.example.game.bean.GameBean
@@ -13,28 +14,47 @@ class MainActivity : BaseActivity() {
 
     private lateinit var mAdapter: MultiTypeAdapter
     private var mItems = ArrayList<GameBean>()
-    private val mGames = arrayListOf(
-        "第一部分",
-        "过目不忘", "垂直练习",
+    private val mGamesALl = arrayListOf(
+        "初级版",
+        "垂直练习",
         "sharp eye", "NUM25",
         "1-100", "甄选奇数和偶数",
         "舒尔特注意力", "差异数",
         "舒尔特方格", "EBook循环",
         "舒尔特", "EBook分栏",
-        "第二部分",
+
+        "升级版",
+        "过目不忘",
         "搜索词", "记忆数",
         "搜索数", "速度数",
         "EBook树形", "节拍器"
     )
+    private val mGames = arrayListOf<String>()
+
 //
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initView()
+
     }
 
     private fun initView() {
+        val partOneIndex = 12
+       when(BuildConfig.GAME_TYPE){
+           0->{
+
+           }
+           1->{
+               //初级版
+               mGames.addAll(mGamesALl.subList(0,partOneIndex))
+           }
+           2->{
+               //升级版
+               mGames.addAll(mGamesALl.subList(partOneIndex,mGamesALl.size))
+           }
+       }
         setCenterTitle("济康学习包")
         mAdapter = MultiTypeAdapter()
         mAdapter.register(MainGameViewBinder {
@@ -50,7 +70,7 @@ class MainActivity : BaseActivity() {
                 // 根据实际情况处理需要返回的值.
                 //例如我的代码中不同data类型对应不同的viewtype. 因此客户根据数据类型返回
                 val item = mItems[position]
-                if ("第二部分" == item.gameName || "第一部分"==item.gameName) {
+                if ("初级版" == item.gameName || "升级版"==item.gameName) {
                     return 2
                 }
                 return 1
@@ -71,11 +91,11 @@ class MainActivity : BaseActivity() {
     private fun getColor(name: String): Int {
         var color :Int
         when (name) {
-            "sharp eye","1-100","舒尔特注意力", "舒尔特方格","舒尔特","过目不忘"->{
+            "sharp eye","1-100","舒尔特注意力", "舒尔特方格","舒尔特"->{
                 //蓝色
                 color = 0xff098dfa.toInt()
             }
-            "记忆数", "速度数","节拍器"->{
+            "记忆数", "速度数","节拍器","过目不忘"->{
                 //浅蓝色
                 color = 0xff16c1fd.toInt()
             }

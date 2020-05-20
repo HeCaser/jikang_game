@@ -30,18 +30,29 @@ android {
         debug {
             signingConfig signingConfigs.release
             manifestPlaceholders = [
-                    APP_NAME: "济康学习包"
+                    APP_NAME: "济康测试包"
             ]
+            buildConfigField 'int', 'GAME_TYPE', "0"
+
         }
         release {
             signingConfig signingConfigs.release
             minifyEnabled false
             manifestPlaceholders = [
-                    APP_NAME: "济康学习包"
+                    APP_NAME: "济康初级包"
             ]
+            buildConfigField 'int', 'GAME_TYPE', "1"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        release2.initWith(release)
+        release2{
+            manifestPlaceholders = [
+                    APP_NAME: "济康升级包"
+            ]
+            buildConfigField 'int', 'GAME_TYPE', "2"
+        }
     }
+
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
