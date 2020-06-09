@@ -182,6 +182,7 @@ class SearchNumberActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutList
             val tv = flexBox[random] as TextView
             tv.setOnClickListener {
                 handleWordClick(num)
+                it.setBackgroundColor(Color.YELLOW)
             }
             tv.setLetterSpacingText(rText)
         }

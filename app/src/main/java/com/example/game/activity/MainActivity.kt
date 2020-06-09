@@ -16,18 +16,28 @@ class MainActivity : BaseActivity() {
     private var mItems = ArrayList<GameBean>()
     private val mGamesALl = arrayListOf(
         "初级版",
-        "垂直练习",
-        "sharp eye", "NUM25",
-        "1-100", "甄选奇数和偶数",
-        "舒尔特注意力", "差异数",
-        "舒尔特方格", "EBook循环",
-        "舒尔特", "EBook分栏",
+
+        "sharp eye",
+        "1-100",
+        "舒尔特注意力",
+        "舒尔特",
+        "舒尔特方格",
+        "节拍器",
 
         "升级版",
+
         "过目不忘",
-        "搜索词", "记忆数",
-        "搜索数", "速度数",
-        "EBook树形", "节拍器"
+        "垂直练习",
+        "NUM25",
+        "甄选奇数和偶数",
+        "差异数",
+        "EBook循环",
+        "EBook分栏",
+        "记忆数",
+        "速度数",
+        "搜索词",
+        "搜索数",
+        "EBook树形"
     )
     private val mGames = arrayListOf<String>()
 
@@ -41,7 +51,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initView() {
-        val partOneIndex = 12
+        val partOneIndex = 7
        when(BuildConfig.GAME_TYPE){
            0->{
                 mGames.addAll(mGamesALl)
@@ -54,7 +64,11 @@ class MainActivity : BaseActivity() {
                //升级版
                mGames.addAll(mGamesALl.subList(partOneIndex,mGamesALl.size))
            }
+
        }
+//        mGames.clear();
+//        mGames.addAll(mGamesALl)
+
         setCenterTitle("济康学习包")
         mAdapter = MultiTypeAdapter()
         mAdapter.register(MainGameViewBinder {

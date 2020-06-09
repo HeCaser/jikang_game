@@ -199,7 +199,7 @@ class SchulteActivity : BaseActivity() {
             val pos = item.number
             if (isTakeLetter) {
                 //带字母
-                if (pos < 26) {
+                if (pos <= 26) {
                     item.showText = ('A' + (pos - 1)).toString()
                 } else {
                     item.showText = "${pos - 26}"
