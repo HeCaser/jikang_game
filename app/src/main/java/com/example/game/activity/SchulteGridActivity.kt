@@ -267,7 +267,7 @@ class SchulteGridActivity : BaseActivity() {
 
     //展示到达截止时间的界面
     private fun showDeadline() {
-        val dialog = CommonFragmentDialog.Builder().setTitle("本次游戏时间已经用尽,\n是否再次尝试?").setListener {
+        val dialog = CommonFragmentDialog.Builder().setTitle("本次游戏时间已经用尽\n是否再次尝试?").setListener {
             if ("1" == it) {
                 startGame()
             } else {
