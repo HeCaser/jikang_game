@@ -155,7 +155,7 @@ class RememberEyeActivity : BaseActivity() {
         //临时展示时不可点击
         isCanClick = false
         mRightListPos.forEach {
-            getHorder(it).showTempFace()
+            getHorder(it).showTempFace(it)
         }
         mHandler.sendEmptyMessageDelayed(MSG_CAN_CLICK, 1000)
     }
@@ -164,6 +164,7 @@ class RememberEyeActivity : BaseActivity() {
     private fun handleItemClick(pos: Int) {
         if (!isCanClick) {
             return
+
         }
         if (mRightListPos.contains(pos)) {
             //点击了正确选项

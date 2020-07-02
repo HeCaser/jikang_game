@@ -146,4 +146,9 @@
         <!--这个东西才能控制整个开关的宽度, 有些人会发现设置width会无效,设置一下这个就好啦-->
         <item name="android:switchMinWidth">50dp</item>
     </style>
+
+    <style name="TKCommonBottomDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/fade_in_center</item>
+        <item name="android:windowExitAnimation">@anim/fade_out_center</item>
+    </style>
 </resources>

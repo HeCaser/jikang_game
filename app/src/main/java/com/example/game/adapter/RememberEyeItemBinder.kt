@@ -1,8 +1,14 @@
 package com.example.game.adapter
 
+import android.animation.Animator
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AnticipateOvershootInterpolator
 import androidx.recyclerview.widget.RecyclerView
 import com.example.game.R
 import com.example.game.bean.RememberEyeBean
@@ -64,11 +70,32 @@ class RememberEyeItemBinder(var callBack: (bean: RememberEyeBean) -> Unit) :
         }
 
         //展示正面,临时展示后需要还原为背面
-        fun showTempFace() {
+        fun showTempFace(pos: Int) {
             with(itemView) {
-                tvBg.visibility = View.GONE
 
-                postDelayed({ tvBg.visibility = View.VISIBLE }, 1000)
+                val scaleX = ObjectAnimator.ofFloat(clParent, "scaleX",  1.0f,1.2f,1.0f)
+                val scaleY = ObjectAnimator.ofFloat(clParent, "scaleY", 1.0f, 1.2f,1.0f)
+                val set = AnimatorSet()
+                set.duration = 1000
+                set.interpolator = AccelerateDecelerateInterpolator()
+                set.playTogether(scaleX, scaleY)
+                set.addListener(object :Animator.AnimatorListener{
+                    override fun onAnimationEnd(animation: Animator?) {
+                        tvBg.visibility = View.VISIBLE
+                    }
+
+                    override fun onAnimationStart(animation: Animator?) {
+                        tvBg.visibility = View.GONE
+                    }
+
+                    override fun onAnimationRepeat(animation: Animator?) {
+                    }
+
+                    override fun onAnimationCancel(animation: Animator?) {
+                    }
+                })
+                postDelayed({set.start()},pos*500L)
+
             }
         }
     }

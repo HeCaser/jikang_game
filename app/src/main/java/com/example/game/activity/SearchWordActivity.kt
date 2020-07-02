@@ -197,6 +197,7 @@ class SearchWordActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListen
             val tv = flexBox[random] as TextView
             tv.setOnClickListener {
                 handleWordClick(num)
+                it.setBackgroundColor(Color.YELLOW)
             }
             tv.text = mSelectWords[num]
         }

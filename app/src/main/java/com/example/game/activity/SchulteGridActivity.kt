@@ -20,6 +20,7 @@ import com.example.game.constant.SCHULTE_GRID_ACTIVITY
 import com.example.game.constant.SCHULTE_GRID_ACTIVITY2
 import com.example.game.util.sp
 import com.example.game.utils.*
+import com.example.game.widget.CommonFragmentDialog
 import com.example.game.widget.NumberItemDecoration
 import kotlinx.android.synthetic.main.activity_schulte_grid.*
 import kotlinx.android.synthetic.main.activity_schulte_grid.button
@@ -39,8 +40,10 @@ class SchulteGridActivity : BaseActivity() {
     val MSG_TIME_COUNT = 1
     val MSG_HIDE_NUMBE = 2
     val MSG_NOTOFY_DADA_CHANGED = 3
+    var deadline = -1L //游戏截止时间 秒
 
-    private var mGridNumContents = arrayListOf("2*2", "3*3", "4*4", "5*5", "6*6", "7*7","8*8","9*9")
+    private var mGridNumContents =
+        arrayListOf("2*2", "3*3", "4*4", "5*5", "6*6", "7*7", "8*8", "9*9")
     private var mTypeontents = arrayListOf("普通", "困难")
     private var mCountTime = 1000L
 
@@ -60,7 +63,12 @@ class SchulteGridActivity : BaseActivity() {
                 MSG_TIME_COUNT -> {
                     tvTime.text = DateUtil.getMinuteAndSecondByMillisecond(mCountTime)
                     mCountTime += 1000
-                    sendEmptyMessageDelayed(MSG_TIME_COUNT, 1000)
+                    if (deadline != -1L && mCountTime > deadline * 1000) {
+                        //到达截止时间
+                        showDeadline()
+                    } else {
+                        sendEmptyMessageDelayed(MSG_TIME_COUNT, 1000)
+                    }
                 }
                 MSG_HIDE_NUMBE -> {
                     mItems.forEachIndexed { index, numberBean ->
@@ -109,8 +117,31 @@ class SchulteGridActivity : BaseActivity() {
      * 初始化view
      */
     private fun startGame() {
+        //选择的游戏n*n 和模式
+        mCountTime=0
         mNumSelectPos = singleSelectNum.getSelectPos()
         mTypeSelectPos = singleSelectType.getSelectPos()
+
+        val n = mNumSelectPos + 2
+        if (mTypeSelectPos == 1) {
+            //困难模式限制时间
+            if (n < 6) {
+                deadline = (n * n).toLong()
+            } else if (n == 6) {
+                deadline = 50L
+            } else if (n == 7) {
+                deadline = 1 * 60 + 30
+            } else if (n == 8) {
+                deadline = 2 * 60 + 30
+            } else if (n == 9) {
+                deadline = 3 * 60 + 40
+            } else {
+                deadline = -1
+            }
+        } else {
+            deadline = -1
+        }
+
         svSelect.gone()
         clGame.show()
         mSpanNum = mNumSelectPos + 2
@@ -232,6 +263,18 @@ class SchulteGridActivity : BaseActivity() {
             }
         }
 
+    }
+
+    //展示到达截止时间的界面
+    private fun showDeadline() {
+        val dialog = CommonFragmentDialog.Builder().setTitle("到达截止时间,\n是否再次尝试?").setListener {
+            if ("1" == it) {
+                startGame()
+            } else {
+                finish()
+            }
+        }.create()
+        dialog.show(supportFragmentManager, "0")
     }
 
     /**
