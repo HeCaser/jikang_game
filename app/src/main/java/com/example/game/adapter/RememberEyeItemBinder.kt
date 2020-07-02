@@ -73,8 +73,8 @@ class RememberEyeItemBinder(var callBack: (bean: RememberEyeBean) -> Unit) :
         fun showTempFace(pos: Int) {
             with(itemView) {
 
-                val scaleX = ObjectAnimator.ofFloat(clParent, "scaleX",  1.0f,1.2f,1.0f)
-                val scaleY = ObjectAnimator.ofFloat(clParent, "scaleY", 1.0f, 1.2f,1.0f)
+                val scaleX = ObjectAnimator.ofFloat(clParent, "scaleX",  0.8f,1f,1.0f)
+                val scaleY = ObjectAnimator.ofFloat(clParent, "scaleY", 0.8f, 1f,1.0f)
                 val set = AnimatorSet()
                 set.duration = 1000
                 set.interpolator = AccelerateDecelerateInterpolator()
@@ -94,7 +94,8 @@ class RememberEyeItemBinder(var callBack: (bean: RememberEyeBean) -> Unit) :
                     override fun onAnimationCancel(animation: Animator?) {
                     }
                 })
-                postDelayed({set.start()},pos*500L)
+                set.start()
+//                postDelayed({set.start()},pos*100L)
 
             }
         }

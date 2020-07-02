@@ -118,7 +118,7 @@ class SchulteGridActivity : BaseActivity() {
      */
     private fun startGame() {
         //选择的游戏n*n 和模式
-        mCountTime=0
+        mCountTime = 0
         mNumSelectPos = singleSelectNum.getSelectPos()
         mTypeSelectPos = singleSelectType.getSelectPos()
 
@@ -267,13 +267,14 @@ class SchulteGridActivity : BaseActivity() {
 
     //展示到达截止时间的界面
     private fun showDeadline() {
-        val dialog = CommonFragmentDialog.Builder().setTitle("到达截止时间,\n是否再次尝试?").setListener {
+        val dialog = CommonFragmentDialog.Builder().setTitle("本次游戏时间已经用尽,\n是否再次尝试?").setListener {
             if ("1" == it) {
                 startGame()
             } else {
                 finish()
             }
         }.create()
+
         dialog.show(supportFragmentManager, "0")
     }
 
