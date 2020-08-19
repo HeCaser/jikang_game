@@ -9,6 +9,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.view.WindowManager
 import android.view.animation.LinearInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import com.example.game.R
@@ -61,6 +62,8 @@ class OneSharpEyeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
         setContentView(R.layout.activity_one_sharp_eye)
         mHandler.sendEmptyMessageDelayed(WAHT_COUNT_DOWN, TIME_SPACE)
 //        startShareEyeOne()
@@ -79,7 +82,7 @@ class OneSharpEyeActivity : AppCompatActivity() {
         var currentValue: Int
 
         var mValue1 = generateAnimation(0, 396, mTimeList[0] * 1000L)
-        mValue1?.addUpdateListener { animation ->
+        mValue1.addUpdateListener { animation ->
             currentValue = animation.animatedValue as Int
 
             var range = 0
@@ -154,7 +157,7 @@ class OneSharpEyeActivity : AppCompatActivity() {
         var currentValue: Int
 
         var mValue1 = generateAnimation(0, 528, mTimeList[1] * 1000L)
-        mValue1?.addUpdateListener { animation ->
+        mValue1.addUpdateListener { animation ->
             currentValue = animation.animatedValue as Int
 
             var range = 0
@@ -237,7 +240,7 @@ class OneSharpEyeActivity : AppCompatActivity() {
         var currentValue: Int
 
         var mValue1 = generateAnimation(0, 528, mTimeList[2] * 1000L)
-        mValue1?.addUpdateListener { animation ->
+        mValue1.addUpdateListener { animation ->
             currentValue = animation.animatedValue as Int
 
             var range = 0
@@ -319,7 +322,7 @@ class OneSharpEyeActivity : AppCompatActivity() {
         var currentValue: Int
 
         var mValue1 = generateAnimation(0, 528, mTimeList[3] * 1000L)
-        mValue1?.addUpdateListener { animation ->
+        mValue1.addUpdateListener { animation ->
             currentValue = animation.animatedValue as Int
 
             var range = 0

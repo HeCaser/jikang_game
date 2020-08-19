@@ -218,7 +218,7 @@ class SchulteGridActivity : BaseActivity() {
         if (item.isSelected) return
         if (number == mSelectedNum) {
             item.isSelected = true
-            mItems.shuffle()
+//            mItems.shuffle()
             mAdapter.notifyDataSetChanged()
             if (number == mSpanNum * mSpanNum) {
                 //选择完毕,游戏结束
