@@ -14,8 +14,8 @@ class MainActivity : BaseActivity() {
 
     private lateinit var mAdapter: MultiTypeAdapter
     private var mItems = ArrayList<GameBean>()
+
     private val mGamesALl = arrayListOf(
-        "初级版",
 
         "sharp eye",
         "1-100",
@@ -24,7 +24,6 @@ class MainActivity : BaseActivity() {
         "舒尔特方格",
         "节拍器",
 
-        "升级版",
 
         "过目不忘",
         "垂直练习",
@@ -39,6 +38,42 @@ class MainActivity : BaseActivity() {
         "搜索数",
         "EBook树形"
     )
+
+    private val mGamesIcon = arrayListOf(
+
+        R.drawable.sharpeye,
+        R.drawable.one2100,
+        R.drawable.zhuyiili,
+        R.drawable.shuert,
+        R.drawable.shuetfg,
+        R.drawable.jiepai,
+
+
+//        "过目不忘",
+        R.drawable.guomubuwang,
+//        "垂直练习",
+        R.drawable.chuizhilianxi,
+//        "NUM25",
+        R.drawable.num25,
+//        "甄选奇数和偶数",
+        R.drawable.jioushu,
+//        "差异数",
+        R.drawable.chayishu,
+//        "EBook循环",
+        R.drawable.exunhuan,
+//        "EBook分栏",
+        R.drawable.efenlan,
+//        "记忆数",
+        R.drawable.jiiyiishu,
+//        "速度数",
+        R.drawable.sudushu,
+//        "搜索词",
+        R.drawable.sousuoci,
+//        "搜索数",
+        R.drawable.sousuoshu,
+//        "EBook树形"
+        R.drawable.shuxing
+    )
     private val mGames = arrayListOf<String>()
 
 //
@@ -51,22 +86,23 @@ class MainActivity : BaseActivity() {
 
     }
 
-    private fun initView() {
-        val partOneIndex = 7
-       when(BuildConfig.GAME_TYPE){
-           0->{
-                mGames.addAll(mGamesALl)
-           }
-           1->{
-               //初级版
-               mGames.addAll(mGamesALl.subList(0,partOneIndex))
-           }
-           2->{
-               //升级版
-               mGames.addAll(mGamesALl.subList(partOneIndex,mGamesALl.size))
-           }
+    val partOneIndex = 6
 
-       }
+    private fun initView() {
+        when (BuildConfig.GAME_TYPE) {
+            0 -> {
+                mGames.addAll(mGamesALl)
+            }
+            1 -> {
+                //初级版
+                mGames.addAll(mGamesALl.subList(0, partOneIndex))
+            }
+            2 -> {
+                //升级版
+                mGames.addAll(mGamesALl.subList(partOneIndex, mGamesALl.size))
+            }
+
+        }
 //        mGames.clear();
 //        mGames.addAll(mGamesALl)
 
@@ -75,19 +111,23 @@ class MainActivity : BaseActivity() {
         mAdapter.register(MainGameViewBinder {
             goToGame(it)
         })
-        mGames.forEach {
-            mItems.add(GameBean(it, getColor(it)))
+        mGames.forEachIndexed { index, it ->
+            val iconIndex = if (BuildConfig.GAME_TYPE == 2) index + partOneIndex else index
+            mItems.add(GameBean(it, getColor(it), mGamesIcon[iconIndex]))
         }
+//        mGames.forEach {
+//
+//        }
 
         val mManager = GridLayoutManager(this, 2)
         val spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 // 根据实际情况处理需要返回的值.
                 //例如我的代码中不同data类型对应不同的viewtype. 因此客户根据数据类型返回
-                val item = mItems[position]
-                if ("初级版" == item.gameName || "升级版"==item.gameName) {
-                    return 2
-                }
+//                val item = mItems[position]
+//                if ("初级版" == item.gameName || "升级版"==item.gameName) {
+//                    return 2
+//                }
                 return 1
             }
         }
@@ -104,21 +144,21 @@ class MainActivity : BaseActivity() {
     }
 
     private fun getColor(name: String): Int {
-        var color :Int
+        var color: Int
         when (name) {
-            "sharp eye","1-100","舒尔特注意力", "舒尔特方格","舒尔特"->{
+            "sharp eye", "1-100", "舒尔特注意力", "舒尔特方格", "舒尔特" -> {
                 //蓝色
                 color = 0xff098dfa.toInt()
             }
-            "记忆数", "速度数","节拍器","过目不忘"->{
+            "记忆数", "速度数", "节拍器", "过目不忘" -> {
                 //浅蓝色
                 color = 0xff16c1fd.toInt()
             }
-            "第一部分","第二部分"->{
+            "第一部分", "第二部分" -> {
                 //黑色
                 color = 0xFF666666.toInt()
             }
-            else->{
+            else -> {
                 //橙色
                 color = 0xFFFC992C.toInt()
             }
