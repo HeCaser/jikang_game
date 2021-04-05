@@ -46,7 +46,7 @@ public class WaterMarkView extends ConstraintLayout {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawColor(Color.WHITE);
+//        canvas.drawColor(Color.WHITE);
         int rowCount = mHeight/ScreenUtils.dip2px(getContext(),60f);
         int columnCount = 3;
 

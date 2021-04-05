@@ -2,6 +2,7 @@ package com.example.game.activity
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
@@ -63,6 +64,9 @@ open class BaseActivity : AppCompatActivity() {
         tvRightTitle.text = title
     }
 
+    fun hideToolBar(){
+        flToolbar.visibility = View.GONE
+    }
     fun hideSoftInput() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (imm.isActive && currentFocus != null) {

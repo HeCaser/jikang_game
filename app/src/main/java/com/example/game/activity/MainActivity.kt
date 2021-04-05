@@ -46,6 +46,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        hideToolBar()
         initView()
 
     }
@@ -69,7 +70,7 @@ class MainActivity : BaseActivity() {
 //        mGames.clear();
 //        mGames.addAll(mGamesALl)
 
-        setCenterTitle("济康学习包")
+//        setCenterTitle("济康学习包")
         mAdapter = MultiTypeAdapter()
         mAdapter.register(MainGameViewBinder {
             goToGame(it)
