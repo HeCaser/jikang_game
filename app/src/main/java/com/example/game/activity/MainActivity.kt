@@ -86,7 +86,7 @@ class MainActivity : BaseActivity() {
 
     }
 
-    val partOneIndex = 6
+    private val partOneIndex = 6
 
     private fun initView() {
         when (BuildConfig.GAME_TYPE) {
@@ -100,9 +100,12 @@ class MainActivity : BaseActivity() {
             2 -> {
                 //升级版
                 mGames.addAll(mGamesALl.subList(partOneIndex, mGamesALl.size))
+                ivTitle.setImageResource(R.drawable.advance_title)
+                clParent.setBackgroundResource(R.drawable.advance_ng)
             }
 
         }
+
 //        mGames.clear();
 //        mGames.addAll(mGamesALl)
 
