@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.text.TextUtils
+import android.util.TypedValue
 import android.view.Gravity
 import android.widget.TextView
 import android.widget.Toast
@@ -37,6 +38,12 @@ inline fun Fragment.toastCenter(msg: String) {
         it.toastCenter(msg)
     }
 }
+
+fun Int.dp(): Float = TypedValue.applyDimension(
+    TypedValue.COMPLEX_UNIT_DIP,
+    this.toFloat(),
+    Resources.getSystem().displayMetrics
+)
 
 inline fun Context.toastCenter(msg: String?) {
     if (TextUtils.isEmpty(msg)) {

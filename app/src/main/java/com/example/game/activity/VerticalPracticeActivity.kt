@@ -60,7 +60,7 @@ class VerticalPracticeActivity : BaseActivity() {
     }
 
     private fun initListener() {
-        mIconColor = resources.getColor(R.color.color_31c2ff)
+        mIconColor = resources.getColor(R.color.colorPrimary)
         tvVerticalAdd.background.setColorFilter(mIconColor, PorterDuff.Mode.SRC_ATOP)
         tvVerticalSub.background.setColorFilter(mIconColor, PorterDuff.Mode.SRC_ATOP)
         tvVerticalSpeed.text = "$mSpeed"

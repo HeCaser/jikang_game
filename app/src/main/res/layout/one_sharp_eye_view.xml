@@ -8,10 +8,14 @@
         android:padding="10dp"
         tools:context=".activity.OneToHundredResultActivity">
 
-    <ImageView
+    <com.example.game.widget.RoundedRectangleImageView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             android:id="@+id/ivBackground"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="300dp"
+            android:layout_height="3000dp"
             android:scaleType="centerInside"
             android:src="@mipmap/taikang_icon" />
 
