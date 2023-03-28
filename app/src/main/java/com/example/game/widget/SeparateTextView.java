@@ -10,11 +10,12 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.AppCompatTextView;
 
 /**
  * 文案内容均匀分布
  */
-public class SeparateTextView extends TextView {
+public class SeparateTextView extends AppCompatTextView {
     private int mWidth, mHeight;
     private int mColor;
     public SeparateTextView(Context context) {
@@ -29,10 +30,6 @@ public class SeparateTextView extends TextView {
         super(context, attrs, defStyleAttr);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public SeparateTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {

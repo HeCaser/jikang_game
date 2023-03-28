@@ -6,7 +6,8 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
-import android.widget.TextView;
+
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.example.game.utils.ScreenUtils;
 
@@ -16,7 +17,7 @@ import com.example.game.utils.ScreenUtils;
  * 在view中间画一个半透明圆圈,模拟放大镜效果
  */
 
-public class MagnifyTextView extends TextView {
+public class MagnifyTextView extends AppCompatTextView {
 
 
     private Paint mPaint;

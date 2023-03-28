@@ -9,10 +9,11 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import com.example.game.R;
 
-public class VerticalPracticeView extends TextView {
+public class VerticalPracticeView extends AppCompatTextView {
 
     private int mNormalBgColor;
     private int mHintBgColor;

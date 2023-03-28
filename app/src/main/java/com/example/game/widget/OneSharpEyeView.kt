@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import androidx.annotation.IntegerRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.game.R
@@ -52,7 +53,7 @@ class OneSharpEyeView : ConstraintLayout {
         }
     }
 
-    fun setBackground(@IntegerRes id: Int) {
+    fun setBackground(@DrawableRes id: Int) {
         initView()
         for (item in mViewList) {
             item.setBackgroundResource(id)

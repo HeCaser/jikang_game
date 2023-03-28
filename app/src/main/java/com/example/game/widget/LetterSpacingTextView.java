@@ -7,10 +7,12 @@ import android.text.style.ScaleXSpan;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatTextView;
+
 /**
  * 可以在 api21 以下调用 setLetterSpacing
  */
-public class LetterSpacingTextView extends TextView {
+public class LetterSpacingTextView extends AppCompatTextView {
     private float letterSpacing = LetterSpacing.BIGGEST;
     private CharSequence originalText = "";
 
