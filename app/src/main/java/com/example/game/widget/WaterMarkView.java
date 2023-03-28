@@ -17,7 +17,7 @@ public class WaterMarkView extends ConstraintLayout {
 
     private int mWidth, mHeight;
     private Paint mPaint;
-    private String mName="济康智学@版权所有";
+    private String mName="";
 
     public WaterMarkView(@NonNull Context context) {
         this(context, null);
