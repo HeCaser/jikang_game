@@ -44,7 +44,7 @@ class ScoreRecordActivity : BaseActivity() {
     }
 
     private fun initViewAndData() {
-        mKey = intent.getStringExtra("key")
+        mKey = intent.getStringExtra("key")?:""
         mRecord = intent.getLongExtra("record", 0)
     }
 

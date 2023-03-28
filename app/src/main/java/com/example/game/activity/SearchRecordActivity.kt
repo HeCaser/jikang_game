@@ -45,7 +45,7 @@ class SearchRecordActivity : BaseActivity() {
     }
 
     private fun initViewAndData() {
-        mKey = intent.getStringExtra("key")
+        mKey = intent.getStringExtra("key")?:""
         mThisScore = intent.getIntExtra("thisScore", 0)
         mSpeed = intent.getIntExtra("speed", 0)
 

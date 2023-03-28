@@ -52,7 +52,7 @@ class RememberEyeActivity : BaseActivity() {
 
     private var mHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
-        override fun handleMessage(msg: Message?) {
+        override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             when (msg!!.what) {
                 MSG_START -> {

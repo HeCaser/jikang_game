@@ -14,7 +14,7 @@ class SaveSpData(val context: Context) {
     }
 
     var oneToHundredRecord: String
-        get() = prefs.getString(ONE_TO_HUNDRED_SCORE, "0")
+        get() = prefs.getString(ONE_TO_HUNDRED_SCORE, "0")?:""
         set(vale) = prefs.edit().putString(ONE_TO_HUNDRED_SCORE, vale).apply()
 
     var oneToHundredTime: Long
@@ -22,7 +22,7 @@ class SaveSpData(val context: Context) {
         set(vale) = prefs.edit().putLong(ONE_TO_HUNDRED_TIME, vale).apply()
 
     fun getCommomStringData(key: String): String {
-        return prefs.getString(key, "")
+        return prefs.getString(key, "")?:""
     }
 
     fun saveCommonStringData(key: String, value: String) {

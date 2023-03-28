@@ -42,7 +42,7 @@ class EbookRecordActivity : BaseActivity() {
     }
 
     private fun initViewAndData() {
-        mKey = intent.getStringExtra("key")
+        mKey = intent.getStringExtra("key")?:""
         mSpeed = intent.getIntExtra("speed", 0)
 
         starView.setLevel(mSpeed)

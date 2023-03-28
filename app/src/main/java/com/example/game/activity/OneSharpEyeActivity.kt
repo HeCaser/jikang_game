@@ -35,7 +35,7 @@ class OneSharpEyeActivity : AppCompatActivity() {
     private var mTimeList = arrayListOf(60, 80, 80, 80)
     private var mHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
-        override fun handleMessage(msg: Message?) {
+        override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             mTime--
             if (mTime in 1..2) {

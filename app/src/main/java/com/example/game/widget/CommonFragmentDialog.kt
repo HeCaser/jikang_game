@@ -18,7 +18,7 @@ class CommonFragmentDialog : DialogFragment() {
     private lateinit var mBuilder: Builder
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         val window = dialog!!.window
-        window.requestFeature(Window.FEATURE_NO_TITLE)
+        window!!.requestFeature(Window.FEATURE_NO_TITLE)
         super.onActivityCreated(savedInstanceState)
         isCancelable = false
         dialog?.setCanceledOnTouchOutside(false)

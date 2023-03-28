@@ -57,7 +57,7 @@ class SearchWordActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListen
 
     private var mHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
-        override fun handleMessage(msg: Message?) {
+        override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             when (msg!!.what) {
                 MSG_MOVE_LINE -> {

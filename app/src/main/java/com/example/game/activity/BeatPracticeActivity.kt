@@ -34,9 +34,8 @@ class BeatPracticeActivity : BaseActivity() {
             mBinder = service as MusicService.MyBinder
         }
     }
-    private var mHandler = @SuppressLint("HandlerLeak")
-    object : Handler() {
-        override fun handleMessage(msg: Message?) {
+    private var mHandler = object : Handler() {
+        override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             when (msg!!.what) {
                 MSG_CHANGE_S -> {

@@ -55,7 +55,7 @@ class EBookLoopActivity : BaseActivity() {
     private var book = ""
     private var mHandler = @SuppressLint("HandlerLeak")
     object : Handler() {
-        override fun handleMessage(msg: Message?) {
+        override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             when (msg!!.what) {
                 MSG_START_GAME -> {
@@ -93,7 +93,7 @@ class EBookLoopActivity : BaseActivity() {
         mMindWidth = circleView.getmWidth()
         mMaxWidth = (ScreenUtils.getScreenSize(this).x * 0.5).toInt()
         mHandler.sendEmptyMessageDelayed(MSG_START_GAME, 500)
-        book = intent.getStringExtra("book")
+        book = intent.getStringExtra("book")?:""
         ebookSet.setMaxSpeed(1000)
         ebookSet.setMinSpeed(200)
         ebookSet.setSpeed(700)
