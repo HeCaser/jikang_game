@@ -9,6 +9,7 @@
         tools:context=".activity.OneToHundredResultActivity">
 
     <com.example.game.widget.RoundedRectangleImageView
+            android:visibility="invisible"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
