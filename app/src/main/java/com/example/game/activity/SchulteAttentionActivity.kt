@@ -21,7 +21,7 @@ import java.util.*
 import kotlin.random.Random
 
 /**
- * 舒尔特注意力
+ * 九宫格注意力
  */
 class SchulteAttentionActivity : BaseActivity() {
 
@@ -86,7 +86,7 @@ class SchulteAttentionActivity : BaseActivity() {
 
     private fun initViewAndData() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        setCenterTitle("济康-舒尔特注意力")
+        setCenterTitle("济康-九宫格注意力")
         singleSelectNum.setContentList(mGridNumContents)
         singleSelectType.setContentList(mTypeontents)
     }

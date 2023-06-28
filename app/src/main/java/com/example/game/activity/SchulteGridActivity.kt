@@ -30,7 +30,7 @@ import me.drakeet.multitype.MultiTypeAdapter
 import java.util.*
 
 /**
- * 舒尔特方格
+ * 九宫格方格
  */
 class SchulteGridActivity : BaseActivity() {
 
@@ -102,7 +102,7 @@ class SchulteGridActivity : BaseActivity() {
 
     private fun initViewAndData() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        setCenterTitle("济康-舒尔特方格")
+        setCenterTitle("济康-九宫格方格")
         singleSelectNum.setContentList(mGridNumContents)
         singleSelectType.setContentList(mTypeontents)
     }

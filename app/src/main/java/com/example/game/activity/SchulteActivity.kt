@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.schulte_item.view.*
 import me.drakeet.multitype.MultiTypeAdapter
 
 /**
- * 舒尔特
+ * 九宫格
  */
 class SchulteActivity : BaseActivity() {
 
@@ -84,7 +84,7 @@ class SchulteActivity : BaseActivity() {
 
     private fun initViewAndData() {
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        setCenterTitle("济康-舒尔特")
+        setCenterTitle("济康-九宫格")
 
         mAdapter = MultiTypeAdapter()
         mAdapter.register(SchulteBinder {
