@@ -1,6 +1,9 @@
 # 济康游戏开发
 
-- 蒲公英地址 https://www.pgyer.com/TYuP
+- 蒲公英地址 https://www.pgyer.com
+账号 188
+密码 hepannpgy+177
+
 - appid: com.example.game
 
 # 证书
