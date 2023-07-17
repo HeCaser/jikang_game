@@ -19,9 +19,9 @@ class MainActivity : BaseActivity() {
 
         "sharp eye",
         "1-100",
-        "九宫格注意力",
-        "九宫格",
-        "九宫格方格",
+        "舒尔特注意力",
+        "舒尔特",
+        "舒尔特方格",
         "节拍器",
 
 
@@ -149,7 +149,7 @@ class MainActivity : BaseActivity() {
     private fun getColor(name: String): Int {
         var color: Int
         when (name) {
-            "sharp eye", "1-100", "九宫格注意力", "九宫格方格", "九宫格" -> {
+            "sharp eye", "1-100", "舒尔特注意力", "舒尔特方格", "舒尔特" -> {
                 //蓝色
                 color = 0xff098dfa.toInt()
             }
@@ -177,10 +177,10 @@ class MainActivity : BaseActivity() {
             "sharp eye" -> {
                 OneSharpEyeActivity.start(this)
             }
-            "九宫格注意力" -> {
+            "舒尔特注意力" -> {
                 SchulteAttentionActivity.start(this)
             }
-            "九宫格方格" -> {
+            "舒尔特方格" -> {
                 SchulteGridActivity.start(this)
             }
             "NUM25" -> {
@@ -222,7 +222,7 @@ class MainActivity : BaseActivity() {
             "节拍器" -> {
                 BeatPracticeActivity.start(this)
             }
-            "九宫格" -> {
+            "舒尔特" -> {
                 SchulteActivity.start(this)
             }
         }

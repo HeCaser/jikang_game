@@ -6,11 +6,10 @@
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:gravity="center"
-        android:textColor="@color/colorAccent"
         android:id="@+id/tvNumber"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_width="match_parent"
-        android:text="1"
-        android:layout_height="@dimen/number_height"/>
+        tools:text="1"
+        android:layout_height="50dp"/>

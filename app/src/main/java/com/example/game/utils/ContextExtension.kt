@@ -85,6 +85,7 @@ fun Context.res2color(@ColorRes colorResId: Int): Int = this.resources.getColor(
 
 fun Context.res2String(@StringRes id: Int): String = this.resources.getString(id)
 
+
 fun Context.px2dp(pxValue: Float): Int {
     val scale = this.resources.displayMetrics.density
     return (pxValue / scale + 0.5f).toInt()
@@ -98,6 +99,10 @@ fun Context.dp2px(dipValue: Float): Int {
 
 val screenWidth: Int = Resources.getSystem().displayMetrics.widthPixels
 val screenHeight: Int = Resources.getSystem().displayMetrics.heightPixels
+
+fun Context.screenWidth(): Int = this.resources.displayMetrics.widthPixels
+fun Context.screenHeight(): Int = this.resources.displayMetrics.heightPixels
+
 
 fun Context.getDimen(@DimenRes id: Int): Float {
     return this.resources.getDimension(id)
