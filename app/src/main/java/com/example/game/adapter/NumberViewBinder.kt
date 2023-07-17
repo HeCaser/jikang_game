@@ -18,36 +18,40 @@ class NumberViewBinder(var callBack: (phone: Int) -> Unit) :
     override fun onCreateViewHolder(inflater: LayoutInflater, parent: ViewGroup): ViewHolder {
         return ViewHolder(inflater.inflate(R.layout.number_item, parent, false))
     }
+
     override fun onBindViewHolder(holder: ViewHolder, item: NumberBean) {
         holder.mData = item
         holder.setData()
     }
 
-  inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         lateinit var mData: NumberBean
         fun setData() {
 
 
             with(itemView) {
-                val half = 3f //item 之间的间隔
-                var width = screenWidth
-                //减去item直接的间隔,以及rv左右间距
-                width -= context.dp2px(half)*11
-                var itemWidth = width/10
 
-                var size2 = width/ 20
-                with(tvNumberView.getTv()){
-                    setTextSize(TypedValue.COMPLEX_UNIT_PX,size2.toFloat())
-                    var para = layoutParams
-                    para.height = itemWidth
+                    val half = 3f //item 之间的间隔
+                    var width = context.screenWidth()
+                    //减去item直接的间隔,以及rv左右间距
+                    width -= context.dp2px(half) * 11
+                    var itemWidth = width / 10
+
+                    var size2 = width / 22
+                    with(tvNumberView.getTv()) {
+                        setTextSize(TypedValue.COMPLEX_UNIT_PX, size2.toFloat())
+                        var para = layoutParams
+                        para.height = itemWidth
 //                    layoutParams = para
+                    }
+
+                    tvNumberView.setData(mData)
+                    tvNumberView.setOnClickListener {
+                        callBack(adapterPosition)
+                    }
                 }
 
-                tvNumberView.setData(mData)
-                tvNumberView.setOnClickListener {
-                    callBack(adapterPosition)
-                }
             }
         }
-    }
+
 }
