@@ -6,86 +6,115 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+
             android:allowBackup="true"
             android:icon="@mipmap/taikang_icon"
             android:label="${APP_NAME}"
             android:roundIcon="@mipmap/taikang_icon"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".activity.SelectStarActivity" />
         <activity
+                android:exported="false"
+                android:name=".activity.SelectStarActivity" />
+        <activity
+                android:exported="false"
                 android:name=".activity.OneSharpEyeActivity"
                 android:screenOrientation="landscape" />
         <activity android:name=".activity.OneToHundredResultActivity" />
         <activity
+                android:exported="false"
                 android:name=".activity.OneToOneHundredActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:exported="false"
                 android:name=".activity.Num25Activity"
                 android:screenOrientation="portrait" />
         <activity
+                android:exported="false"
                 android:name=".activity.SchulteAttentionActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:exported="false"
                 android:name=".activity.SchulteGridActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:exported="false"
                 android:name=".activity.SpeedReadNumberActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:exported="false"
                 android:name=".activity.RememberNumberActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:exported="false"
                 android:name=".activity.BeatPracticeActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:exported="false"
                 android:name=".activity.SearchWordActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:exported="false"
                 android:name=".activity.ScoreRecordActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:exported="false"
                 android:name=".activity.SearchNumberActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:exported="false"
                 android:name=".activity.SearchOddEvenActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:exported="false"
                 android:name=".activity.SearchDiffNumberActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:exported="false"
                 android:name=".activity.SearchRecordActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:exported="false"
                 android:name=".activity.BeforeEBookActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:exported="false"
                 android:name=".activity.EBookTreeActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:exported="false"
                 android:name=".activity.EBookSubFieldActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:exported="false"
                 android:name=".activity.EBookLoopActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:exported="false"
                 android:name=".activity.ViewTestActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:exported="false"
                 android:name=".activity.RememberEyeActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:exported="false"
                 android:name=".activity.VerticalPracticeActivity"
                 android:screenOrientation="portrait" />
         <activity
+                android:exported="false"
                 android:name=".activity.EbookRecordActivity"
                 android:screenOrientation="portrait" />
         <activity
                 android:name=".activity.SchulteActivity"
                 android:screenOrientation="portrait" />
 
-        <service android:name=".service.MusicService" />
-        <activity android:name=".activity.MainActivity">
+        <service
+
+                android:name=".service.MusicService" />
+        <activity
+                android:exported="true"
+                android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />

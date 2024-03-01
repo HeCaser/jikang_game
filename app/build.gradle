@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId "com.jikang"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 33
         versionCode 3
         versionName "3.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -39,20 +39,20 @@ android {
             signingConfig signingConfigs.release
             minifyEnabled false
             manifestPlaceholders = [
-                    APP_NAME: "济康初级包"
+                    APP_NAME: "济康-专注力"
             ]
-            buildConfigField 'int', 'GAME_TYPE', "1"
-            applicationIdSuffix ".game"
+            buildConfigField 'int', 'GAME_TYPE', "0"
+            applicationIdSuffix ".play"
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        release2.initWith(release)
-        release2{
-            manifestPlaceholders = [
-                    APP_NAME: "济康升级包"
-            ]
-            buildConfigField 'int', 'GAME_TYPE', "2"
-            applicationIdSuffix ".game2"
-        }
+//        release2.initWith(release)
+//        release2{
+//            manifestPlaceholders = [
+//                    APP_NAME: "济康升级包"
+//            ]
+//            buildConfigField 'int', 'GAME_TYPE', "2"
+//            applicationIdSuffix ".game2"
+//        }
     }
 
 
