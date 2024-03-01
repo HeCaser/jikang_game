@@ -29,11 +29,11 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        StatusBarUtils.setStatusBarTransparentAndFullScreen(this)
+//        StatusBarUtils.setStatusBarTransparentAndFullScreen(this)
         super.onCreate(savedInstanceState)
         super.setContentView(R.layout.activity_gradient_base)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        StatusBarUtils.addStatusBarHeightToPaddingByView(this, flToolbar)
+//        StatusBarUtils.addStatusBarHeightToPaddingByView(this, flToolbar)
         ivBack.setOnClickListener {
             finish()
         }
