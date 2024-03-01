@@ -52,7 +52,6 @@ class VerticalPracticeActivity : BaseActivity() {
     var TOTAL_WORD_NUMBER = 0
     var mSpeed = 200
     override fun onCreate(savedInstanceState: Bundle?) {
-        StatusBarUtils.setStatusBarTransparent(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vertical_practice)
         initViewAndData()

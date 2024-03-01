@@ -33,7 +33,6 @@ class SearchRecordActivity : BaseActivity() {
     private var mSpeed = 0
     private var mKey = ""
     override fun onCreate(savedInstanceState: Bundle?) {
-        StatusBarUtils.setStatusBarTransparent(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_record)
         initViewAndData()

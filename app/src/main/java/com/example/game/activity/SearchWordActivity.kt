@@ -104,7 +104,6 @@ class SearchWordActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutListen
     private var mTotalTime = 90
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        StatusBarUtils.setStatusBarTransparent(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_word)
         initViewAndData()

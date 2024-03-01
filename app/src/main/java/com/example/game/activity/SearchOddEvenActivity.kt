@@ -103,7 +103,6 @@ class SearchOddEvenActivity : BaseActivity(), ViewTreeObserver.OnGlobalLayoutLis
     private var mHintPosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        StatusBarUtils.setStatusBarTransparent(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_odd_even)
         initViewAndData()

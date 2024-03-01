@@ -32,7 +32,6 @@ class ScoreRecordActivity : BaseActivity() {
     private var mRecord = 0L
     private var mKey = ""
     override fun onCreate(savedInstanceState: Bundle?) {
-        StatusBarUtils.setStatusBarTransparent(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_score_record)
         initViewAndData()

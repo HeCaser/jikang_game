@@ -20,7 +20,6 @@ class OneToHundredResultActivity : BaseActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        StatusBarUtils.setStatusBarTransparent(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_one_to_hundred_result)
         initViewAndData()

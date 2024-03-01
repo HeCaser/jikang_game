@@ -105,7 +105,6 @@ class SearchDiffNumberActivity : BaseActivity() {
     private var isGameStart  = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        StatusBarUtils.setStatusBarTransparent(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search_diff_number)
         initViewAndData()

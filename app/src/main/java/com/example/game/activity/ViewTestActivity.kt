@@ -28,7 +28,6 @@ class ViewTestActivity : BaseActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        StatusBarUtils.setStatusBarTransparent(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_test)
         initViewAndData()
